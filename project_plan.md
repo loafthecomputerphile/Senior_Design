@@ -128,7 +128,7 @@
 * Complete full system testing, performance optimization, and bug resolution.
 
 
-* Finalize all project deliverables: demonstration video, poster, and final project presentation.
+* Finalize all project deliverables: demonstration video, poster, and final project presentation and publish paper.
 
 
 

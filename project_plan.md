@@ -136,11 +136,11 @@
 
 | Task Description | Assigned Team Member | Status |
 | --- | --- | --- |
-| Requirements & Project Plan Documentation | *(Unassigned)* | In Progress |
-| CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline | *(Unassigned)* | Pending |
-| Audio Augmentation Pipeline (Noise, Pitch & Time Shifts) | *(Unassigned)* | Pending |
-| Baseline PyTorch CNN Architecture Development | *(Unassigned)* | Pending |
-| React Audio Recording Interface Setup | *(Unassigned)* | Pending |
+| Requirements & Project Plan Documentation | Amanda Ogbonna | In Progress |
+| CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline | Drew Quashie | Pending |
+| Audio Augmentation Pipeline (Noise, Pitch & Time Shifts) | Drew Quashie | Pending |
+| Baseline PyTorch CNN Architecture Development | Loleyi Oluwatomisin | Pending |
+| React Audio Recording Interface Setup | Richard Alonso Garcia | Pending |
 
 ## 15. Faculty Approval
 

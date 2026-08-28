@@ -8,12 +8,9 @@
 * Richard Alonso Garcia
 
 ## 3. Faculty Advisor:
-
-```
-  Name:  Dr. Zahra Nematzadeh
-  Email: znematzadeh@fit.edu
-```
-
+  ### &emsp; Name:  Dr. Zahra Nematzadeh
+  ### &emsp;  Email: znematzadeh@fit.edu
+#### &emsp;
 ## 4. Client:
 
 * Medical Professionals
@@ -136,10 +133,10 @@
 
 | Task Description | Assigned Team Member | Status |
 | --- | --- | --- |
-| Requirements & Project Plan Documentation | Amanda Ogbonna | In Progress |
-| CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline | Drew Quashie | Pending |
-| Audio Augmentation Pipeline (Noise, Pitch & Time Shifts) | Drew Quashie | Pending |
-| Baseline PyTorch CNN Architecture Development | Loleyi Oluwatomisin | Pending |
+| Requirements & Project Plan Documentation | Amanda Ogbonna | Completed |
+| CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline | Drew Quashie | In Progress |
+| Audio Augmentation Pipeline (Noise, Pitch & Time Shifts) | Drew Quashie | In Progress |
+| Baseline PyTorch CNN Architecture Development | Loleyi Oluwatomisin Amanda Ogbonna | Pending |
 | React Audio Recording Interface Setup | Richard Alonso Garcia | Pending |
 
 ## 15. Faculty Approval

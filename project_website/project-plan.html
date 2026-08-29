@@ -21,37 +21,37 @@
 
   <div class="no-print sticky top-0 z-50 w-full flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[#0A0A0A]/90 backdrop-blur-md">
     <a href="index.html" class="text-[11px] font-mono uppercase tracking-[0.3em] text-[#C5A059] hover:text-[#E6E0D2]">← Covid.wav</a>
-    <button onclick="window.print()" class="rounded-full bg-[#D4C59A] px-6 py-3 text-[11px] font-bold tracking-widest text-[#0A0A0A] hover:scale-105 transition-transform">Download / Print PDF →</button>
+    <a href="assets/covid.wav_project_plan.pdf" target="_blank" rel="noopener noreferrer" class="rounded-full bg-[#D4C59A] px-6 py-3 text-[11px] font-bold tracking-widest text-[#0A0A0A] hover:scale-105 transition-transform">Download / Print PDF →</a>
   </div>
 
   <main class="max-w-4xl mx-auto px-8 pb-20">
 
-    <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Project plan · Senior Design · Spring 2026</p>
-    <h1 class="font-display text-4xl md:text-6xl font-bold text-[#E6E0D2] tracking-tight">COVID-19 Acoustic Detector</h1>
-    <p class="text-lg font-light text-[#D0C9B8] mt-3">A cough classifier that screens a recording and returns a COVID / healthy probability — trained offline, run on-device.</p>
+    <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Project plan · Senior Design · Fall 2026</p>
+    <h1 class="font-display text-4xl md:text-6xl font-bold text-[#E6E0D2] tracking-tight">COVID-19 Detection</h1>
+    <p class="text-lg font-light text-[#D0C9B8] mt-3">A web app that screens a cough recording and returns a real-time risk assessment — with longitudinal health tracking for patients and medical professionals.</p>
 
     <div class="grid md:grid-cols-3 gap-4 mt-8 rounded-2xl border border-white/10 bg-[#141414] p-6">
-      <div><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Team</p><p class="text-sm text-[#D0C9B8] mt-1">Jane Doe · Sam Rivera · Alex Chen</p></div>
-      <div><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Advisor</p><p class="text-sm text-[#D0C9B8] mt-1">Philip Chan — cs.fit.edu/~pkc</p></div>
-      <div><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Domain</p><p class="text-sm text-[#D0C9B8] mt-1">Signal Processing · ML · Screening</p></div>
+      <div><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Team</p><p class="text-sm text-[#D0C9B8] mt-1">Drew Quashie · Amanda Ogbonna · Loleyi Oluwatomisin · Richard Alonso Garcia</p></div>
+      <div><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Advisor</p><p class="text-sm text-[#D0C9B8] mt-1">Dr. Zahra Nematzadeh — znematzadeh@fit.edu</p></div>
+      <div><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Client</p><p class="text-sm text-[#D0C9B8] mt-1">Medical Professionals · Potential COVID Patients</p></div>
     </div>
 
     <!-- objective -->
     <section class="mt-10">
       <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Objective</p>
-      <p class="font-display text-2xl text-[#E6E0D2] mt-2">Build an affordable, minimally invasive screening layer for respiratory illness.</p>
-      <p class="text-[#D0A0B8] leading-relaxed mt-4 font-light">PCR testing is accurate but centralized, slow, and expensive per capita. We want something that reaches farther: a cough you already produce, recorded on a phone, and read by a small neural network trained to recognize a COVID-linked spectral signature. A flagged result routes to a clinical test; a clean one saves a swab. The system is explicitly a screening tool, not a diagnosis.</p>
+      <p class="font-display text-2xl text-[#E6E0D2] mt-2">Catch COVID-19 early using the devices people already carry.</p>
+      <p class="text-[#D0A0B8] leading-relaxed mt-4 font-light">Our web app predicts infection by analyzing cough sounds captured in a browser — no specialized hardware required. It returns real-time risk assessments and longitudinal health tracking to support both patients and medical professionals. The system is explicitly a screening tool, not a diagnosis.</p>
     </section>
 
     <!-- problem + related work -->
     <section class="mt-8 grid md:grid-cols-2 gap-6">
       <div class="rounded-2xl border border-white/10 bg-[#141414] p-6">
         <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">[01] Problem</p>
-        <p class="text-sm text-[#D0C9B8] mt-2 font-light">Screening is gated behind hardware and clinics. A mic is universal. Translating cough acoustics into a defensible probability is the open problem; the data is noisy, class-balance is skewed, and audio is untrusted at the edge.</p>
+        <p class="text-sm text-[#D0C9B8] mt-2 font-light">Early detection today depends on clinics and lab tests. A phone or laptop microphone reaches much farther — the goal is to turn a cough recording into a defensible risk assessment, despite noisy audio and skewed class balance.</p>
       </div>
       <div class="rounded-2xl border border-white/10 bg-[#141414] p-6">
         <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">[02] Related Work</p>
-        <p class="text-sm text-[#D0C9B8] mt-2 font-light">Public cough corpora (COVID-19 Sounds, Coswara) and prior cough-classification studies. We reuse the spectrogram + CNN convention, but stress VAD robustness and an honest AUC rather than a headline number.</p>
+        <p class="text-sm text-[#D0C9B8] mt-2 font-light">Training runs on the CoughVid dataset (~2,800 recordings with status and metadata). We follow the spectrogram + CNN convention, adding SpecAugment, pitch/time shifting, and additive noise so the model survives real, noisy audio from any browser.</p>
       </div>
     </section>
 
@@ -60,23 +60,34 @@
       <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">[03] Plan</p>
       <div class="grid gap-6 md:grid-cols-2">
         <div class="rounded-2xl border border-white/10 bg-[#141414] p-6">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Semester A</p>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Phase 1 · Data Preprocessing</p>
           <ul class="mt-2 text-sm text-[#D0C9B8] space-y-2">
-            <li>· Collect & label cough corpora</li>
-            <li>· Preprocess: VAD, trim, resample</li>
-            <li>· Feature extract: mel-spectrogram / MFCC</li>
-            <li>· Baseline CNN + evaluation harness</li>
-            <li>· Midpoint review with advisor</li>
+            <li>· Extract MFCCs & spectrogram images from CoughVid (~2,800 recordings)</li>
+            <li>· Augment: SpecAugment, pitch/time shifting, additive noise</li>
+            <li>· 70/15/15 train/val/test split with k-fold cross-validation</li>
           </ul>
         </div>
         <div class="rounded-2xl border border-white/10 bg-[#141414] p-6">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Semester B</p>
-          <ul class="text-sm text-[#D0C9B8] space-y-2">
-            <li>· Tune CNN / LSTM, dropout regularize</li>
-            <li>· Robustness: augments, mic variance</li>
-            <li>· Ship on-device inference (ONNX)</li>
-            <li>· Evidence: poster, manuals, video</li>
-            <li>· Final review + public demo</li>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Phase 2 · Model Development</p>
+          <ul class="mt-2 text-sm text-[#D0C9B8] space-y-2">
+            <li>· Build, train, fine-tune CNNs on spectrogram input</li>
+            <li>· Transfer learning with ResNet</li>
+            <li>· Classify COVID-19 status from audio</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-[#141414] p-6">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Phase 3 · Evaluation</p>
+          <ul class="mt-2 text-sm text-[#D0C9B8] space-y-2">
+            <li>· Metrics: Accuracy, Precision, Recall, F1, ROC-AUC</li>
+            <li>· Measure on an independent test set</li>
+          </ul>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-[#141414] p-6">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Phase 4 · Web Integration</p>
+          <ul class="mt-2 text-sm text-[#D0C9B8] space-y-2">
+            <li>· Full-stack app: real-time capture via Web Audio API</li>
+            <li>· Feature extraction + FastAPI backend inference</li>
+            <li>· Risk feedback (Low/Medium/High) with next-step guidance</li>
           </ul>
         </div>
       </div>
@@ -84,16 +95,17 @@
 
     <!-- deliverables table -->
     <section class="mt-10">
-      <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">[04] Deliverables</p>
+      <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">[04] Milestones · Task Matrix</p>
+      <p class="text-sm text-[#D0C9B8] mt-2">M1 · Sep 28 — M2 · Oct 26 — M3 · Nov 23</p>
       <div class="overflow-x-auto mt-3 rounded-2xl border border-white/10 bg-[#141414]">
         <table class="w-full text-sm text-left">
-          <thead class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52] border-b border-white/10"><tr><th class="p-3">Week</th><th class="p-3">Artifact</th><th class="p-3">Owner</th></tr></thead>
+          <thead class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52] border-b border-white/10"><tr><th class="p-3">Task</th><th class="p-3">Owner</th><th class="p-3">Status</th></tr></thead>
           <tbody class="text-[#D0C9B8]">
-            <tr class="border-b border-white/10"><td class="p-3">1-2</td><td class="p-3">Dataset + cleaning harness</td><td class="p-3">Alex</td></tr>
-            <tr class="border-b border-white/10"><td class="p-3">3-4</td><td class="p-3">Feature + baseline CNN</td><td class="p-3">Sam</td></tr>
-            <tr class="border-b border-white/10"><td class="p-3">5-6</td><td class="p-3">Evaluation + confusion matrix</td><td class="p-3">Sam</td></tr>
-            <tr class="border-b border-white/10"><td class="p-3">7-8</td><td class="p-3">Interface + demo</td><td class="p-3">Jane</td></tr>
-            <tr class="border-b border-white/10"><td class="p-3">9-10</td><td class="p-3">Write-up + poster</td><td class="p-3">All</td></tr>
+            <tr class="border-b border-white/10"><td class="p-3">Requirements & project plan documentation</td><td class="p-3">Amanda Ogbonna</td><td class="p-3">Completed</td></tr>
+            <tr class="border-b border-white/10"><td class="p-3">CoughVid preprocessing & MFCC/spectrogram pipeline</td><td class="p-3">Drew Quashie</td><td class="p-3">In Progress</td></tr>
+            <tr class="border-b border-white/10"><td class="p-3">Audio augmentation (noise, pitch & time shifts)</td><td class="p-3">Drew Quashie</td><td class="p-3">In Progress</td></tr>
+            <tr class="border-b border-white/10"><td class="p-3">Baseline PyTorch CNN architecture</td><td class="p-3">Loleyi Oluwatomisin · Amanda Ogbonna</td><td class="p-3">Pending</td></tr>
+            <tr class="border-b border-white/10"><td class="p-3">React audio recording interface</td><td class="p-3">Richard Alonso Garcia</td><td class="p-3">Pending</td></tr>
           </tbody>
         </table>
       </div>
@@ -101,12 +113,12 @@
 
     <!-- risks -->
     <section class="mt-10">
-      <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">[05] Risk & Mitigation</p>
+      <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">[05] Challenges</p>
       <div class="grid md:grid-cols-2 gap-4 mt-3">
-        <div class="rounded-xl border border-white/10 bg-[#141414] p-5"><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Noisy labels</p><p class="text-sm text-[#D0C9B8] mt-1">Clean + rebalance corpora; report AUC not raw acc.</p></div>
-        <div class="rounded-xl border border-white/10 bg-[#141414] p-5"><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Overhyped result</p><p class="text-sm text-[#D0C9B8] mt-1">Held-out split, no leakage; publish honest thresholds.</p></div>
-        <div class="rounded-xl border border-white/10 bg-[#141414] p-5"><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Edge-case audio</p><p class="text-sm text-[#D0C9B8] mt-1">Test on unknown mics/rooms; the demo labels itself a mock.</p></div>
-        <div class="rounded-xl border border-white/10 bg-[#141414] p-5"><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Privacy</p><p class="text-sm text-[#D0C9B8] mt-1">On-device inference only. Audio is not retained.</p></div>
+        <div class="rounded-xl border border-white/10 bg-[#141414] p-5"><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Audio noise variability</p><p class="text-sm text-[#D0C9B8] mt-1">High ambient noise and mic discrepancies across browsers demand robust preprocessing, filtering, and augmentation.</p></div>
+        <div class="rounded-xl border border-white/10 bg-[#141414] p-5"><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Real-time latency</p><p class="text-sm text-[#D0C9B8] mt-1">Optimize the pipeline from browser recording and feature extraction to server-side PyTorch for near-instant feedback.</p></div>
+        <div class="rounded-xl border border-white/10 bg-[#141414] p-5"><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Class imbalance & generalization</p><p class="text-sm text-[#D0C9B8] mt-1">Cough-audio distribution biases could hurt accuracy across demographics and symptom severities — address in the data pipeline.</p></div>
+        <div class="rounded-xl border border-white/10 bg-[#141414] p-5"><p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Kickoff meeting</p><p class="text-sm text-[#D0C9B8] mt-1">Tue, Aug 25 · 11:15 am — Olin Engineering Complex, room 353.</p></div>
       </div>
     </section>
 
@@ -115,7 +127,7 @@
   <footer class="border-t border-white/10 py-6 px-8 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">
     <a href="index.html" class="text-[#C5A059] hover:text-[#E6E0D2]">← Back to site</a>
     <span>Team · CS 2026</span>
-    <a href="https://cs.fit.edu/~pkc/" target="_blank" class="hover:text-[#E6E0D2]">cs.fit.edu/~pkc</a>
+    <a href="mailto:znematzadeh@fit.edu" class="hover:text-[#E6E0D2]">znematzadeh@fit.edu</a>
   </footer>
 
 </body>

@@ -35,7 +35,8 @@
       <!-- <a href="#reach" class="hover:text-[#E6E0D2]">Reach</a> -->
       <a href="#milestones" class="hover:text-[#E6E0D2]">Milestones</a>
       <a href="#members" class="text-[#C5A059] border border-white/15 px-4 py-2 rounded-full hover:bg-[#E6E0D2] hover:text-[#0A0A0A]">Members</a>
-      <a href="/" class="hover:text-[#E6E0D2]">Presentation</a>
+      <a href="" class="hover:text-[#E6E0D2]">Project Plan</a>
+      <a href="assets/covid.wav_project_plan.pdf" target="_blank" rel="noopener noreferrer" class="hover:text-[#E6E0D2]">Presentation</a>
     </nav>
     <button class="md:hidden text-2xl leading-none" aria-label="menu" onclick="toggleMobile()">☰</button>
   </header>
@@ -48,6 +49,7 @@
     <!--<a href="#faq" class="text-[11px] uppercase tracking-widest">FAQ</a>--> 
     <a href="#milestones" class="text-[11px] uppercase tracking-widest">Milestones</a>
     <a href="#contact" class="text-[11px] uppercase tracking-widest">Contact</a>
+    <a href="./assets/covid.wav_project_plan.pdf" target="_blank" rel="noopener noreferrer" class="text-[11px] uppercase tracking-widest">Project Plan</a>
     <a href="#faq" class="text-[11px] uppercase tracking-widest">Presentation</a>
   </div>
 
@@ -82,7 +84,7 @@
     <div class="col-span-5 space-y-6">
       <p class="text-[10px] font-mono uppercase tracking-widest text-[#C5A059]">[01] THE PROBLEM</p>
       <h2 class="font-display text-3xl md:text-5xl leading-tight text-[#E6E0D2]">The sound of a cough holds a measurement medicine still ignores.</h2>
-      <p class="text-[#D0C9B8] font-light leading-relaxed">Testing today is invasive, slow, and centralized. We translate a recorded cough into a mel-spectrogram, run it through a compact convolutional classifier, and return a screening probability in seconds — a layer that can reach anywhere a microphone reaches.</p>
+      <p class="text-[#D0C9B8] font-light leading-relaxed">Testing today is invasive, slow, and centralized. We translate a recorded cough into a mel-spectrogram, run it through a compact convolutional classifier, and return a real-time risk assessment with next-step guidance in seconds — on any smartphone or computer, with longitudinal health tracking for patients and medical professionals alike.</p>
     </div>
     <div class="col-span-7 relative">
       <div class="font-display text-6xl md:text-8xl font-bold text-[#C5A059]/15 select-none leading-none tracking-tight">COVID-19</div>
@@ -140,7 +142,7 @@
       <div class="rounded-3xl border border-[#101010]/10 bg-[#DDD6C5] p-8">
         <p class="text-[10px] font-mono uppercase tracking-widest text-[#5A5A52]">(01)</p>
         <h3 class="font-display text-2xl mt-2">Audio Upload</h3>
-        <p class="text-sm mt-4 font-light">Drop a short .wav clip. It arrives, silence is trimmed, samples resampled to one fixed rate.</p>
+        <p class="text-sm mt-4 font-light">Record a cough in the browser with the Web Audio API — no specialized hardware — or drop a short .wav clip. It arrives, silence is trimmed, samples resampled to one fixed rate.</p>
       </div>
       <div class="rounded-3xl border border-[#101010]/10 bg-[#DDD6C5] p-8">
         <p class="text-[10px] font-mono uppercase tracking-widest text-[#5A5A52]">(02)</p>
@@ -150,7 +152,7 @@
       <div class="rounded-3xl border border-[#101010]/10 bg-[#DDD6C5] p-8">
         <p class="text-[10px] font-mono uppercase tracking-widest text-[#5A5A52]">(03)</p>
         <h3 class="font-display text-2xl mt-2">Classifier + Verdict</h3>
-        <p class="text-sm mt-4 font-light">The CNN returns a COVID / healthy distribution with confidence, and the interface renders the report.</p>
+        <p class="text-sm mt-4 font-light">The CNN returns a COVID / healthy distribution with confidence, mapped to a Low / Medium / High risk level with clinical guidance on next steps.</p>
       </div>
     </div>
   </section>
@@ -161,33 +163,36 @@
       <p class="text-center font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">[03] MODEL & DATA LAYER</p>
       <div class="rounded-3xl transition-transform duration-500 hover:-translate-y-2 bg-[#E6E0D2] p-10">
         <h3 class="font-display text-3xl text-[#101010]">Signal Preprocessing</h3>
-        <p class="mt-3 text-[#101010]/70">Voice-activity detection and spectral whitening so the model hears the cough, not the room you recorded it in.</p>
+        <p class="mt-3 text-[#101010]/70">MFCCs and mel-spectrograms, normalized and augmented with SpecAugment, pitch/time shifts, and additive noise — so the model hears the cough, not the room you recorded it in.</p>
         <div class="flex flex-wrap gap-2 mt-4">
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">VAD</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">NORMALIZE</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">CUT + FADE</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">NOISE FLOOR</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">MFCC</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">SPECTROGRAM</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">SPECAUGMENT</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">PITCH/TIME SHIFT</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">NOISE</span>
         </div>
       </div>
       <div class="rounded-3xl sticky top-16 bg-[#DCD5C6] p-10">
         <h3 class="font-display text-3xl text-[#101010]">Feature + Model</h3>
-        <p class="mt-3 text-[#101010]/70">A compact 2D CNN over the mel-spectrogram with dropout and batch-norm, fine-tuned against public cough datasets.</p>
+        <p class="mt-3 text-[#101010]/70">A 2D CNN baseline fine-tuned with ResNet transfer learning in PyTorch, trained on the CoughVid dataset (~2,800 recordings).</p>
         <div class="flex flex-wrap gap-2 mt-4">
           <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">CNN</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">MFCC</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">SPECTROGRAM</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">STFT</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">RESNET</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">PYTORCH</span>
+
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">LIBROSA</span>
         </div>
       </div>
       <div class="rounded-3xl bg-[#C4BBB0] p-10">
         <h3 class="font-display text-3xl text-[#101010]">Evaluation & Report</h3>
-        <p class="mt-3 text-[#101010]/70">A confusion matrix surviving the held-out split, then a patient-readable report — verdict, confidence, and a referral note.</p>
+        <p class="mt-3 text-[#101010]/70">Accuracy, precision, recall, F1, and ROC-AUC on a held-out split with k-fold cross-validation — then a patient-readable report: verdict, confidence, and a referral note.</p>
         <div class="flex flex-wrap gap-2 mt-4">
           <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">ACCURACY</span>
           <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">PRECISION</span>
           <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">RECALL</span>
           <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">F1</span>
           <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">AUC</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">K-FOLD CV</span>
         </div>
       </div>
     </div>
@@ -281,16 +286,16 @@
   <section id="plan" class="py-24 bg-[#0A0A0A] border-t border-white/10">
     <div class="max-w-4xl mx-auto px-8">
       <p class="text-[10px] font-mono uppercase tracking-widest text-[#C5A059]">[06] DELIVERABLE</p>
-      <h2 class="font-display text-4xl md:text-6xl font-medium text-[#E6E0D2]">The project plan, laid out in weeks.</h2>
-      <p class="text-[#A0A0A0] font-light mt-4 leading-relaxed">Five-week senior-design timeline: signal preprocessing, feature model, classifier training, interface, and the final write-up plus demonstration. One printable page, ready to save as a PDF.</p>
+      <h2 class="font-display text-4xl md:text-6xl font-medium text-[#E6E0D2]">The project plan, milestone by milestone.</h2>
+      <p class="text-[#A0A0A0] font-light mt-4 leading-relaxed">Four phases across Fall 2026: data preprocessing and augmentation, deep-learning model development, evaluation, and full-stack web integration — a detection tool for medical professionals and potential COVID patients. One printable page, ready to save as a PDF.</p>
       <div class="mt-6 flex flex-col sm:flex-row gap-4">
         <a href="project-plan.html" target="_blank" class="text-center rounded-full bg-[#D4C59A] px-8 py-4 text-[11px] font-bold tracking-widest text-[#0A0A0A] hover:scale-105 transition-transform">Download Project Plan →</a>
         <a href="#contact" class="text-center rounded-full border border-white/15 px-8 py-4 text-[11px] uppercase tracking-widest text-[#E6E0D2] hover:bg-[#E6E0D2] hover:text-[#0A0A0A]">Contact the team</a>
       </div>
       <div class="mt-8 grid grid-cols-3 gap-2 text-[10px] font-mono uppercase tracking-widest text-[#5A5A52]">
-        <span>WEEK 1 · COLLECT</span>
-        <span>WEEK 2 · FEATURES</span>
-        <span>WEEK 3-4 · TUNE</span>
+        <span>M1 · SEP 28 · DATA</span>
+        <span>M2 · OCT 26 · MODEL</span>
+        <span>M3 · NOV 23 · SHIP</span>
       </div>
     </div>
   </section>
@@ -311,12 +316,13 @@
       <div class="col-span-7 flex flex-col justify-center gap-6 pt-4">
         <div class="rounded-3xl bg-[#D8D0BE] p-8">
           <p class="text-[10px] font-mono uppercase tracking-widest text-[#101010]">THE TEAM</p>
-          <p class="font-display text-2xl mt-2 text-[#101010]">Three hands, one breathprint.</p>
-          <p class="text-sm mt-3 text-[#101010]/70">Signal, model, and narrative — we meet at the wave, not just the slide.</p>
+          <p class="font-display text-2xl mt-2 text-[#101010]">Four hands, one breathprint.</p>
+          <p class="text-sm mt-3 text-[#101010]/70">Data pipeline, requirements, models, and frontend — we meet at the wave, not just the slide.</p>
           <ul class="mt-5 grid gap-2 text-sm text-[#101010]">
-            <li class="border-t border-[#101010]/10 py-2"><span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">01 · Team Lead</span><br>Jane Doe — jdoe2026@fit.edu</li>
-            <li class="border-t border-[#101010]/10 py-2"><span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">02 · Models</span><br>Sam Rivera — srivera2026@fit.edu</li>
-            <li class="border-t border-[#101010]/10 py-2"><span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">03 · Signal</span><br>Alex Chen — achen2026@fit.edu</li>
+            <li class="border-t border-[#101010]/10 py-2"><span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">01 · Data & Audio Pipeline</span><br>Drew Quashie</li>
+            <li class="border-t border-[#101010]/10 py-2"><span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">02 · Requirements & Docs</span><br>Amanda Ogbonna</li>
+            <li class="border-t border-[#101010]/10 py-2"><span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">03 · Model Development</span><br>Loleyi Oluwatomisin</li>
+            <li class="border-t border-[#101010]/10 py-2"><span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">04 · Frontend · React</span><br>Richard Alonso Garcia</li>
           </ul>
         </div>
         <div class="flex flex-wrap items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">
@@ -326,7 +332,7 @@
         </div>
         <div class="rounded-xl border border-[#101010]/15 bg-[#DDD6C5] px-5 py-3">
           <span class="text-[10px] font-mono uppercase tracking-widest text-[#5A5A52]">Faculty advisor · </span>
-          <a href="https://cs.fit.edu/~pkc/" target="_blank" class="text-[#101010] underline decoration-[#C5A059] decoration-2">Philip Chan — cs.fit.edu/~pkc</a>
+          <a href="mailto:znematzadeh@fit.edu" class="text-[#101010] underline decoration-[#C5A059] decoration-2">Dr. Zahra Nematzadeh — znematzadeh@fit.edu</a>
         </div>
       </div>
     </div>
@@ -335,43 +341,63 @@
   <!-- ============ SEMESTER MILESTONES (template) ============ -->
   <section id="milestones" class="py-24 bg-[#0A0A0A] border-t border-white/10">
     <div class="max-w-5xl mx-auto px-8">
-      <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Program template · two-semester plan</p>
+      <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Senior design · Fall 2026</p>
       <h2 class="font-display text-4xl md:text-6xl font-medium text-[#E6E0D2]">Semester milestones</h2>
 
-      <!-- semester 1 -->
+      <!-- milestone 1 -->
       <div class="mt-10 rounded-3xl border border-white/10 bg-[#141414] p-8">
         <div class="flex items-center justify-between">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Semester A</p>
-          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Plan · Milestones</span>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 1 · September 28</p>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Planning · Data · Baseline</span>
         </div>
-        <div class="grid gap-3 mt-4 text-sm text-[#D0C9B8] font-light">
-          <a href="project-plan.html" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Plan (PDF)</span><span class="text-[#C5A059]">→</span></a>
-          <a href="project-plan.html" target="_blank" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Presentation</span><span class="text-[#C5A059]">→</span></a>
-        </div>
-        <div class="grid gap-3 mt-4">
-          <a href="#" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Milestone 1 · Requirements · Design · Test</span><span class="text-[#C5A059]">↗</span></a>
-          <a href="#" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Milestone 2 · Progress evaluation</span><span class="text-[#C5A059]">↗</span></a>
-          <a href="#" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Milestone 3 · Progress evaluation</span><span class="text-[#C5A059]">↗</span></a>
-        </div>
+        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
+          <li>Requirements documentation and system architecture design</li>
+          <li>CoughVid dataset pipeline: filtering, MFCC / spectrogram features, normalization</li>
+          <li>Data augmentation: additive noise, pitch / time shifts, SpecAugment</li>
+          <li>Baseline PyTorch CNN and React audio-recording component</li>
+        </ul>
       </div>
 
-      <!-- semester 2 -->
+      <!-- milestone 2 -->
       <div class="mt-6 rounded-3xl border border-white/10 bg-[#141414] p-8">
         <div class="flex items-center justify-between">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Semester B</p>
-          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Plan · Milestones</span>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 2 · October 26</p>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Training · Evaluation · Backend</span>
         </div>
-        <div class="grid gap-3 mt-4">
-          <a href="project-plan.html" target="_blank" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Plan (PDF)</span><span class="text-[#C5A059]">→</span></a>
-          <a href="project-plan.html" target="_blank" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Presentation</span><span class="text-[#C5A059]">→</span></a>
-        </div>
-        <div class="grid gap-3 mt-4">
-          <a href="#" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Milestone 4 · Progress evaluation</span><span class="text-[#C5A059]">↗</span></a>
-          <a href="#" class="flex items-center justify-between border-b border-white/10 py-2 hover:text-[#E6E0D2]"><span>Milestone 5 · Poster · User Manual · Demo Video</span><span class="text-[#C5A059]">↗</span></a>
-        </div>
+        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
+          <li>Train and fine-tune CNN and ResNet transfer-learning models</li>
+          <li>Initial evaluation reports: F1 score, ROC-AUC</li>
+          <li>FastAPI backend endpoints for audio uploads and inference</li>
+          <li>React UI for prediction results and risk feedback</li>
+        </ul>
       </div>
 
-      <p class="mt-6 text-[10px] font-mono uppercase tracking-widest text-[#5A5A52]">Documents are placeholders until graded by the advisor. The plan itself is one printable page on the <a href="project-plan.html" target="_blank" class="text-[#C5A059] underline decoration underline">download page</a>.</p>
+      <!-- milestone 3 -->
+      <div class="mt-6 rounded-3xl border border-white/10 bg-[#141414] p-8">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 3 · November 23</p>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Integration · Tracking · Delivery</span>
+        </div>
+        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
+          <li>End-to-end real-time predictions across React, FastAPI, and PyTorch</li>
+          <li>Longitudinal cough-tracking visualization dashboard</li>
+          <li>Full system testing, performance optimization, and bug resolution</li>
+          <li>Final deliverables: demonstration video, poster, final presentation, and paper</li>
+        </ul>
+      </div>
+
+      <div class="mt-8 rounded-3xl border border-white/10 bg-[#141414] p-6">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Milestone 1 · Task Matrix</p>
+          <a href="project-plan.html" target="_blank" class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059] hover:text-[#E6E0D2]">Full plan →</a>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-2 mt-3 text-sm text-[#D0C9B8] font-light">
+          <p>Amanda Ogbonna — Requirements & plan docs · <span class="text-[#C5A059]">Completed</span></p>
+          <p>Drew Quashie — Preprocessing & augmentation · <span class="text-[#A0A0A0]">In progress</span></p>
+          <p>Loleyi Oluwatomisin & Amanda Ogbonna — PyTorch CNN · <span class="text-[#A0A0A0]">Pending</span></p>
+          <p>Richard Alonso Garcia — React audio interface · <span class="text-[#A0A0A0]">Pending</span></p>
+        </div>
+      </div>
     </div>
   </section>
 

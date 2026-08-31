@@ -40,21 +40,6 @@
 
 ## 7. Approach:
 
-* **Phase 1: Data Preprocessing & Augmentation:** Extract Mel-Frequency Cepstral Coefficients (MFCCs) and spectrogram images from raw audio signals in the CoughVid dataset (~2,800 recordings). Apply signal normalization, SpecAugment, pitch shifting, time shifting/stretching, and additive noise to improve robustness. Partition data into 70% training, 15% validation, and 15% test sets with k-fold cross-validation.
-
-
-* **Phase 2: Deep Learning Model Development:** Build, train, and fine-tune Convolutional Neural Networks (CNNs) and leverage transfer learning architectures (e.g., ResNet) using spectrogram inputs to classify COVID-19 status.
-
-
-* **Phase 3: Model Evaluation:** Measure performance using Accuracy, Precision, Recall, F1 Score, and ROC-AUC metrics on an independent test dataset.
-
-
-* **Phase 4: Web Application Integration:** Develop a full-stack web application capable of capturing audio in real time, running feature extraction, serving backend inference predictions, and displaying risk feedback alongside guidance on next steps.
-
-
-
-## 8. Novel Features/Functionalities
-
 * **Web-Based Audio Capture:** The patient can record cough sounds directly without requiring specialized hardware.
 
 
@@ -62,6 +47,13 @@
 
 
 * **Longitudinal Cough Tracking Dashboard:** The patient can recieve interactive health tracking visualization that monitors daily cough frequencies and health trends over time.
+
+
+
+## 8. Novel Features/Functionalities
+
+* The Cough Tracking Dashboard is unique as it allows users to gauge their condition over time while allowing health professions see patient's daily health progress to enable more streamlined testing of patients
+
 
 
 

@@ -31,10 +31,10 @@
 * Allow users to detect COVID-19 early using accessible devices like smartphones or computers.
 
 
-* Develop a web app that can predict COVID-19 infections by analyzing coughing sounds.
+* Many persons during the panademic would go to testing centers thinking they were sick thus overloading the system. Our product will help lower the load on essential workers by providing an easy pre screaning method
 
 
-* Provide real-time risk assessments and longitudinal health tracking to assist both patients and medical professionals.
+* This will be achieved by providing real-time risk assessments and longitudinal health tracking to assist both patients and medical professionals.
 
 
 

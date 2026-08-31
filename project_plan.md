@@ -2,10 +2,10 @@
 
 ## 2. Team Members:
 
-* Drew Quashie
-* Amanda Ogbonna
-* Loleyi Oluwatomisin
-* Richard Alonso Garcia
+* Drew Quashie (dquashie2024@my.fit.edu)
+* Amanda Ogbonna (kogbonna2025@my.fit.edu)
+* Loleyi Oluwatomisin (ooluwatomisi2023@my.fit.edu)
+* Richard Alonso Garcia (ralonsogarci2023@my.fit.edu)
 
 ## 3. Faculty Advisor:
   ### &emsp; Name:  Dr. Zahra Nematzadeh
@@ -55,13 +55,13 @@
 
 ## 8. Novel Features/Functionalities
 
-* **Web-Based Audio Capture:** Browser-accessible interface enabling users to record cough sounds directly without requiring specialized hardware.
+* **Web-Based Audio Capture:** The patient can record cough sounds directly without requiring specialized hardware.
 
 
-* **Automated Risk Assessment & Guidance:** Real-time output providing risk levels (Low, Medium, High) paired with clinical recommendations (e.g., self-isolation, contacting a healthcare provider).
+* **Automated Risk Assessment & Guidance:** The patient will be provided risk levels (Low, Medium, High) paired with clinical recommendations (e.g., self-isolation, contacting a healthcare provider).
 
 
-* **Longitudinal Cough Tracking Dashboard:** Interactive health tracking visualization monitoring daily cough frequencies and health trends over time.
+* **Longitudinal Cough Tracking Dashboard:** The patient can recieve interactive health tracking visualization that monitors daily cough frequencies and health trends over time.
 
 
 

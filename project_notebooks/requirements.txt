@@ -1,9 +1,13 @@
+torch
+torchcodec
+torchvision
+torchaudio
 kagglehub
 matplotlib
 polars
 numpy
---extra-index-url https://download.pytorch.org/whl/cu126
-torch
-torchvision
-torchaudio
 scikit-learn
+ipywidgets
+ipykernel
+librosa
+audioread

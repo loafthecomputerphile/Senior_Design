@@ -26,6 +26,10 @@
 
 * Olin Engineering Complex room 353
 
+2. Thursday September 10th 11:45am
+
+* Olin Engineering Complex room 353
+
 ## 6. Goals and Motivations:
 
 * Allow users to detect COVID-19 early using accessible devices like smartphones or computers.

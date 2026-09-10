@@ -87,7 +87,7 @@ def segment_cough(x: npt.NDArray,fs: float, cough_padding: float = 0.2, min_coug
 
 def compute_SNR(x: npt.NDArray, fs: float) -> float | int:
     """Compute the Signal-to-Noise ratio of the audio signal x (np.array) with sampling frequency fs (float)"""
-    segments, cough_mask = segment_cough(x,fs)
+    _, cough_mask = segment_cough(x,fs)
     RMS_signal: float | int = 0 if len(x[cough_mask])==0 else np.sqrt(np.mean(np.square(x[cough_mask])))
     RMS_noise: float = np.sqrt(np.mean(np.square(x[~cough_mask])))
     SNR: float | int = 0 if (RMS_signal==0 or np.isnan(RMS_noise)) else 20*np.log10(RMS_signal/RMS_noise)
@@ -205,3 +205,39 @@ class MFCCPipeline(torch.nn.Module):
         resampled = self.resampler(waveform) if self.resampler is not None else waveform
         
         return self._normalize(self.mfcc(resampled))
+    
+    
+    
+class ComombinedSpectMFCCPipeline(torch.nn.Module):
+    
+    def __init__(self, resample_freq: int = 16_000, n_mfcc: int = 20, n_fft: int=1024, n_mel: int = 256) -> None:
+        super().__init__()
+        self.resample_freq: int = resample_freq
+        self.current_input_freq: int | None = None
+        self.resampler: Resample = None
+        
+        self.amp_to_db: AmplitudeToDB = AmplitudeToDB()
+        
+        self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=2)
+        self.mfcc: MFCC = MFCC(
+            sample_rate=resample_freq,
+            n_mfcc=n_mfcc,
+            melkwargs={
+                "n_fft": n_fft,
+                "hop_length": n_fft // 2,
+                "n_mels": n_mel,
+            },
+        )
+        
+    def _normalize(self, x: torch.Tensor) -> torch.Tensor:
+        
+        if x.dim == 4:
+            x_min: torch.NumberType = x.min(dim=-1, keepdim=True)[0].min(dim=-2, keepdim=True)[0]
+            x_max: torch.NumberType = x.max(dim=-1, keepdim=True)[0].max(dim=-2, keepdim=True)[0]
+        else:
+            x_min = x.min()
+        return (x-x_min)/(x_max-x_min+1e-8)        
+        
+    def forward(self, waveform: torch.Tensor, input_freq: int) -> torch.Tensor:
+        ...
+        

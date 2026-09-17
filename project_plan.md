@@ -29,6 +29,14 @@
 2. Thursday September 10th 11:45am
 
 * Olin Engineering Complex room 353
+  
+3. Thursday September 17th 11:45am
+
+* Olin Engineering Complex room 353
+
+4. Thursday September 24th 11:45am
+
+* Olin Engineering Complex room 353
 
 ## 6. Goals and Motivations:
 

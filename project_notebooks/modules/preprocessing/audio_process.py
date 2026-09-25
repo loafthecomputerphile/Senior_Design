@@ -365,14 +365,14 @@ class ComombinedSpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
         spec: torch.Tensor = self.spec(waveform)
         if self.transforms:
             self.aug_spec = self.transforms(spec)
-        spec = self.mel_scale(self.aug_spec)
-        spec = self.amp_to_db(spec)
+        mel = self.mel_scale(self.aug_spec)
+        spec = self.amp_to_db(mel)
         
         mfcc: torch.Tensor = torch.matmul(
             spec.transpose(-1, -2), self.dct_mat
         ).transpose(-1, -2)
         
         norm_mfcc: torch.Tensor = self._normalize(mfcc) 
-        norm_spec: torch.Tensor = self._normalize(spec)
+        norm_spec: torch.Tensor = self._normalize(mel)
         
         return torch.cat([norm_spec, norm_mfcc], dim=-2)

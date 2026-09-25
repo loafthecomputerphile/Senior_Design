@@ -46,25 +46,26 @@ The planning and documentation set for the project is complete. `project_plan.md
 
 **CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline**
 
-The CoughVid dataset pipeline is underway. `project_notebooks/modules/preprocessing/dataframe_process.py` filters the CoughVid metadata with polars, and `wav_converter.py` converts the dataset's webm recordings to wav in parallel using ffmpeg. The core feature pipeline lives in `project_notebooks/modules/preprocessing/audio_process.py`: `segment_cough` / `segment_cough_robust` extract cough events, `compute_SNR` scores signal quality, and `MelSpectrogramPipeline`, `MFCCPipeline`, and `ComombinedSpectMFCCPipeline` produce fixed-length Mel, MFCC, and joint MFCC + log-Mel features. `data_preprocess.ipynb` runs the load → segment → feature-extraction flow, and `wav_length_exp.ipynb` studied cough lengths to justify fixed 1-second segments (98.5th percentile). The primary obstacle was file-format heterogeneity: CoughVid ships mostly webm with variable sample rates and durations, which required the ffmpeg setup helper (`ffmpeg_fix.py`), robust segmentation, and fixed-length enforcement before batching.
+The CoughVid dataset preprocessing is complete. `project_notebooks/modules/preprocessing/dataframe_process.py` filters the CoughVid metadata with polars, and `wav_converter.py` converts all of the dataset's webm recordings to wav in parallel using ffmpeg. The core feature pipeline lives in `project_notebooks/modules/preprocessing/audio_process.py`: `segment_cough` / `segment_cough_robust` extract cough events, `compute_SNR` scores signal quality, and `MelSpectrogramPipeline`, `MFCCPipeline`, and `ComombinedSpectMFCCPipeline` produce fixed-length Mel, MFCC, and joint MFCC + log-Mel features respectivelly. `data_preprocess.ipynb` runs and tests the load → segment → feature-extraction flow, and `wav_length_exp.ipynb` studied cough lengths to justify fixed 1-second segments (98.5th percentile). The primary obstacle was file-format heterogeneity: CoughVid ships mostly webm with variable sample rates and durations, which required the ffmpeg setup helper (`ffmpeg_fix.py`), robust segmentation, and fixed-length enforcement before batching.
 
 **Audio Augmentation Pipeline (Noise, Pitch & Time Shifts)**
 
-Augmentation is in progress to counter dataset class imbalance and background-noise variability (two of the technical challenges named in the project plan). SpecAugment time masking and frequency masking are implemented in `audio_process.py`, with the experiment notes recording time stretching and masking choices from the Phase 1 experiments. Additive noise and pitch/time shifting are specified in the project plan and SDD and are being wired into the training-time data pipeline. The obstacle is balancing augmentation strength: aggressive masking or shifting risks destroying cough cues that the classifier depends on, so augmentation parameters are being validated against the 1-second segmentation decisions from the length study.
+Augmentation is completed which is used to counter dataset class imbalance and background-noise variability (two of the technical challenges named in the project plan). SpecAugment time masking and frequency masking are implemented in `audio_process.py`, with the experiment notes recording time stretching and masking choices from the Phase 1 experiments. Additive noise and pitch/time shifting are specified in the project plan and SDD and are being wired into the training-time data pipeline. The obstacle is balancing augmentation strength: aggressive masking or shifting risks destroying cough cues that the classifier depends on, so augmentation parameters are being validated against the 1-second segmentation decisions from the length study.
 
 **Baseline PyTorch CNN Architecture Development**
 
-The model code structure exists but training has not started (pending). `project_notebooks/modules/nn/baseline_cnn.py` defines `BaselineCNN`, a convolutional classifier over the three classes (Healthy, Symptomatic, COVID-19), and `base_nn.py` provides the reusable `ConvBlockV1` (Conv2d → BatchNorm → ReLU) plus a `DefaultCNN` with a `LazyLinear` head. The intended training entry point, `neural_network.ipynb`, is still a stub, and `feature_extraction.ipynb` is empty — the immediate obstacle is sequencing: training cannot begin in earnest until the preprocessing and augmentation pipelines (above) produce consistent fixed-length feature tensors.
+The model code structure exists but training has not started (pending). `project_notebooks/modules/nn/base_nn.py` defines `BaselineCNN`, a convolutional classifier over the three classes (Healthy, Symptomatic, COVID-19), and `base_nn.py` provides the reusable `ConvBlockV1` (Conv2d → BatchNorm → ReLU) plus a `DefaultCNN` with a `LazyLinear` head. The intended training entry point, `neural_network.ipynb`, is still a stub, and `feature_extraction.ipynb` is empty — the immediate obstacle is sequencing: training cannot begin in earnest until the preprocessing and augmentation pipelines (above) produce consistent fixed-length feature tensors.
 
 **React Audio Recording Interface Setup**
 
-This task is pending. The project website itself is live — a static site (`project_notebooks/project_website/`) deployed by GitHub Pages workflow to https://covidwav.io, containing the project plan page and shared styles — but the React component that records three guided coughs through the Web Audio API has not been built yet. The obstacle is browser-side constraints identified in the SRS/SDD: microphone permission handling, format/duration/SNR/clipping validation before upload, and keeping health history in IndexedDB so the server stays stateless.
+This task has been completed. The project website itself is live — a static site (`project_notebooks/project_website/`) deployed by GitHub Pages workflow to https://covidwav.io, containing the project plan page and shared styles — but the React component that records three guided coughs through the Web Audio API has not been built yet. The obstacle is browser-side constraints identified in the SRS/SDD: microphone permission handling, format/duration/SNR/clipping validation before upload, and keeping health history in IndexedDB so the server stays stateless.
 
 ## 6. Discussion (at least a paragraph) of contribution of each team member to the current Milestone
 
 **Drew Quashie**
 
-<!-- blank for entry -->
+I created the data preprocessing an dfeature extraction pipelines along with the data aaugmentation. our base augmentation uses pytorch time stretching, time masking and frequency masking to help diversify our dataset. additionally to statistically verify what should our set input length be we did a statistical experiment using a histogram of the lengths of each segmented cough. From this we saw a heavily right skewed sample space and as such we used a cut off of the longest 98.5 percentile and below of the lengths of the coughs whcuh rounded off to 1s. the MFCC and Mel spectrogram data was generated with pytorch modules which will be used as transform classes in the comming Dataset class for training. 
+Additionally we had some issues with ffmpeg and differing audio formats of which i fixed with some scripts i added.
 
 **Amanda Ogbonna**
 
@@ -84,16 +85,16 @@ This task is pending. The project website itself is live — a static site (`pro
 
 | Task | Drew Quashie | Amanda Ogbonna | Loleyi Oluwatomisin | Richard Alonso Garcia |
 | --- | --- | --- | --- | --- |
-| Train & fine-tune advanced CNN models and transfer learning architectures (e.g., ResNet) |  |  |  |  |
-| Complete initial model evaluation and generate performance reports (F1 Score, ROC-AUC) |  |  |  |  |
-| Develop FastAPI backend endpoints for handling client audio uploads and running inference pipelines |  |  |  |  |
-| Build initial React web UI components for displaying prediction results and risk feedback |  |  |  |  |
+| Train & fine-tune advanced CNN models and transfer learning architectures (e.g., ResNet) | x | x |  |  |
+| Complete initial model evaluation and generate performance reports (F1 Score, ROC-AUC) | x |  | x |  |
+| Develop FastAPI backend endpoints for handling client audio uploads and running inference pipelines | x | x | x |  |
+| Build initial React web UI components for displaying prediction results and risk feedback |  |  |  | x |
 
 ## 8. Discussion (at least a paragraph) of each planned task for the next Milestone
 
 **Train & fine-tune advanced CNN models and transfer learning architectures (e.g., ResNet)**
 
-With the preprocessing pipeline producing fixed-length joint MFCC + log-Mel tensors, Milestone 2 moves from the untrained `BaselineCNN` in `baseline_cnn.py` to real training runs. The plan is to first establish a baseline with the existing convolutional architecture, then fine-tune a ResNet transfer-learning variant (listed in the Algorithms and Tools table of `project_plan.md`). The SDD's algorithm-design section defines the training and label-engineering approach (three-logit sigmoid outputs for Healthy/Symptomatic/COVID-19), and the augmentation pipeline built in Milestone 1 (SpecAugment, noise, pitch/time shifts) plus class-imbalance handling will be applied during training. Notebook `neural_network.ipynb` is the intended entry point.
+With the preprocessing pipeline producing fixed-length joint MFCC + log-Mel tensors, Milestone 2 moves from the untrained `DefaultCNN` in `base_cnn.py` to real training runs. The plan is to first establish a baseline with the existing convolutional architecture, then fine-tune a ResNet transfer-learning variant (listed in the Algorithms and Tools table of `project_plan.md`). The SDD's algorithm-design section defines the training and label-engineering approach (three-logit sigmoid outputs for Healthy/Symptomatic/COVID-19), and the augmentation pipeline built in Milestone 1 (SpecAugment, noise, pitch/time shifts) plus class-imbalance handling will be applied during training. Notebook `neural_network.ipynb` is the intended entry point.
 
 **Complete initial model evaluation and generate performance reports (F1 Score, ROC-AUC)**
 

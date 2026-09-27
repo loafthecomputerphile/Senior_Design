@@ -77,7 +77,7 @@ For this milestone, my focus was primarily on the research and documentation sid
 
 **Loleyi Oluwatomisin**
 
-<!-- blank for entry -->
+I mainly worked on creating and testing our baseline CNN model. The CNN is the part of our project that will learn to distinguish between Healthy, Symptomatic, and COVID-19 coughs. I used Python, PyTorch, Librosa, and Google Colab to test the cough recordings and turn them into spectrograms that the CNN can understand. I also helped split the data into training, validation, and testing groups and tested how the CNN handles batches of cough recordings. While testing, I noticed that processing thousands of audio files slowed training, so I worked on a way to save the processed files in advance to speed up training. My work helped create the basic CNN and training setup that our team can continue improving and fully train during the next milestone.
 
 **Richard Alonso Garcia**
 

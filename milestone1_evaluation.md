@@ -32,11 +32,11 @@ Dr. Zahra Nematzadeh (znematzadeh@fit.edu) — Faculty Advisor, Florida Tech
 
 | Task | Completion % | Drew Quashie | Amanda Ogbonna | Loleyi Oluwatomisin | Richard Alonso Garcia | To do |
 | --- | --- | --- | --- | --- | --- | --- |
-| Requirements & Project Plan Documentation |  |  |  |  |  |  |
-| CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline |  |  |  |  |  |  |
-| Audio Augmentation Pipeline (Noise, Pitch & Time Shifts) |  |  |  |  |  |  |
-| Baseline PyTorch CNN Architecture Development |  |  |  |  |  |  |
-| React Audio Recording Interface Setup |  |  |  |  |  |  |
+| Requirements & Project Plan Documentation | 100% |  | x |  |  |  |
+| CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline | 100% | x |  |  |  |  |
+| Audio Augmentation Pipeline (Noise, Pitch & Time Shifts) | 100% | x |  |  |  |  |
+| Baseline PyTorch CNN Architecture Development | 100% |  |  | x |  |  |
+| React Audio Recording Interface Setup | 100% |  |  |  |  | x |
 
 ## 5. Discussion (at least a paragraph) of each accomplished task (and obstacles) for the current Milestone
 

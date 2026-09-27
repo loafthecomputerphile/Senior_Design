@@ -35,7 +35,7 @@ During pandemic surges, individuals with mild or uncertain symptoms often visit 
 
 The primary objectives are:
 
-- Provide a pre-screening risk assessment from three guided cough recordings using ordinary device microphones — no specialized hardware.
+- Provide a pre-screening risk assessment from three guided cough recordings using ordinary device microphones, no specialized hardware.
 - Deliver near-real-time feedback from browser capture to displayed result.
 - Support longitudinal self-tracking so users (and, via sharing, clinicians) can observe trends over time.
 - Commit to honest result framing: a pre-screening signal, never a diagnosis.
@@ -76,10 +76,10 @@ Handles all aspects of microphone acquisition in the browser via the Web Audio A
 
 The core analytical component. The FastAPI backend receives the raw upload and runs, in order:
 
-1. **Cough-presence gate** — a pretrained XGBoost cough/no-cough classifier (from the CoughVid GitHub repository) decides whether the clip contains cough audio at all; failure returns an Inconclusive result *before* any segmentation.
-2. **Segmenter** — locates the three cough events and cuts one fixed 1 s window per cough.
-3. **CNN inference (×3)** — each segment's joint MFCC + Mel-spectrogram features pass through a PyTorch CNN/ResNet classifier whose head is **3 logits with sigmoid activation** (Negative / Uncertain / Positive); per-cough class = argmax of the three sigmoid outputs.
-4. **Deterministic aggregation** — majority vote across the three per-cough classes; a 1-1-1 split falls back to argmax of the mean sigmoid vector (see §7.3).
+1. **Cough-presence gate**, a pretrained XGBoost cough/no-cough classifier (from the CoughVid GitHub repository) decides whether the clip contains cough audio at all; failure returns an Inconclusive result *before* any segmentation.
+2. **Segmenter**, locates the three cough events and cuts one fixed 1 s window per cough.
+3. **CNN inference (×3)**, each segment's joint MFCC + Mel-spectrogram features pass through a PyTorch CNN/ResNet classifier whose head is **3 logits with sigmoid activation** (Negative / Uncertain / Positive); per-cough class = argmax of the three sigmoid outputs.
+4. **Deterministic aggregation**, majority vote across the three per-cough classes; a 1-1-1 split falls back to argmax of the mean sigmoid vector (see §7.3).
 
 ### 2.3 Results Processing and Display
 
@@ -109,7 +109,7 @@ The system follows a three-tier client–server architecture with a browser devi
 │  (FastAPI)             │  POST /analyze                  │
 ├────────────────────────┼────────────────────────────────┤
 │  ML LAYER              │  DATA PERSISTENCE (server)     │
-│  Cough gate (XGBoost)  │  Stateless — no health data    │
+│  Cough gate (XGBoost)  │  Stateless, no health data    │
 │  · Segmenter (×3)      │  stored post-inference         │
 │  · Feature extract (×3)│                                │
 │  · CNN classifier (×3) │                                │
@@ -135,9 +135,9 @@ The Presentation Layer owns all user interaction and local persistence. The Appl
 The system manages four primary data types:
 
 - **Audio Data:** raw microphone capture of one session containing 3 coughs, in browser-native formats (WEBM/OGG, transcoded or accepted as WAV), typically 5–15 s and under 1 MB. Used transiently: uploaded, analyzed, discarded by the server; optionally kept locally at user discretion.
-- **Feature Tensors:** per-cough MFCC and Mel-spectrogram matrices computed from each of the three 1 s segments — transient in memory on the server only, never persisted.
+- **Feature Tensors:** per-cough MFCC and Mel-spectrogram matrices computed from each of the three 1 s segments, transient in memory on the server only, never persisted.
 - **Model Data:** trained PyTorch weights (`.pt`) with a planned ONNX export (`.onnx`) for the future client-side path, plus the pretrained XGBoost cough detector artifact from the CoughVid repository.
-- **Analysis Records:** structured JSON records — timestamp, risk level, vote breakdown (3 per-cough classes + sigmoid vectors), confidence, cough-gate/quality metrics, and optional user notes — stored in IndexedDB on the user's device.
+- **Analysis Records:** structured JSON records, timestamp, risk level, vote breakdown (3 per-cough classes + sigmoid vectors), confidence, cough-gate/quality metrics, and optional user notes, stored in IndexedDB on the user's device.
 
 ### 4.2 Data Dictionary
 
@@ -172,111 +172,111 @@ Retention is user-configurable (default: keep records indefinitely until manuall
 **Main UI Component**
 - Responsibility: application navigation and dashboard rendering.
 - Key methods:
-  - `navigateToScreen(screenName)` — handles view transitions.
-  - `displayDashboard()` — renders recent analyses summary and entry points.
-  - `handleUserPreferences()` — settings for retention, export, guidance.
+  - `navigateToScreen(screenName)`, handles view transitions.
+  - `displayDashboard()`, renders recent analyses summary and entry points.
+  - `handleUserPreferences()`, settings for retention, export, guidance.
 
 **Recorder UI Component**
 - Responsibility: microphone interface guiding a 3-cough capture session.
 - Key methods:
-  - `initializeRecorder()` — requests `getUserMedia`, wires Web Audio context.
-  - `showLiveLevelMeter()` — visual input meter confirming mic activity.
-  - `startRecording()` — begins one capture session; displays cue prompt "cough 3 times".
-  - `detectCoughCue()` — client-side onset detection fills the `○ ○ ○` progress as each cough is heard; stops automatically after the third or on user stop.
-  - `uploadForAnalysis(blob)` — single POST of the full recording to `/v1/analyze`, manages loading and error states.
+  - `initializeRecorder()`, requests `getUserMedia`, wires Web Audio context.
+  - `showLiveLevelMeter()`, visual input meter confirming mic activity.
+  - `startRecording()`, begins one capture session; displays cue prompt "cough 3 times".
+  - `detectCoughCue()`, client-side onset detection fills the `○ ○ ○` progress as each cough is heard; stops automatically after the third or on user stop.
+  - `uploadForAnalysis(blob)`, single POST of the full recording to `/v1/analyze`, manages loading and error states.
 
 **Results UI Component**
 - Responsibility: presentation of assessment outcome.
 - Key methods:
-  - `displayRiskAssessment(result)` — Low/Medium/High badge, confidence bar, vote summary and per-cough breakdown.
-  - `presentMedicalDisclaimer()` — mandatory pre-screening-only notice.
-  - `generateRecommendations(riskLevel)` — actionable guidance per level.
-  - `saveLocally(result)` — writes Analysis Record (including vote breakdown) via Storage Manager.
+  - `displayRiskAssessment(result)`, Low/Medium/High badge, confidence bar, vote summary and per-cough breakdown.
+  - `presentMedicalDisclaimer()`, mandatory pre-screening-only notice.
+  - `generateRecommendations(riskLevel)`, actionable guidance per level.
+  - `saveLocally(result)`, writes Analysis Record (including vote breakdown) via Storage Manager.
 
 **Trends UI Component**
 - Responsibility: longitudinal dashboard.
 - Key methods:
-  - `renderTrendChart(records)` — risk level and confidence over time.
-  - `exportHistory(format)` — CSV/JSON export for clinician sharing.
+  - `renderTrendChart(records)`, risk level and confidence over time.
+  - `exportHistory(format)`, CSV/JSON export for clinician sharing.
 
 ### 5.2 Application Logic Layer Components
 
 **Analysis Request Controller**
 - Responsibility: HTTP contract and validation.
 - Key methods:
-  - `acceptUpload(request)` — size/type/duration limits, abuse controls.
-  - `validateRequest(audioMeta)` — reject empty, oversized, or truncated payloads before ML work begins.
-  - `formatResponse(result)` — assemble JSON contract, map internal errors to client-safe messages.
+  - `acceptUpload(request)`, size/type/duration limits, abuse controls.
+  - `validateRequest(audioMeta)`, reject empty, oversized, or truncated payloads before ML work begins.
+  - `formatResponse(result)`, assemble JSON contract, map internal errors to client-safe messages.
 
 **Inference Orchestrator**
 - Responsibility: coordinates the ML pipeline end to end.
 - Key methods:
-  - `executeAnalysisPipeline(audio)` — cough gate → locate/cut 3 segments → feature extraction ×3 → CNN inference ×3 → vote aggregation → risk mapping.
-  - `monitorPerformanceMetrics()` — per-stage latency logging.
-  - `handlePipelineErrors()` — gate failure returns Inconclusive("cough not detected") as a 200-level result with reason; system problems return 5xx.
+  - `executeAnalysisPipeline(audio)`, cough gate → locate/cut 3 segments → feature extraction ×3 → CNN inference ×3 → vote aggregation → risk mapping.
+  - `monitorPerformanceMetrics()`, per-stage latency logging.
+  - `handlePipelineErrors()`, gate failure returns Inconclusive("cough not detected") as a 200-level result with reason; system problems return 5xx.
 
 **Result Processor**
 - Responsibility: interpretation and formatting of model output.
 - Key methods:
-  - `interpretModelOutput(voteResult)` — aggregated vote + mean sigmoid vector → risk level.
-  - `applyConfidenceGate(confidence)` — below-threshold → Inconclusive.
-  - `formatForDisplay(result)` — assemble the user-facing result object including `vote` and `per_cough`.
+  - `interpretModelOutput(voteResult)`, aggregated vote + mean sigmoid vector → risk level.
+  - `applyConfidenceGate(confidence)`, below-threshold → Inconclusive.
+  - `formatForDisplay(result)`, assemble the user-facing result object including `vote` and `per_cough`.
 
 ### 5.3 Machine Learning Layer Components
 
 **Model Loader**
 - Responsibility: model lifecycle on the server.
 - Key methods:
-  - `loadModel()` — load `.pt` (or `.onnx`) once at startup.
-  - `verifyModelIntegrity()` — checksum + smoke-test inference on a reference tensor.
-  - `optimizeInferenceSettings()` — `eval()` mode, `torch.inference_mode()`, optional half-precision on GPU.
+  - `loadModel()`, load `.pt` (or `.onnx`) once at startup.
+  - `verifyModelIntegrity()`, checksum + smoke-test inference on a reference tensor.
+  - `optimizeInferenceSettings()`, `eval()` mode, `torch.inference_mode()`, optional half-precision on GPU.
 
 **Cough Presence Detector**
 - Responsibility: reject non-cough audio *before* any segmentation work.
 - Key methods:
-  - `loadDetector()` — load the pretrained XGBoost cough/no-cough classifier shipped with the CoughVid repository (no training on our side).
-  - `detectCough(clip)` — returns pass/fail + score; fail short-circuits the pipeline to Inconclusive("cough not detected").
+  - `loadDetector()`, load the pretrained XGBoost cough/no-cough classifier shipped with the CoughVid repository (no training on our side).
+  - `detectCough(clip)`, returns pass/fail + score; fail short-circuits the pipeline to Inconclusive("cough not detected").
 
 **Audio Preprocessor**
 - Responsibility: raw clip → three analyzable segments.
 - Key methods:
-  - `validateQuality(clip)` — SNR estimate, clipping ratio, duration bounds; fails → Inconclusive with reason.
-  - `detectCoughEvents(clip)` — energy-based onset detection locating the cough events within the recording (expected: 3).
-  - `extractSegments(clip)` — cut one fixed 1 s window per cough event, onset-centered (window length from the 98.5th-percentile length experiment; see §7.1); pad events shorter than 1 s.
-  - `normalize(segment)` — amplitude normalization and resampling to the training sample rate.
+  - `validateQuality(clip)`, SNR estimate, clipping ratio, duration bounds; fails → Inconclusive with reason.
+  - `detectCoughEvents(clip)`, energy-based onset detection locating the cough events within the recording (expected: 3).
+  - `extractSegments(clip)`, cut one fixed 1 s window per cough event, onset-centered (window length from the 98.5th-percentile length experiment; see §7.1); pad events shorter than 1 s.
+  - `normalize(segment)`, amplitude normalization and resampling to the training sample rate.
 
 **Feature Extractor**
 - Responsibility: segment → model input (runs once per segment, ×3).
 - Key methods:
-  - `computeMelSpectrogram(segment)` — log-Mel power spectrogram.
-  - `computeMFCCs(segment)` — cepstral coefficients from log-Mel energies.
-  - `fuseFeatures(mel, mfcc)` — stack into the joint representation the classifier consumes (fusion point fixed at training time; see §7.2).
+  - `computeMelSpectrogram(segment)`, log-Mel power spectrogram.
+  - `computeMFCCs(segment)`, cepstral coefficients from log-Mel energies.
+  - `fuseFeatures(mel, mfcc)`, stack into the joint representation the classifier consumes (fusion point fixed at training time; see §7.2).
 
 **Prediction Interpreter**
 - Responsibility: model output → assessment.
 - Key methods:
-  - `applySigmoid(logits)` — elementwise sigmoid over the 3 output logits (independent sigmoids; they do **not** sum to 1).
-  - `classifyCough(logits)` — per-cough class = argmax of the 3 sigmoid outputs.
-  - `aggregateVotes(perCough)` — majority vote across the 3 coughs; 1-1-1 split → argmax of the mean sigmoid vector.
-  - `calculateConfidence(vote)` — mean sigmoid value of the winning class across the 3 coughs; used by the confidence gate.
-  - `assignRiskLevel(vote, meanSigmoid)` — risk level from the vote winner (Negative→LOW, Uncertain→MEDIUM, Positive→split on mean Positive signal ≥0.65→HIGH else MEDIUM); see §7.3.
+  - `applySigmoid(logits)`, elementwise sigmoid over the 3 output logits (independent sigmoids; they do **not** sum to 1).
+  - `classifyCough(logits)`, per-cough class = argmax of the 3 sigmoid outputs.
+  - `aggregateVotes(perCough)`, majority vote across the 3 coughs; 1-1-1 split → argmax of the mean sigmoid vector.
+  - `calculateConfidence(vote)`, mean sigmoid value of the winning class across the 3 coughs; used by the confidence gate.
+  - `assignRiskLevel(vote, meanSigmoid)`, risk level from the vote winner (Negative→LOW, Uncertain→MEDIUM, Positive→split on mean Positive signal ≥0.65→HIGH else MEDIUM); see §7.3.
 
 ### 5.4 Device and Persistence Layer Components
 
 **Microphone Interface (browser)**
 - Responsibility: device audio access abstraction.
 - Key methods:
-  - `acquireMicPermission()` — `getUserMedia` with graceful denial handling.
-  - `configureCapture()` — sample rate and channel selection.
-  - `releaseMic()` — teardown after stop or navigation.
+  - `acquireMicPermission()`, `getUserMedia` with graceful denial handling.
+  - `configureCapture()`, sample rate and channel selection.
+  - `releaseMic()`, teardown after stop or navigation.
 
 **Storage Manager (browser)**
 - Responsibility: local persistence and retrieval.
 - Key methods:
-  - `saveAnalysis(record)` — IndexedDB insert.
-  - `retrieveHistory(range)` — records for dashboard and trends.
-  - `exportHistory(format)` — CSV/JSON for sharing.
-  - `pruneHistory(policy)` — retention enforcement.
+  - `saveAnalysis(record)`, IndexedDB insert.
+  - `retrieveHistory(range)`, records for dashboard and trends.
+  - `exportHistory(format)`, CSV/JSON for sharing.
+  - `pruneHistory(policy)`, retention enforcement.
 
 ---
 
@@ -329,7 +329,7 @@ The interface is a responsive single-page React application prioritizing a clear
 ```
 [Back]       Analysis Complete          [Save] [Share]
 
-  IMPORTANT: Pre-screening tool only — not a diagnosis.
+  IMPORTANT: Pre-screening tool only, not a diagnosis.
   Always confirm with an official COVID-19 test.
 
   Result:  MEDIUM RISK
@@ -357,7 +357,7 @@ The interface is a responsive single-page React application prioritizing a clear
   Result:  INCONCLUSIVE
   We couldn't analyze that recording
   (cough not detected / low SNR).
-  Please recapture — give 3 clear coughs
+  Please recapture, give 3 clear coughs
   in a quieter room.
   [Try Again]
 ```
@@ -412,11 +412,11 @@ END Audio Processing Algorithm
 
 ### 7.2 Model Training and Label Engineering
 
-**Output layer.** The CNN head is **3 logits with sigmoid activation** (Negative / Uncertain / Positive), one per class, applied elementwise. Sigmoids are independent — outputs do not sum to 1 — so they are treated as per-class *signal strengths*, not a probability distribution. The per-cough predicted class is `argmax(sigmoid(logits))`.
+**Output layer.** The CNN head is **3 logits with sigmoid activation** (Negative / Uncertain / Positive), one per class, applied elementwise. Sigmoids are independent, outputs do not sum to 1, so they are treated as per-class *signal strengths*, not a probability distribution. The per-cough predicted class is `argmax(sigmoid(logits))`.
 
 **The label problem (open design item).** CoughVid provides COVID-positive / COVID-negative style status labels plus metadata (symptoms, age range, gender, etc.), but the model requires three classes: Negative, Uncertain, Positive. The third class does not exist natively. The intended construction:
 
-- **Symptom-derived third class:** use CoughVid metadata to label recordings with inconclusive or mixed symptom reports (neither confirmed COVID+ nor clean negative) as *Uncertain*, and train a true 3-way head. Risk: noisy labels, since symptom metadata is self-reported — **flagged for advisor review**, with no fallback decided yet.
+- **Symptom-derived third class:** use CoughVid metadata to label recordings with inconclusive or mixed symptom reports (neither confirmed COVID+ nor clean negative) as *Uncertain*, and train a true 3-way head. Risk: noisy labels, since symptom metadata is self-reported, **flagged for advisor review**, with no fallback decided yet.
 
 ```
 BEGIN Training Algorithm
@@ -501,7 +501,7 @@ BEGIN Risk Classification Algorithm
 END Risk Classification Algorithm
 ```
 
-*(Risk level is a pure function of the vote winner plus `p_pos_mean` — displayed class and displayed risk can never contradict each other. The HIGH/MEDIUM split at 0.65 is the only tunable threshold; final value set by calibration.)*
+*(Risk level is a pure function of the vote winner plus `p_pos_mean`, displayed class and displayed risk can never contradict each other. The HIGH/MEDIUM split at 0.65 is the only tunable threshold; final value set by calibration.)*
 
 ---
 

@@ -36,7 +36,7 @@ Dr. Zahra Nematzadeh (znematzadeh@fit.edu) — Faculty Advisor, Florida Tech
 | CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline | 100% | x |  |  |  |  |
 | Audio Augmentation Pipeline (Noise, Pitch & Time Shifts) | 100% | x |  |  |  |  |
 | Baseline PyTorch CNN Architecture Development | 100% |  |  | x |  |  |
-| React Audio Recording Interface Setup | 100% |  |  |  |  | x |
+| React Audio Recording Interface Setup | 100% |  |  |  | x |  |
 
 ## 5. Discussion (at least a paragraph) of each accomplished task (and obstacles) for the current Milestone
 

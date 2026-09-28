@@ -81,6 +81,118 @@
     </div>
   </section>
 
+  <div class="mt-6 rounded-3xl border border-white/10 bg-[#141414] p-8">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 3 · November 23</p>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Integration · Tracking · Delivery</span>
+        </div>
+        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
+          <li>End-to-end real-time predictions across React, FastAPI, and PyTorch</li>
+          <li>Longitudinal cough-tracking visualization dashboard</li>
+          <li>Full system testing, performance optimization, and bug resolution</li>
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Documents</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Presentation</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Progress Eval</span>
+        </div>
+      </div>
+
+      <div class="mt-8 rounded-3xl border border-white/10 bg-[#141414] p-6">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Milestone 1 · Task Matrix</p>
+          <a href="project-plan.html" target="_blank" class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059] hover:text-[#E6E0D2]">Full plan →</a>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-2 mt-3 text-sm text-[#D0C9B8] font-light">
+          <p>Amanda Ogbonna — Requirements & plan docs · <span class="text-[#C5A059]">Completed</span></p>
+          <p>Drew Quashie — Preprocessing & augmentation · <span class="text-[#C5A059]">Completed</span></p>
+          <p>Loleyi Oluwatomisin & Amanda Ogbonna — PyTorch CNN · <span class="text-[#C5A059]">Completed</span></p>
+          <p>Richard Alonso Garcia — React audio interface · <span class="text-[#C5A059]">Completed</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SEMESTER MILESTONES (template) ============ -->
+  <section id="milestones" class="py-24 bg-[#0A0A0A] border-t border-white/10">
+    <div class="max-w-5xl mx-auto px-8">
+      <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Senior design · Fall 2026</p>
+      <h2 class="font-display text-4xl md:text-6xl font-medium text-[#E6E0D2]">Semester milestones</h2>
+
+      <!-- milestone 1 -->
+      <div class="mt-10 rounded-3xl border border-white/10 bg-[#141414] p-8">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 1 · September 28</p>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Planning · Data · Baseline</span>
+        </div>
+        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
+          <li>Requirements documentation and system architecture design</li>
+          <li>CoughVid dataset pipeline: filtering, MFCC / spectrogram features, normalization</li>
+          <li>Data augmentation: additive noise, pitch / time shifts, SpecAugment</li>
+          <li>Baseline PyTorch CNN and React audio-recording component</li>
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <a href="assets/requirements_specification.pdf" target="_blank" class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-[#C5A059]/40 px-4 py-2 text-[#C5A059] transition-colors hover:bg-[#C5A059] hover:text-[#0A0A0A]">Requirements</a>
+          <a href="assets/software_design_document.pdf" target="_blank" class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-[#C5A059]/40 px-4 py-2 text-[#C5A059] transition-colors hover:bg-[#C5A059] hover:text-[#0A0A0A]">Design</a>
+          <a href="assets/test_documentation.pdf" target="_blank" class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-[#C5A059]/40 px-4 py-2 text-[#C5A059] transition-colors hover:bg-[#C5A059] hover:text-[#0A0A0A]">Test</a>
+          <a href="assets/milestone1_evaluation-2-1.pdf" target="_blank" class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-[#C5A059]/40 px-4 py-2 text-[#C5A059] transition-colors hover:bg-[#C5A059] hover:text-[#0A0A0A]">Progress Eval</a>
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Presentation</span>
+        </div>
+      </div>
+
+      <!-- milestone 2 -->
+      <div class="mt-6 rounded-3xl border border-white/10 bg-[#141414] p-8">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 2 · October 26</p>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Training · Evaluation · Backend</span>
+        </div>
+        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
+          <li>Train and fine-tune CNN and ResNet transfer-learning models</li>
+          <li>Initial evaluation reports: F1 score, ROC-AUC</li>
+          <li>FastAPI backend endpoints for audio uploads and inference</li>
+          <li>React UI for prediction results and risk feedback</li>
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Documents</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Presentation</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Progress Eval</span>
+        </div>
+      </div>
+
+      <!-- milestone 3 -->
+      <div class="mt-6 rounded-3xl border border-white/10 bg-[#141414] p-8">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 3 · November 23</p>
+          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Integration · Tracking · Delivery</span>
+        </div>
+        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
+          <li>End-to-end real-time predictions across React, FastAPI, and PyTorch</li>
+          <li>Longitudinal cough-tracking visualization dashboard</li>
+          <li>Full system testing, performance optimization, and bug resolution</li>
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Documents</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Presentation</span>
+          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Progress Eval</span>
+        </div>
+      </div>
+
+      <div class="mt-8 rounded-3xl border border-white/10 bg-[#141414] p-6">
+        <div class="flex items-center justify-between">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Milestone 1 · Task Matrix</p>
+          <a href="project-plan.html" target="_blank" class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059] hover:text-[#E6E0D2]">Full plan →</a>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-2 mt-3 text-sm text-[#D0C9B8] font-light">
+          <p>Amanda Ogbonna — Requirements & plan docs · <span class="text-[#C5A059]">Completed</span></p>
+          <p>Drew Quashie — Preprocessing & augmentation · <span class="text-[#C5A059]">Completed</span></p>
+          <p>Loleyi Oluwatomisin & Amanda Ogbonna — PyTorch CNN · <span class="text-[#C5A059]">Completed</span></p>
+          <p>Richard Alonso Garcia — React audio interface · <span class="text-[#C5A059]">Completed</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <!-- ============ VISION ============ -->
   <section id="about" class="grid grid-cols-12 gap-8 p-8 min-h-screen items-center bg-[#141414]">
     <div class="col-span-5 space-y-6">
@@ -167,20 +279,20 @@
         <h3 class="font-display text-3xl text-[#101010]">Signal Preprocessing</h3>
         <p class="mt-3 text-[#101010]/70">MFCCs and mel-spectrograms, normalized and augmented with SpecAugment, pitch/time shifts, and additive noise — so the model hears the cough, not the room you recorded it in.</p>
         <div class="flex flex-wrap gap-2 mt-4">
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">MFCC</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">SPECTROGRAM</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">SPECAUGMENT</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">PITCH/TIME SHIFT</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">NOISE</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">MFCC</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">SPECTROGRAM</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">SPECAUGMENT</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">PITCH/TIME SHIFT</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">NOISE</span>
         </div>
       </div>
       <div class="rounded-3xl sticky top-16 bg-[#DCD5C6] p-10">
         <h3 class="font-display text-3xl text-[#101010]">Feature + Model</h3>
         <p class="mt-3 text-[#101010]/70">A 2D CNN baseline fine-tuned with ResNet transfer learning in PyTorch, trained on the CoughVid dataset (~2,800 recordings).</p>
         <div class="flex flex-wrap gap-2 mt-4">
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">CNN</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">RESNET</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">PYTORCH</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">CNN</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">RESNET</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">PYTORCH</span>
 
           <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">LIBROSA</span>
         </div>
@@ -189,12 +301,12 @@
         <h3 class="font-display text-3xl text-[#101010]">Evaluation & Report</h3>
         <p class="mt-3 text-[#101010]/70">Accuracy, precision, recall, F1, and ROC-AUC on a held-out split with k-fold cross-validation — then a patient-readable report: verdict, confidence, and a referral note.</p>
         <div class="flex flex-wrap gap-2 mt-4">
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">ACCURACY</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">PRECISION</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">RECALL</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">F1</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">AUC</span>
-          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] font-mono uppercase tracking-widest">K-FOLD CV</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">ACCURACY</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">PRECISION</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">RECALL</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">F1</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">AUC</span>
+          <span class="rounded-full border border-[#101010]/20 px-3 py-1 text-[10px] text-[#5A5A52] font-mono uppercase tracking-widest">K-FOLD CV</span>
         </div>
       </div>
     </div>
@@ -342,84 +454,7 @@
     </div>
   </section>
 
-  <!-- ============ SEMESTER MILESTONES (template) ============ -->
-  <section id="milestones" class="py-24 bg-[#0A0A0A] border-t border-white/10">
-    <div class="max-w-5xl mx-auto px-8">
-      <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Senior design · Fall 2026</p>
-      <h2 class="font-display text-4xl md:text-6xl font-medium text-[#E6E0D2]">Semester milestones</h2>
-
-      <!-- milestone 1 -->
-      <div class="mt-10 rounded-3xl border border-white/10 bg-[#141414] p-8">
-        <div class="flex items-center justify-between">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 1 · September 28</p>
-          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Planning · Data · Baseline</span>
-        </div>
-        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
-          <li>Requirements documentation and system architecture design</li>
-          <li>CoughVid dataset pipeline: filtering, MFCC / spectrogram features, normalization</li>
-          <li>Data augmentation: additive noise, pitch / time shifts, SpecAugment</li>
-          <li>Baseline PyTorch CNN and React audio-recording component</li>
-        </ul>
-        <div class="mt-6 flex flex-wrap gap-2">
-          <a href="assets/requirements_specification.pdf" target="_blank" class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-[#C5A059]/40 px-4 py-2 text-[#C5A059] transition-colors hover:bg-[#C5A059] hover:text-[#0A0A0A]">Requirements</a>
-          <a href="assets/software_design_document.pdf" target="_blank" class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-[#C5A059]/40 px-4 py-2 text-[#C5A059] transition-colors hover:bg-[#C5A059] hover:text-[#0A0A0A]">Design</a>
-          <a href="assets/test_documentation.pdf" target="_blank" class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-[#C5A059]/40 px-4 py-2 text-[#C5A059] transition-colors hover:bg-[#C5A059] hover:text-[#0A0A0A]">Test</a>
-          <a href="assets/milestone1_evaluation-2-1.pdf" target="_blank" class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-[#C5A059]/40 px-4 py-2 text-[#C5A059] transition-colors hover:bg-[#C5A059] hover:text-[#0A0A0A]">Progress Eval</a>
-          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Presentation</span>
-        </div>
-      </div>
-
-      <!-- milestone 2 -->
-      <div class="mt-6 rounded-3xl border border-white/10 bg-[#141414] p-8">
-        <div class="flex items-center justify-between">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 2 · October 26</p>
-          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Training · Evaluation · Backend</span>
-        </div>
-        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
-          <li>Train and fine-tune CNN and ResNet transfer-learning models</li>
-          <li>Initial evaluation reports: F1 score, ROC-AUC</li>
-          <li>FastAPI backend endpoints for audio uploads and inference</li>
-          <li>React UI for prediction results and risk feedback</li>
-        </ul>
-        <div class="mt-6 flex flex-wrap gap-2">
-          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Documents</span>
-          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Presentation</span>
-          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Progress Eval</span>
-        </div>
-      </div>
-
-      <!-- milestone 3 -->
-      <div class="mt-6 rounded-3xl border border-white/10 bg-[#141414] p-8">
-        <div class="flex items-center justify-between">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059]">Milestone 3 · November 23</p>
-          <span class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Integration · Tracking · Delivery</span>
-        </div>
-        <ul class="mt-4 space-y-2 text-sm text-[#D0C9B8] font-light">
-          <li>End-to-end real-time predictions across React, FastAPI, and PyTorch</li>
-          <li>Longitudinal cough-tracking visualization dashboard</li>
-          <li>Full system testing, performance optimization, and bug resolution</li>
-        </ul>
-        <div class="mt-6 flex flex-wrap gap-2">
-          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Documents</span>
-          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Presentation</span>
-          <span class="font-mono text-[10px] uppercase tracking-widest rounded-full border border-white/15 px-4 py-2 text-[#5A5A52]">Progress Eval</span>
-        </div>
-      </div>
-
-      <div class="mt-8 rounded-3xl border border-white/10 bg-[#141414] p-6">
-        <div class="flex items-center justify-between">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-[#5A5A52]">Milestone 1 · Task Matrix</p>
-          <a href="project-plan.html" target="_blank" class="font-mono text-[10px] uppercase tracking-widest text-[#C5A059] hover:text-[#E6E0D2]">Full plan →</a>
-        </div>
-        <div class="grid sm:grid-cols-2 gap-2 mt-3 text-sm text-[#D0C9B8] font-light">
-          <p>Amanda Ogbonna — Requirements & plan docs · <span class="text-[#C5A059]">Completed</span></p>
-          <p>Drew Quashie — Preprocessing & augmentation · <span class="text-[#C5A059]">Completed</span></p>
-          <p>Loleyi Oluwatomisin & Amanda Ogbonna — PyTorch CNN · <span class="text-[#C5A059]">Completed</span></p>
-          <p>Richard Alonso Garcia — React audio interface · <span class="text-[#C5A059]">Completed</span></p>
-        </div>
-      </div>
-    </div>
-  </section>
+  
 
   <script src="scripts/app.js"></script>
 </body>

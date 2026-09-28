@@ -14,7 +14,7 @@ Faculty Advisor: Dr. Zahra Nematzadeh
 
 ### 1.1 Overview
 
-This test plan defines procedures for verifying the functional and non-functional requirements of the COVID-19 Cough Detection web application. Testing ensures that all required features and behaviors are implemented, and that they function reliably under normal and abnormal conditions — from clean three-cough captures to corrupted uploads, non-cough audio, and network failures.
+This test plan defines procedures for verifying the functional and non-functional requirements of the COVID-19 Cough Detection web application. Testing ensures that all required features and behaviors are implemented, and that they function reliably under normal and abnormal conditions: from clean three-cough captures to corrupted uploads, non-cough audio, and network failures.
 
 ### 1.2 Purpose
 
@@ -27,8 +27,8 @@ Each functional and non-functional requirement (SFR/SNFR) is translated into one
 ### 1.4 References
 
 - IEEE Std 829-2008 (Software Test Documentation Standard).
-- `requirements_specification.md` — Software Requirements Specification, v1.0.
-- `software_design_document.md` — Software Design Document, v1.0.
+- `requirements_specification.md`: Software Requirements Specification, v1.0.
+- `software_design_document.md`: Software Design Document, v1.0.
 - CoughVid Dataset Documentation, ETH Zurich.
 - Team Project Plan and Presentation documents.
 
@@ -44,7 +44,7 @@ The remainder of this document is structured as follows:
 
 ## 2 Test Case Scenarios for Software Functional Requirements
 
-### 2.1 SFR1 — Microphone permission and audio recording
+### 2.1 SFR1: Microphone permission and audio recording
 
 - **Objective:** Verify audio capture through the Web Audio API with correct permission handling.
 - **Inputs:** User opens the recorder and grants (or denies) the browser's microphone prompt.
@@ -53,7 +53,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** Browser with `getUserMedia` support; user gesture required to start capture.
 - **Procedure:** Open recorder on desktop and mobile browsers; accept and deny permission; confirm the meter moves only when a mic is live.
 
-### 2.2 SFR2 — Guided three-cough recording session
+### 2.2 SFR2: Guided three-cough recording session
 
 - **Objective:** Verify one capture session captures exactly three guided coughs with visible cues.
 - **Inputs:** User starts recording and gives 3 coughs, one at a time.
@@ -62,7 +62,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** SFR1 working; client-side onset detection active.
 - **Procedure:** Run the happy path; then attempt early stop, extra coughs, and no-cough sessions; confirm the session state machine behaves as specified in all cases.
 
-### 2.3 SFR3 — Live level meter and client-side sanity checks
+### 2.3 SFR3: Live level meter and client-side sanity checks
 
 - **Objective:** Verify immediate feedback prevents obviously unusable recordings.
 - **Inputs:** Quiet/silent input, normal cough, extremely loud/clipping input.
@@ -71,7 +71,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** SFR1.
 - **Procedure:** Record in silence, at normal volume, and with a speaker held to the mic; confirm prompts appear only for unusable cases.
 
-### 2.4 SFR4 — Upload to `POST /v1/analyze`
+### 2.4 SFR4: Upload to `POST /v1/analyze`
 
 - **Objective:** Verify single-request multipart upload of the recording.
 - **Inputs:** Valid clip (5–15 s, <1 MB, WEBM or WAV).
@@ -80,7 +80,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** Backend reachable; endpoint versioned `/v1`.
 - **Procedure:** Capture and upload a normal session; then replay oversized, over-duration, and empty payloads and confirm each is rejected by validation with a clear client message.
 
-### 2.5 SFR5 — Server input validation and quality gate
+### 2.5 SFR5: Server input validation and quality gate
 
 - **Objective:** Verify format/duration/size validation plus SNR/clipping gate fails fast with reasons.
 - **Inputs:** Corrupted audio file; 0.3 s clip; silent recording; heavily clipped recording; valid recording.
@@ -89,7 +89,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** SFR4.
 - **Procedure:** Send each malformed case directly to the endpoint; assert HTTP 200 Inconclusive-with-reason (per SDD: input problems are not server errors) and that ML work did not start (check latency logs).
 
-### 2.6 SFR6 — Cough-presence gate (XGBoost) before segmentation
+### 2.6 SFR6: Cough-presence gate (XGBoost) before segmentation
 
 - **Objective:** Verify non-cough audio is rejected before segmentation.
 - **Inputs:** Music clip; speech recording; ambient noise; genuine cough recording.
@@ -98,7 +98,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** Pretrained XGBoost detector artifact loaded at startup.
 - **Procedure:** Submit a batch of non-cough and cough clips; assert gate verdicts; inspect pipeline logs to confirm segmenter ran only on gate passes.
 
-### 2.7 SFR7 — Segmentation into three 1 s windows
+### 2.7 SFR7: Segmentation into three 1 s windows
 
 - **Objective:** Verify onset-centered fixed-length segmentation.
 - **Inputs:** Valid three-cough recording passing the gate.
@@ -107,7 +107,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** SFR6 pass; onset detector.
 - **Procedure:** Unit-test the segmenter against synthetic clips with known onset positions; assert window count (3), length (1 s), and centering tolerance; assert <3 onsets returns Inconclusive(recapture) consistent with SFR5.
 
-### 2.8 SFR8 — Feature extraction (MFCC + log-Mel)
+### 2.8 SFR8: Feature extraction (MFCC + log-Mel)
 
 - **Objective:** Verify the joint feature contract per segment.
 - **Inputs:** Three segmented 1 s windows.
@@ -116,7 +116,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** Training-set normalization statistics available.
 - **Procedure:** Unit-test shape and value ranges against a fixed reference clip; assert output tensors are deterministic run-to-run.
 
-### 2.9 SFR9 — CNN inference with 3-logit sigmoid output
+### 2.9 SFR9: CNN inference with 3-logit sigmoid output
 
 - **Objective:** Verify per-cough classification: 3 logits → sigmoid → argmax.
 - **Inputs:** Feature tensors from SFR8 (or reference tensors from a known checkpoint).
@@ -125,7 +125,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** Model loaded and verified at startup.
 - **Procedure:** Run inference on a golden clip and compare per-cough classes to expected values; assert the output head has exactly 3 logits.
 
-### 2.10 SFR10 — Deterministic vote aggregation
+### 2.10 SFR10: Deterministic vote aggregation
 
 - **Objective:** Verify majority vote and the 1-1-1 tie-break are deterministic.
 - **Inputs:** Crafted per-cough classes: [Pos, Pos, Neg]; [Pos, Unc, Neg] with known sigmoid vectors; repeated runs of the same input.
@@ -134,16 +134,16 @@ The remainder of this document is structured as follows:
 - **Dependencies:** SFR9.
 - **Procedure:** Table-driven unit tests over all vote combinations (2-1 splits × 3 classes, plus 1-1-1 with each class winning the tie-break); run the same input 100× and assert bit-identical output.
 
-### 2.11 SFR11 — Confidence gate and percentage
+### 2.11 SFR11: Confidence gate and percentage
 
 - **Objective:** Verify the <0.50 confidence gate and percentage display.
 - **Inputs:** Crafted outputs with mean winning-class sigmoid 0.71 (pass) and 0.44 (fail); normal analysis runs.
 - **Expected Outcome:** ≥0.50 → result shown with confidence as a percentage; <0.50 → Inconclusive("low model confidence").
-- **Unusual Input:** Confidence exactly 0.50 (boundary — expected to pass); confidence 0.49.
+- **Unusual Input:** Confidence exactly 0.50 (boundary, expected to pass); confidence 0.49.
 - **Dependencies:** SFR10.
 - **Procedure:** Unit-test the boundary; then verify the UI renders the percentage (e.g., "Confidence: 62%") on passing results.
 
-### 2.12 SFR12 — Result display (risk, vote, signals, quality)
+### 2.12 SFR12: Result display (risk, vote, signals, quality)
 
 - **Objective:** Verify the result screen shows all required fields consistently.
 - **Inputs:** Results for each risk level, crafted from known sigmoid vectors.
@@ -152,7 +152,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** SFR10, SFR11.
 - **Procedure:** Drive the UI with fixed server responses covering the mapping table; assert risk label, vote line, and signal values render exactly and never contradict each other.
 
-### 2.13 SFR13 — Disclaimers and recommendations
+### 2.13 SFR13: Disclaimers and recommendations
 
 - **Objective:** Verify ethical framing on every result.
 - **Inputs:** Results at each risk level; inconclusive results.
@@ -161,7 +161,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** None.
 - **Procedure:** Run 10+ analyses across levels; assert disclaimer presence on all, including history views and the inconclusive state.
 
-### 2.14 SFR14 — Local persistence and history management
+### 2.14 SFR14: Local persistence and history management
 
 - **Objective:** Verify IndexedDB storage, history list, and delete-all.
 - **Inputs:** Multiple saved analyses; delete-all action.
@@ -170,7 +170,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** SFR12 save action.
 - **Procedure:** Save 3 results, reload, confirm all 3 shown; check DevTools → IndexedDB `analyses` store; run delete-all and confirm empty; repeat in a private window and confirm graceful degradation.
 
-### 2.15 SFR15 — Trends dashboard and export
+### 2.15 SFR15: Trends dashboard and export
 
 - **Objective:** Verify longitudinal visualization and export formats.
 - **Inputs:** ≥5 saved analyses spanning multiple days (seeded via SFR14).
@@ -179,7 +179,7 @@ The remainder of this document is structured as follows:
 - **Dependencies:** SFR14.
 - **Procedure:** Seed history, open Trends, verify chart and counts; export both formats and validate with a CSV parser and `JSON.parse`; test the empty state.
 
-### 2.16 SFR16 — UI states and responsive layout
+### 2.16 SFR16: UI states and responsive layout
 
 - **Objective:** Verify explicit idle → recording → analyzing → result/inconclusive transitions on all screen sizes.
 - **Inputs:** Normal analysis flow at phone and desktop widths.
@@ -192,61 +192,61 @@ The remainder of this document is structured as follows:
 
 ## 3 Test Case Scenarios for Software Non-Functional Requirements
 
-### 3.1 SNFR1 — Capture-to-result under 6 s; server inference under 1.5 s
+### 3.1 SNFR1: Capture-to-result under 6 s; server inference under 1.5 s
 
 - **Inputs:** Valid three-cough capture over a typical broadband connection.
 - **Expected Outcome:** Server-side time (gate + 3 segmentation/inference passes) < 1.5 s; capture-to-displayed-result < 6 s.
 - **Procedure:** Instrument client and server timings across 20 runs; report p50/p95 against targets.
 
-### 3.2 SNFR2 — Stateless server: no retained health data
+### 3.2 SNFR2: Stateless server: no retained health data
 
 - **Inputs:** Several completed analyses.
 - **Expected Outcome:** No audio file, feature tensor, or result persists on the server after the response; repeat requests are independent.
 - **Procedure:** After N analyses, inspect server storage and temp directories; confirm nothing remains; review request logs for absence of payloads.
 
-### 3.3 SNFR3 — Graceful handling of bad inputs
+### 3.3 SNFR3: Graceful handling of bad inputs
 
 - **Inputs:** Corrupted file, non-cough audio, silence, 0.3 s clip, 5-minute clip, unsupported codec.
 - **Expected Outcome:** Each returns a specific Inconclusive/error message without crash, hang, or misleading result; client shows [Try Again].
 - **Procedure:** Script a malformed-input battery against the endpoint and UI; assert zero 5xx responses for user-caused cases and zero unhandled client exceptions.
 
-### 3.4 SNFR4 — Intuitive for first-time users
+### 3.4 SNFR4: Intuitive for first-time users
 
 - **Inputs:** First-time tester with no instructions.
 - **Expected Outcome:** Completes record → result without a tutorial or external help.
 - **Procedure:** Moderated walkthrough with 3–5 first-time users; record completion rate, hesitation points, and missteps.
 
-### 3.5 SNFR5 — Modern browser compatibility
+### 3.5 SNFR5: Modern browser compatibility
 
 - **Inputs:** Chrome, Edge, Firefox, Safari (desktop + one mobile each).
 - **Expected Outcome:** Full flow functional; recording, analysis, history, trends, and export behave equivalently.
 - **Procedure:** Execute UCS1 on each browser in the matrix; log behavioral differences.
 
-### 3.6 SNFR6 — No health data in server logs
+### 3.6 SNFR6: No health data in server logs
 
 - **Inputs:** Analyses at all risk levels, including inconclusive results.
-- **Expected Outcome:** Logs contain timings, trace IDs, error classes — no audio content, no risk levels tied to identifiers, no user-identifying health data.
+- **Expected Outcome:** Logs contain timings, trace IDs, error classes: no audio content, no risk levels tied to identifiers, no user-identifying health data.
 - **Procedure:** Grep production-style logs after a test session for risk keywords, filenames, and payloads.
 
-### 3.7 SNFR7 — Accessibility (color + text, scaling)
+### 3.7 SNFR7: Accessibility (color + text, scaling)
 
 - **Inputs:** Result screens rendered under high-contrast mode and enlarged browser font settings.
 - **Expected Outcome:** Risk conveyed by color and text simultaneously; UI scales without clipping or overlap; usable at 200% zoom.
 - **Procedure:** Enable Windows High Contrast and browser zoom on all result states; audit with a screen reader pass on the result text.
 
-### 3.8 SNFR8 — Modular architecture (ML layer independent of FastAPI)
+### 3.8 SNFR8: Modular architecture (ML layer independent of FastAPI)
 
 - **Inputs:** ML pipeline codebase.
 - **Expected Outcome:** The gate/segment/features/vote pipeline runs as a standalone Python module with no FastAPI imports; API layer is a thin wrapper.
 - **Procedure:** Import and run the pipeline in a bare Python process on a reference clip; static-check imports for `fastapi` inside the ML package.
 
-### 3.9 SNFR9 — Swappable models and datasets
+### 3.9 SNFR9: Swappable models and datasets
 
 - **Inputs:** Alternative model checkpoint (`.pt`/`.onnx`) with identical head shape.
 - **Expected Outcome:** Model swap completes by replacing the artifact + config; no application-layer code changes; smoke test passes.
 - **Procedure:** Swap in a retrained checkpoint; run the golden-clip smoke test; confirm endpoints and UI unchanged.
 
-### 3.10 SNFR10 — Healthcare ethics compliance
+### 3.10 SNFR10: Healthcare ethics compliance
 
 - **Inputs:** All result states (Low/Medium/High/Inconclusive) in the shipped UI.
 - **Expected Outcome:** Every state carries the pre-screening disclaimer; no wording implies diagnosis; confidence and vote data are displayed transparently.
@@ -258,6 +258,6 @@ The remainder of this document is structured as follows:
 
 This test plan details all functional and non-functional requirements of the COVID-19 Cough Detection web application, ensures verification through normal and unusual input cases, and validates compliance with privacy, usability, and performance constraints.
 
-Functional requirements define the "what" — objectives of specific features such as the guided three-cough capture, the cough-presence gate, deterministic vote aggregation, and local history. Each section defines normal and unusual inputs and expected outputs; inputs are user-triggered behaviors and follow procedural, step-by-step actions.
+Functional requirements define the "what", objectives of specific features such as the guided three-cough capture, the cough-presence gate, deterministic vote aggregation, and local history. Each section defines normal and unusual inputs and expected outputs; inputs are user-triggered behaviors and follow procedural, step-by-step actions.
 
-Non-functional requirements describe qualities of the system — constraints like latency, privacy, portability, and accessibility. The section defines how these qualities should behave; the conditions, timings, memory use, and system logs are measured by the system.
+Non-functional requirements describe qualities of the system: constraints like latency, privacy, portability, and accessibility. The section defines how these qualities should behave; the conditions, timings, memory use, and system logs are measured by the system.

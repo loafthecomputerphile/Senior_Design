@@ -86,8 +86,6 @@ I built the audio recording feature for our web app, which captures the cough sa
 
 ## 7. Plan for the next Milestone (task matrix) — Milestone 2 (October 26th)
 
-*DRAFT — assignment cells left blank; edit before submitting.*
-
 | Task | Drew Quashie | Amanda Ogbonna | Loleyi Oluwatomisin | Richard Alonso Garcia |
 | --- | --- | --- | --- | --- |
 | Train & fine-tune advanced CNN models and transfer learning architectures (e.g., ResNet) | x | x |  |  |

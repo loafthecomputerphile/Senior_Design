@@ -21,7 +21,6 @@ class ConvBlockV1(nn.Module):
         return self.act(x)
 
 
-
 class DefaultCNN(nn.Module):
     
     def __init__(self, num_classes: int) -> None:

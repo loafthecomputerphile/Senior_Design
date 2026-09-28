@@ -337,7 +337,6 @@ class ComombinedSpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
         if self.transforms:
             self.transforms.n_freq = n_fft
         
-        
         self.amp_to_db: AmplitudeToDB = AmplitudeToDB()
         
         self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=2)

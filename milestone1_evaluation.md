@@ -125,6 +125,10 @@ Building on the recording interface work, Milestone 2 adds the results-display c
 
 <!-- Faculty Advisor feedback -->
 
+**Literature Review & Research Documentation**
+
+<!-- Faculty Advisor feedback -->
+
 **CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline**
 
 <!-- Faculty Advisor feedback -->

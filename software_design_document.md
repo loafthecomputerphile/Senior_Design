@@ -106,10 +106,10 @@ The system follows a three-tier client–server architecture with a browser devi
 │  Web Audio API · getUserMedia · IndexedDB               │
 ├────────────────────────┬────────────────────────────────┤
 │  APPLICATION LOGIC     │  REST API (HTTPS, multipart)    │
-│  (FastAPI)             │  POST /analyze                  │
+│  (FastAPI)             │  POST /analyze                 │
 ├────────────────────────┼────────────────────────────────┤
 │  ML LAYER              │  DATA PERSISTENCE (server)     │
-│  Cough gate (XGBoost)  │  Stateless, no health data    │
+│  Cough gate (XGBoost)  │  Stateless, no health data     │
 │  · Segmenter (×3)      │  stored post-inference         │
 │  · Feature extract (×3)│                                │
 │  · CNN classifier (×3) │                                │

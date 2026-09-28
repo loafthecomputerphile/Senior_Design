@@ -33,6 +33,7 @@ Dr. Zahra Nematzadeh (znematzadeh@fit.edu) — Faculty Advisor, Florida Tech
 | Task | Completion % | Drew Quashie | Amanda Ogbonna | Loleyi Oluwatomisin | Richard Alonso Garcia | To do |
 | --- | --- | --- | --- | --- | --- | --- |
 | Requirements & Project Plan Documentation | 100% |  | x |  |  |  |
+| Literature Review & Research Documentation | 100% |  | x |  |  |  |
 | CoughVid Audio Data Preprocessing & MFCC/Spectrogram Pipeline | 100% | x |  |  |  |  |
 | Audio Augmentation Pipeline (Noise, Pitch & Time Shifts) | 100% | x |  |  |  |  |
 | Baseline PyTorch CNN Architecture Development | 100% |  |  | x |  |  |

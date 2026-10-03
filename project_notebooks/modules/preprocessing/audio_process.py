@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 __all__ = [
     "segment_cough", "compute_SNR", "MelSpectrogramPipeline", 
     "segment_cough_robust", "SpecAugmentations", "MFCCPipeline", 
-    "ComombinedSpectMFCCPipeline"
+    "ComombinedSpectMFCCPipeline" "EnforceFixedLength"
 ]
 
 '''
@@ -190,9 +190,10 @@ class ReverseSpectrogram:
 
 class EnforceFixedLength(torch.nn.Module):
     
-    def __init__(self, fs: float, max_duration: float = 1.0) -> None:
+    def __init__(self, fs: float, max_duration: float = 1.0, to_numpy: bool = False) -> None:
         super().__init__()
         self.target_samples: int = int(max_duration * fs)
+        self.to_numpy: bool = to_numpy
         
     def forward(self, segment: torch.Tensor) -> torch.Tensor:
         current_samples: torch.Tensor = segment.shape[-1]
@@ -202,8 +203,21 @@ class EnforceFixedLength(torch.nn.Module):
         
         if padding_needed > 0:
             return F.pad(segment, (0, padding_needed), mode='constant', value=0.0)
-            
+        
+        if self.to_numpy:
+            return segment.numpy()
+        
         return segment
+    
+    def test(self) -> bool:
+        short_data: torch.Tensor = torch.randn(1, self.target_samples-1000, dtype=torch.float32)
+        res_short_data: torch.Tensor = F.pad(short_data, (0, 1000), mode='constant', value=0.0)
+        
+        long_data: torch.Tensor = torch.randn(1, self.target_samples+1000, dtype=torch.float32)
+        res_long_data: torch.Tensor = long_data[:self.target_samples]
+        
+        assert self(short_data) == res_short_data
+        assert self(long_data) == res_long_data
 
 
     
@@ -363,8 +377,8 @@ class ComombinedSpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
         
         spec: torch.Tensor = self.spec(waveform)
         if self.transforms:
-            self.aug_spec = self.transforms(spec)
-        mel = self.mel_scale(self.aug_spec)
+            spec = self.transforms(spec)
+        mel = self.mel_scale(spec)
         spec = self.amp_to_db(mel)
         
         mfcc: torch.Tensor = torch.matmul(

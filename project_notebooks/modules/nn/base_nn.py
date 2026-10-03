@@ -44,3 +44,47 @@ class DefaultCNN(nn.Module):
         x = self.relu(self.linear1(x))
         x = self.relu(self.linear2(x))
         return self.out_act(self.output(x))
+    
+    
+class BranchedCoughCNN(nn.Module):
+    
+    def __init__(self, num_classes: int) -> None:
+        super().__init__()
+        
+        self.spec_branch: nn.Sequential = nn.Sequential(
+            ConvBlockV1(1, 16, 3, 1, 1),
+            nn.MaxPool2d(2, 2),
+            ConvBlockV1(16, 32, 3, 1, 1),
+            nn.MaxPool2d(2, 2),
+            ConvBlockV1(32, 64, 3, 1, 1),
+            nn.MaxPool2d(2, 2)
+        )
+        
+        self.mfcc_branch: nn.Sequential = nn.Sequential(
+            ConvBlockV1(1, 16, 3, 1, 1),
+            nn.MaxPool2d(2, 2),
+            ConvBlockV1(16, 32, 3, 1, 1),
+            nn.MaxPool2d(2, 2),
+            ConvBlockV1(32, 64, 3, 1, 1),
+            nn.MaxPool2d(2, 2)
+        )
+        
+        self.classifier: nn.Sequential = nn.Sequential(
+            nn.LazyLinear(256),
+            nn.ReLU(),
+            nn.Dropout(0.4),
+            nn.Linear(256, 64),
+            nn.ReLU(),
+            nn.Dropout(0.2),
+            nn.Linear(64, num_classes),
+            nn.Sigmoid()
+        )
+        
+    def forward(self, mel: torch.Tensor, mfcc: torch.Tensor) -> torch.Tensor:
+        mel, mfcc = mel.unsqueeze(1), mfcc.unsqueeze(1)
+        
+        mel_branch_out: torch.Tensor = self.spec_branch(mel)
+        mfcc_branch_out: torch.Tensor = self.mfcc_branch(mfcc)
+        
+        combined: torch.Tensor = torch.cat([mel_branch_out, mfcc_branch_out], dim=1)
+        return self.classifier(combined)

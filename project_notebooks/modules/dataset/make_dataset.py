@@ -1,13 +1,13 @@
 import numpy as np
 import polars as pl
-import librosa, torch
-from torch.utils.data import Dataset, DataLoader, random_split, Subset
-from modules.preprocessing.dataframe_process import filter_coughvid_df
+import librosa, torch, math, torchaudio
+from tqdm.auto import tqdm, trange
+from torch.utils.data import Dataset, random_split, Subset
 from modules.preprocessing.audio_process import segment_cough, EnforceFixedLength
 
 
 
-def make_dataset(df: pl.DataFrame, sample_rate: int, out: str = 'final_processed_dataset.npz') -> None:    
+def make_dataset(df: pl.DataFrame, sample_rate: int, chunk_size: int = 100, out: str = 'final_processed_dataset.npz') -> None:    
     rate: str
     label: str
     file_path: str
@@ -29,21 +29,31 @@ def make_dataset(df: pl.DataFrame, sample_rate: int, out: str = 'final_processed
         
     
     final_npz_data: dict[str, np.ndarray] = {}
-    df = filter_coughvid_df(df).select(["audio_name", "status"])
-    length_fitter: EnforceFixedLength = EnforceFixedLength(sample_rate, to_numpy=True)
+    df = df.select(["audio_name", "status"])
+    length_fitter: EnforceFixedLength = EnforceFixedLength(sample_rate)
     
     total_length: int = 0
-    for chunk_df in df.iter_slices(n_rows=100):
+    chunk_total: int = math.ceil(len(df) / chunk_size)
+    for chunk_df in tqdm(df.iter_slices(n_rows=chunk_size), total=chunk_total, desc="processing df chunks"):
         for row in chunk_df.iter_rows(named=True):
             total_length += 1
             label = row["status"]
             file_path = row["audio_name"]
-            wave, rate = librosa.load(file_path, sr=sample_rate)
-            waves,  _ = segment_cough(wave, rate, cough_padding=0.1, min_cough_len=0.1)
+            
+            wave, rate = torchaudio.load(file_path)
+            if rate != sample_rate:
+                wave = torchaudio.functional.resample(
+                    wave, rate, sample_rate
+                )
+
+            waves,  _ = segment_cough(
+                wave.squeeze(0).numpy(), sample_rate, 
+                cough_padding=0.1, min_cough_len=0.1
+            )
             
             num_waves = len(waves)
             
-            master_collections[label].append(np.array(map(length_fitter, map(torch.from_numpy, waves))))
+            master_collections[label].append(np.array([length_fitter(wave) for wave in waves]))
             master_labels[label].append(np.full(shape=(num_waves,), fill_value=file_path, dtype=object))
             master_paths[label].append(np.full(shape=(num_waves,), fill_value=label, dtype=object))  
 
@@ -72,7 +82,8 @@ class NpzDataPipeline(Dataset):
         self.npz_path: str = npz_path
         with np.load(self.npz_path, allow_pickle=True) as data:
             size: int  = data["length"]
-        self.length: int = size
+            
+        self.length  : int = size
         self.features: torch.Tensor 
         self.labels  : torch.Tensor 
         self.paths   : list[str]       
@@ -118,10 +129,10 @@ class NpzDataPipeline(Dataset):
     def __len__(self) -> int:
         return self.length
 
-    def __getitem__(self, idx: int) -> tuple[torch.Tensor, torch.IntType]:
+    def __getitem__(self, idx: int) -> tuple[torch.Tensor, torch.NumberType]:
         return self.features[idx], self.labels[idx]
     
-    def get_path(self, idx: int) -> tuple[torch.Tensor, torch.IntType]:
+    def get_path(self, idx: int) -> str:
         return self.paths[idx]
     
     

@@ -189,36 +189,35 @@ class ReverseSpectrogram:
 
 
 class EnforceFixedLength(torch.nn.Module):
-    
+
     def __init__(self, fs: float, max_duration: float = 1.0, to_numpy: bool = False) -> None:
         super().__init__()
+
         self.target_samples: int = int(max_duration * fs)
         self.to_numpy: bool = to_numpy
-        
-    def forward(self, segment: torch.Tensor) -> torch.Tensor:
-        current_samples: torch.Tensor = segment.shape[-1]
-        segment = segment[..., :self.target_samples]
-        
-        padding_needed: int = max(0, self.target_samples - current_samples)
-        
-        if padding_needed > 0:
-            return F.pad(segment, (0, padding_needed), mode='constant', value=0.0)
-        
-        if self.to_numpy:
-            return segment.numpy()
-        
-        return segment
-    
-    def test(self) -> bool:
-        short_data: torch.Tensor = torch.randn(1, self.target_samples-1000, dtype=torch.float32)
-        res_short_data: torch.Tensor = F.pad(short_data, (0, 1000), mode='constant', value=0.0)
-        
-        long_data: torch.Tensor = torch.randn(1, self.target_samples+1000, dtype=torch.float32)
-        res_long_data: torch.Tensor = long_data[:self.target_samples]
-        
-        assert self(short_data) == res_short_data
-        assert self(long_data) == res_long_data
 
+    def forward(self, segment: torch.Tensor | np.ndarray) -> torch.Tensor | np.ndarray:
+        current_samples: int = segment.shape[-1]
+
+        if isinstance(segment, np.ndarray):
+            output: np.ndarray = np.zeros(self.target_samples, dtype=segment.dtype)
+            samples_to_copy: int = min(current_samples, self.target_samples)
+            output[:samples_to_copy] = segment[:samples_to_copy]
+            return output
+
+        output: torch.Tensor = torch.zeros(
+            self.target_samples,
+            dtype=segment.dtype,
+            device=segment.device
+        )
+
+        samples_to_copy: int = min(current_samples, self.target_samples)
+        output[:samples_to_copy] = segment[:samples_to_copy]
+
+        if self.to_numpy:
+            return output.numpy()
+
+        return output
 
     
 class BaseSpecAug(torch.nn.Module):

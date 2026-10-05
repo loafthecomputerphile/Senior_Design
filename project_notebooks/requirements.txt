@@ -11,3 +11,4 @@ ipywidgets
 ipykernel
 librosa
 audioread
+tqdm 

@@ -3,7 +3,7 @@ import polars as pl
 import librosa, torch, math, torchaudio
 from tqdm.auto import tqdm, trange
 from torch.utils.data import Dataset, random_split, Subset
-from modules.preprocessing.audio_process import segment_cough, EnforceFixedLength
+from modules.preprocessing.audio_process import segment_cough, EnforceFixedLength, WaveformAugmentor
 
 
 
@@ -75,6 +75,23 @@ def make_dataset(df: pl.DataFrame, sample_rate: int, chunk_size: int = 100, out:
     np.savez_compressed(out, **final_npz_data)
 
 
+class AugmentedSubset(Subset):
+    
+    def __init__(self, dataset: Dataset, indices: list[int], augmentor: torch.nn.Module | None = None,) -> None:
+        super().__init__(dataset, indices)
+        self.augmentor: torch.nn.Module | None = augmentor
+
+    def __getitem__(self, idx: int) -> tuple[torch.Tensor, torch.NumberType]:
+        waveform: torch.Tensor
+        label: torch.NumberType
+
+        waveform, label = self.dataset[self.indices[idx]]
+
+        if self.augmentor is not None:
+            return self.augmentor(waveform, label), label
+
+        return waveform, label
+
 
 class NpzDataPipeline(Dataset):
     
@@ -139,10 +156,10 @@ class NpzDataPipeline(Dataset):
     
 def dataset_split(
     dataset: Dataset, train: float = 0.8, val: float = 0.1, 
-    test: float | None = None, gen_seed: torch.Generator | None = None
+    test: float | None = None, seed: int | None = None
 ) -> tuple[Subset, Subset, Subset]:
     
-    if sum([train, val, (test if isinstance(test, float) else 0.0)]) != 1.0:
+    if sum([train, val, (test if isinstance(test, float) else 1-(train+test))]) != 1.0:
         raise ValueError()
     
     train_size: int = int(train * len(dataset))
@@ -152,5 +169,30 @@ def dataset_split(
     return random_split(
         dataset, 
         [train_size, val_size, test_size],
-        generator=gen_seed
+        generator=torch.Generator.manual_seed(seed) if seed else None
     )
+    
+
+def persist_indicies(train_dataset: Subset, val_dataset: Subset, test_dataset: Subset, save_path: str = "data/splits/dataset_split.pt") -> None:
+    torch.save(
+        {
+            "train": train_dataset.indices,
+            "val": val_dataset.indices,
+            "test": test_dataset.indices,
+        },
+        save_path,
+    )
+    
+def load_indicies(dataset: Dataset, path: str) -> tuple[Subset, Subset, Subset]:
+    splits: dict[str, torch.Tensor] = torch.load(
+        path, weights_only=True,
+    )
+
+    return (
+        Subset(dataset, splits["train"]), 
+        Subset(dataset, splits["val"]), 
+        Subset(dataset, splits["test"])
+    )
+    
+    
+    

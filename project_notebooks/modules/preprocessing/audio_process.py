@@ -14,7 +14,7 @@ from torchaudio.transforms import (
     TimeStretch,
     MFCC,
     AmplitudeToDB,
-    GriffinLim
+    GriffinLim, SpeedPerturbation
 )
 
 if TYPE_CHECKING:
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 __all__ = [
     "segment_cough", "compute_SNR", "MelSpectrogramPipeline", 
     "segment_cough_robust", "SpecAugmentations", "MFCCPipeline", 
-    "ComombinedSpectMFCCPipeline" "EnforceFixedLength"
+    "SpectMFCCPipeline", "EnforceFixedLength"
 ]
 
 '''
@@ -309,8 +309,13 @@ class MFCCPipeline(torch.nn.Module, ReverseSpectrogram):
             n_mels=n_mel, n_stft=n_fft // 2 + 1
         )
         
-        self.dct_mat: torch.Tensor = F.create_dct(
-            n_mfcc=n_mfcc, n_mels=n_mel, norm="ortho"
+        self.register_buffer(
+            "dct_mat",
+            F.create_dct(
+                n_mfcc=n_mfcc,
+                n_mels=n_mel,
+                norm="ortho",
+            ),
         )
         
     def _normalize(self, x: torch.Tensor) -> torch.Tensor:
@@ -340,13 +345,14 @@ def n_fft_n_freq_op(n: int) -> int:
     return n // 2 +1
 
 
-class ComombinedSpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
+class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
     
-    def __init__(self, n_mfcc: int = 20, n_fft: int=1024, n_mel: int = 256, transforms: BaseSpecAug | None = None) -> None:
+    def __init__(self, n_mfcc: int = 40, n_fft: int = 1024, n_mel: int = 256, combind: bool = False, transforms: BaseSpecAug | None = None) -> None:
         super().__init__()
         self.current_input_freq: int | None = None
         self.transforms: BaseSpecAug | None = transforms
         self.n_fft = n_fft
+        self.combind: bool = combind
         if self.transforms:
             self.transforms.n_freq = n_fft
         
@@ -357,8 +363,13 @@ class ComombinedSpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
             n_mels=n_mel, n_stft=n_fft // 2 + 1
         )
         
-        self.dct_mat = F.create_dct(
-            n_mfcc=n_mfcc, n_mels=n_mel, norm="ortho"
+        self.register_buffer(
+            "dct_mat",
+            F.create_dct(
+                n_mfcc=n_mfcc,
+                n_mels=n_mel,
+                norm="ortho",
+            ),
         )
         
         
@@ -384,7 +395,109 @@ class ComombinedSpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
             spec.transpose(-1, -2), self.dct_mat
         ).transpose(-1, -2)
         
+
         norm_mfcc: torch.Tensor = self._normalize(mfcc) 
         norm_spec: torch.Tensor = self._normalize(mel)
         
-        return torch.cat([norm_spec, norm_mfcc], dim=-2)
+        if self.combind:
+            return torch.cat([norm_spec, norm_mfcc], dim=-2)
+        
+        return norm_spec, norm_mfcc
+    
+    
+    
+class WaveformAugmentor(nn.Module):
+
+    def __init__(self, sample_rate: int, p: float = 0.5) -> None:
+        super().__init__()
+
+        self.sample_rate: int = sample_rate
+        self.p: float = p
+
+        self.speed: SpeedPerturbation = SpeedPerturbation(
+            orig_freq=sample_rate,
+            factors=[0.95, 1.0, 1.05],
+        )
+        
+        self.augment_probs: dict[int, float] = {
+            0: 0.40,  # healthy
+            1: 0.90,  # COVID-19
+            2: 0.70,  # symptomatic
+        }
+
+    def _should_apply(self, p: float | None = None) -> bool:
+        return bool(
+            torch.rand(()) < (self.p if p is None else p)
+        )
+
+    def _gain(self, x: torch.Tensor) -> torch.Tensor:
+        gain: torch.Tensor = torch.empty(
+            (), device=x.device, dtype=x.dtype,
+        ).uniform_(0.8, 1.2)
+
+        return x * gain
+
+    def _noise(self, x: torch.Tensor) -> torch.Tensor:
+        rms: torch.Tensor = torch.sqrt(
+            x.square().mean(dim=-1, keepdim=True) + 1e-8
+        )
+
+        noise_level: torch.Tensor = torch.empty(
+            (), device=x.device, dtype=x.dtype,
+        ).uniform_(0.002, 0.01)
+
+        return x + torch.randn_like(x) * rms * noise_level
+
+    def _time_shift(self, x: torch.Tensor) -> torch.Tensor:
+        max_shift: int = int(self.sample_rate * 0.05)
+
+        shift: torch.Tensor = torch.randint(
+            -max_shift, max_shift + 1, (),
+        ).item()
+
+        if shift == 0:
+            return x
+
+        output: torch.Tensor = torch.zeros_like(x)
+
+        if shift > 0:
+            output[..., shift:] = x[..., :-shift]
+        else:
+            shift = abs(shift)
+            output[..., :-shift] = x[..., shift:]
+
+        return output
+
+    def _speed_perturb(self, x: torch.Tensor) -> torch.Tensor:
+        original_length: int = x.shape[-1]
+
+        x, _ = self.speed(x)
+
+        # Restore the original fixed length.
+        if x.shape[-1] > original_length:
+            x = x[..., :original_length]
+        elif x.shape[-1] < original_length:
+            x = torch.nn.functional.pad(
+                x, (0, original_length - x.shape[-1]),
+            )
+
+        return x
+
+    def forward(self, waveform: torch.Tensor, label: torch.NumberType) -> torch.Tensor:
+
+        if not self.training:
+            return waveform
+        
+        if torch.rand(()) > self.augment_probs[int(label)]:
+            return waveform
+
+        if self._should_apply():
+            waveform = self._gain(waveform)
+
+        if self._should_apply(0.3):
+            waveform = self._noise(waveform)
+
+        if self._should_apply():
+            waveform = self._time_shift(waveform)
+
+        return waveform

@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torchvision import models
 
 
 
@@ -88,3 +89,20 @@ class BranchedCoughCNN(nn.Module):
         
         combined: torch.Tensor = torch.cat([mel_branch_out, mfcc_branch_out], dim=1)
         return self.classifier(combined)
+    
+class ResNetModel(nn.Module):
+    def __init__(self, num_classes: int, freeze_backbone: bool = False) -> None:
+        super().__init__()
+
+        weights = models.ResNet50_Weights.DEFAULT
+        self.backbone = models.resnet50(weights=weights)
+        
+        if freeze_backbone:
+            for param in self.backbone.parameters():
+                param.requires_grad = False
+                
+        in_features = self.backbone.fc.in_features
+        self.backbone.fc = nn.Linear(in_features, num_classes)
+    
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.backbone(x)

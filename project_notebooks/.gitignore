@@ -98,6 +98,9 @@ celerybeat-schedule
 
 # mkdocs documentation
 /site
+/graphify-out
+graphify-out/
+graphify-out/*
 
 # mypy
 .mypy_cache/

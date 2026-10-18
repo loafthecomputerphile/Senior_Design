@@ -89,7 +89,8 @@ class BranchedCoughCNN(nn.Module):
         
         combined: torch.Tensor = torch.cat([mel_branch_out, mfcc_branch_out], dim=1)
         return self.classifier(combined)
-    
+
+ 
 class ResNetModel(nn.Module):
     def __init__(self, num_classes: int, freeze_backbone: bool = False) -> None:
         super().__init__()

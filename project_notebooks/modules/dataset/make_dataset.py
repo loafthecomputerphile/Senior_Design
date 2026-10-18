@@ -1,83 +1,87 @@
 import numpy as np
 import polars as pl
-import librosa, torch, math, torchaudio
-from tqdm.auto import tqdm, trange
+import soundfile as sf
+import torch, torchaudio
+from concurrent.futures import ThreadPoolExecutor
+from tqdm.auto import tqdm
 from torch.utils.data import Dataset, random_split, Subset
-from modules.preprocessing.audio_process import segment_cough, EnforceFixedLength, WaveformAugmentor
+from typing import Sequence
+from modules.preprocessing.audio_process import EnforceFixedLength, WaveformAugmentor, segment_cough_fast
 
 
+LABELS: list[str] = ["healthy", "COVID-19", "symptomatic"]
 
-def make_dataset(df: pl.DataFrame, sample_rate: int, chunk_size: int = 100, out: str = 'final_processed_dataset.npz') -> None:    
-    rate: str
+def make_dataset(df: pl.DataFrame, sample_rate: int, out: str = 'final_processed_dataset.npz', max_workers: int = 8) -> None:
     label: str
     file_path: str
-    num_waves: int
-    wave: np.ndarray
-    waves: list[np.ndarray]
-    
-    master_collections: dict[str, list[np.ndarray]] = {
-        "healthy": [], "COVID-19": [], "symptomatic": []
-    }
-    
-    master_paths: dict[str, list[np.ndarray]] = {
-        "healthy": [], "COVID-19": [], "symptomatic": []
-    }
-    
-    master_labels: dict[str, list[np.ndarray]] = {
-        "healthy": [], "COVID-19": [], "symptomatic": []
-    }
-        
-    
-    final_npz_data: dict[str, np.ndarray] = {}
+
+    master_collections: dict[str, list[np.ndarray]] = {k: [] for k in LABELS}
+    master_paths: dict[str, list[str]] = {k: [] for k in LABELS}
+    master_labels: dict[str, list[str]] = {k: [] for k in LABELS}
+
     df = df.select(["audio_name", "status"])
-    length_fitter: EnforceFixedLength = EnforceFixedLength(sample_rate)
-    
+    length_fitter: EnforceFixedLength = EnforceFixedLength(sample_rate, to_numpy=True)
+
+    def process_row(row: dict) -> tuple[str, np.ndarray, np.ndarray, np.ndarray]:
+        label = row["status"]
+        file_path = row["audio_name"]
+
+        # ponytail: torchaudio.load needs FFmpeg/torchcodec DLLs absent in this env;
+        # soundfile reads wav natively. Swap back if torchaudio decoding is fixed.
+        wave, rate = sf.read(file_path, dtype="float32")
+        if wave.ndim > 1:
+            wave = wave[:, 0]
+        if rate != sample_rate:
+            wave = torchaudio.functional.resample(
+                torch.tensor(wave), rate, sample_rate
+            ).numpy()
+
+        waves, _ = segment_cough_fast(
+            wave, sample_rate,
+            cough_padding=0.1, min_cough_len=0.1
+        )
+
+        fitted = np.array([length_fitter(w) for w in waves])
+        labels = np.full(shape=(len(waves),), fill_value=label, dtype=object)
+        paths = np.full(shape=(len(waves),), fill_value=file_path, dtype=object)
+        return label, fitted, labels, paths
+
+    # ponytail: ThreadPoolExecutor — file decode + numpy segmentation release the GIL,
+    # so threads scale without pickle overhead. ProcessPool if profiling says CPU-bound.
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        results = list(tqdm(
+            pool.map(process_row, df.iter_rows(named=True)),
+            total=len(df), desc="processing audio"
+        ))
+
+    final_npz_data: dict[str, np.ndarray] = {}
     total_length: int = 0
-    chunk_total: int = math.ceil(len(df) / chunk_size)
-    for chunk_df in tqdm(df.iter_slices(n_rows=chunk_size), total=chunk_total, desc="processing df chunks"):
-        for row in chunk_df.iter_rows(named=True):
-            total_length += 1
-            label = row["status"]
-            file_path = row["audio_name"]
-            
-            wave, rate = torchaudio.load(file_path)
-            if rate != sample_rate:
-                wave = torchaudio.functional.resample(
-                    wave, rate, sample_rate
-                )
-
-            waves,  _ = segment_cough(
-                wave.squeeze(0).numpy(), sample_rate, 
-                cough_padding=0.1, min_cough_len=0.1
-            )
-            
-            num_waves = len(waves)
-            
-            master_collections[label].append(np.array([length_fitter(wave) for wave in waves]))
-            master_labels[label].append(np.full(shape=(num_waves,), fill_value=file_path, dtype=object))
-            master_paths[label].append(np.full(shape=(num_waves,), fill_value=label, dtype=object))  
-
-    
-    for label in master_collections.keys():
-        if not master_collections[label]:  
+    for label, data, labels, paths in results:
+        if len(data) == 0:
             continue
-        
+        master_collections[label].append(data)
+        master_labels[label].append(labels)
+        master_paths[label].append(paths)
+        total_length += len(data)
+
+    for label in master_collections.keys():
+        if not master_collections[label]:
+            continue
+
         final_npz_data[f"{label}_data"] = np.concatenate(master_collections[label], axis=0)
-        master_collections[label] = None 
-        
         final_npz_data[f"{label}_paths"] = np.concatenate(master_paths[label], axis=0)
-        master_paths[label] = None
-        
         final_npz_data[f"{label}_labels"] = np.concatenate(master_labels[label], axis=0)
+        master_collections[label] = None
+        master_paths[label] = None
         master_labels[label] = None
-        
+
     final_npz_data["length"] = total_length
-    np.savez_compressed(out, **final_npz_data)
+    np.savez(out, **final_npz_data)
 
 
 class AugmentedSubset(Subset):
-    
-    def __init__(self, dataset: Dataset, indices: list[int], augmentor: torch.nn.Module | None = None,) -> None:
+
+    def __init__(self, dataset: Dataset, indices: Sequence[int], augmentor: torch.nn.Module | None = None,) -> None:
         super().__init__(dataset, indices)
         self.augmentor: torch.nn.Module | None = augmentor
 
@@ -94,53 +98,53 @@ class AugmentedSubset(Subset):
 
 
 class NpzDataPipeline(Dataset):
-    
+
     def __init__(self, npz_path: str) -> None:
         self.npz_path: str = npz_path
         with np.load(self.npz_path, allow_pickle=True) as data:
             size: int  = data["length"]
-            
+
         self.length  : int = size
-        self.features: torch.Tensor 
-        self.labels  : torch.Tensor 
-        self.paths   : list[str]       
-        
+        self.features: torch.Tensor
+        self.labels  : torch.Tensor
+        self.paths   : list[str]
+
     def load_data(self) -> None:
-        
-        data: dict[str, np.ndarray] 
+
+        data: dict[str, np.ndarray]
         with np.load(self.npz_path, allow_pickle=True) as data:
             # Combine the 3 separate label blocks into single unified matrices
             all_data: np.ndarray   = np.concatenate(
-                [data["healthy_data"], data["COVID-19_data"], data["symptomatic_data"]], 
+                [data["healthy_data"], data["COVID-19_data"], data["symptomatic_data"]],
                 axis=0
             )
-            
+
             raw_labels: np.ndarray = np.concatenate(
-                [data["healthy_labels"], data["COVID-19_labels"], data["symptomatic_labels"]], 
+                [data["healthy_labels"], data["COVID-19_labels"], data["symptomatic_labels"]],
                 axis=0
             )
-            
+
             label_mapping: dict[str, int] = {
                 "healthy": 0, "COVID-19": 1, "symptomatic": 2
             }
-            
+
             numeric_labels: np.ndarray = np.array(
-                [label_mapping[lbl] for lbl in raw_labels], 
+                [label_mapping[lbl] for lbl in raw_labels],
                 dtype=np.int64
             )
-            
+
         self.features = torch.tensor(all_data, dtype=torch.float32)
         self.labels   = torch.tensor(numeric_labels, dtype=torch.long)
-        
+
     def load_paths(self) -> None:
-        
-        data: dict[str, np.ndarray] 
+
+        data: dict[str, np.ndarray]
         with np.load(self.npz_path, allow_pickle=True) as data:
             all_paths: np.ndarray  = np.concatenate(
-                [data["healthy_paths"], data["COVID-19_paths"], data["symptomatic_paths"]], 
+                [data["healthy_paths"], data["COVID-19_paths"], data["symptomatic_paths"]],
                 axis=0
             )
-            
+
         self.paths = list(all_paths)
 
     def __len__(self) -> int:
@@ -148,30 +152,32 @@ class NpzDataPipeline(Dataset):
 
     def __getitem__(self, idx: int) -> tuple[torch.Tensor, torch.NumberType]:
         return self.features[idx], self.labels[idx]
-    
+
     def get_path(self, idx: int) -> str:
         return self.paths[idx]
-    
-    
-    
+
+
+
 def dataset_split(
-    dataset: Dataset, train: float = 0.8, val: float = 0.1, 
+    dataset: Dataset, train: float = 0.8, val: float = 0.1,
     test: float | None = None, seed: int | None = None
 ) -> tuple[Subset, Subset, Subset]:
-    
-    if sum([train, val, (test if isinstance(test, float) else 1-(train+test))]) != 1.0:
-        raise ValueError()
-    
+
+    if test is None:
+        test = 1.0 - train - val
+    if abs(train + val + test - 1.0) > 1e-6:
+        raise ValueError("train + val + test must equal 1.0")
+
     train_size: int = int(train * len(dataset))
     val_size:   int = int(val * len(dataset))
     test_size:  int = len(dataset) - train_size - val_size
 
     return random_split(
-        dataset, 
+        dataset,
         [train_size, val_size, test_size],
-        generator=torch.Generator.manual_seed(seed) if seed else None
+        generator=torch.Generator().manual_seed(seed) if seed is not None else None
     )
-    
+
 
 def persist_indicies(train_dataset: Subset, val_dataset: Subset, test_dataset: Subset, save_path: str = "data/splits/dataset_split.pt") -> None:
     torch.save(
@@ -182,17 +188,14 @@ def persist_indicies(train_dataset: Subset, val_dataset: Subset, test_dataset: S
         },
         save_path,
     )
-    
+
 def load_indicies(dataset: Dataset, path: str) -> tuple[Subset, Subset, Subset]:
     splits: dict[str, torch.Tensor] = torch.load(
         path, weights_only=True,
     )
 
     return (
-        Subset(dataset, splits["train"]), 
-        Subset(dataset, splits["val"]), 
+        Subset(dataset, splits["train"]),
+        Subset(dataset, splits["val"]),
         Subset(dataset, splits["test"])
     )
-    
-    
-    

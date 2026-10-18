@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 __all__ = [
     "segment_cough", "compute_SNR", "MelSpectrogramPipeline", 
     "segment_cough_robust", "SpecAugmentations", "MFCCPipeline", 
-    "SpectMFCCPipeline", "EnforceFixedLength"
+    "SpectMFCCPipeline", "EnforceFixedLength", "segment_cough_fast"
 ]
 
 '''
@@ -91,6 +91,82 @@ def segment_cough(x: npt.NDArray,fs: float, cough_padding: float = 0.2, min_coug
     return coughSegments, cough_mask
 
 
+
+
+def _runs(cond: npt.NDArray) -> tuple[npt.NDArray, npt.NDArray]:
+    """Start indices and lengths of every True run in a boolean array."""
+    padded: npt.NDArray = np.concatenate(([False], cond, [False])).view(np.int8)
+    edges: npt.NDArray = np.flatnonzero(np.diff(padded))
+    return edges[0::2], edges[1::2] - edges[0::2]
+
+
+def segment_cough_fast(x: npt.NDArray,fs: float, cough_padding: float = 0.2, min_cough_len: float =0.2, th_l_multiplier: float = 0.1, th_h_multiplier: int = 2, tol_multiplier: float = 0.01) -> tuple[list[npt.NDArray], npt.NDArray]:
+    """Vectorized equivalent of segment_cough: same thresholds, padding, min-length and
+    end-of-file rules, but O(#coughs) Python steps instead of O(#samples).
+
+    ponytail: exact-boundary parity is asserted by test_segment_cough_fast.py on real files."""
+    power: npt.NDArray = np.square(x)
+    rms: np.float64 = np.sqrt(np.mean(power))
+    seg_th_l: float = th_l_multiplier * rms
+    seg_th_h: float = th_h_multiplier * rms
+
+    padding: int = round(fs * cough_padding)
+    min_cough_samples: int = round(fs * min_cough_len)
+    tolerance: int = round(tol_multiplier * fs)
+    n: int = len(x)
+
+    # Cough ends: the original loop trips once `tolerance + 1` consecutive samples sit
+    # below the low threshold, i.e. at index run_start + tolerance.
+    below_starts, below_lens = _runs(power < seg_th_l)
+
+    # Cough starts: rising edges above the high threshold
+    above_starts: npt.NDArray = _runs(power > seg_th_h)[0]
+
+    coughSegments: list = []
+    cough_mask: npt.NDArray = np.zeros(n, dtype=bool)
+    # Replicates two quirks of the original per-sample loop:
+    #  - below_th_counter is never reset when a cough starts, only by samples >= th_l,
+    #    so a cough whose very next sample is below th_l ends immediately.
+    #  - a cough stops being "in progress" at the trigger index (not the padded end),
+    #    so the next cough may start inside the previous one's padded tail.
+    carry: int = 0          # counter value carried across coughs (frozen between coughs)
+    active_until: int = -1  # cough still in progress through this index
+    ri: int = 0             # cursor into below-runs
+    for s in above_starts:
+        if s <= active_until:
+            continue
+        while ri < len(below_starts) and below_starts[ri] <= s:
+            ri += 1
+        trigger: int | None = None
+        j: int = ri
+        while j < len(below_starts):
+            rs: int = below_starts[j]
+            rl: int = below_lens[j]
+            if j == ri and rs == s + 1 and carry > tolerance:
+                trigger = s + 1
+                carry += 1
+                break
+            if rl > tolerance:
+                trigger = rs + tolerance
+                carry = tolerance + 1
+                break
+            j += 1  # run too short to trip the counter; it resets after the run
+        if trigger is None:
+            # Cough persists to end of file; the original only appends it if the final
+            # sample is at/above the low threshold and the start isn't the last sample.
+            if s < n - 1 and power[-1] >= seg_th_l:
+                cough_start = max(0, s - padding)
+                if n - cough_start - 2 * padding > min_cough_samples:
+                    coughSegments.append(x[cough_start:n])
+            break
+        cough_start = max(0, s - padding)
+        cough_end = min(trigger + padding, n - 1)
+        active_until = trigger
+        if cough_end + 1 - cough_start - 2 * padding > min_cough_samples:
+            coughSegments.append(x[cough_start:cough_end + 1])
+            cough_mask[cough_start:cough_end + 1] = True
+
+    return coughSegments, cough_mask
 
 
 def segment_cough_robust(

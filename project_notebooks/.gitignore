@@ -153,3 +153,4 @@ notebook/templates/*.html
 
 # Temporary files used for testing
 tmp/
+saved_models/

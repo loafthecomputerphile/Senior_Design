@@ -1,6 +1,36 @@
 import torch
 import torch.nn as nn
 from torchvision import models
+import torch.nn.functional as F
+
+
+class FocalLoss(nn.Module):
+    def __init__(self, alpha=None, gamma=2.0, reduction='mean'):
+        """
+        alpha: Tensor of shape [num_classes] indicating weights (inverse frequency)
+        gamma: Focusing parameter. Higher = less attention to easy samples (Default: 2)
+        """
+        super(FocalLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+        self.reduction = reduction
+
+    def forward(self, inputs, targets):
+        ce_loss = F.cross_entropy(inputs, targets, reduction='none')
+        pt = torch.exp(-ce_loss)  # Probability of the correct class
+        
+        focal_loss = ((1 - pt) ** self.gamma) * ce_loss
+        
+        if self.alpha is not None:
+            # Apply class weights to the focal loss
+            alpha_t = self.alpha[targets]
+            focal_loss = alpha_t * focal_loss
+            
+        if self.reduction == 'mean':
+            return focal_loss.mean()
+        elif self.reduction == 'sum':
+            return focal_loss.sum()
+        return focal_loss
 
 
 
@@ -14,37 +44,64 @@ class ConvBlockV1(nn.Module):
         super().__init__()
         self.conv: nn.Conv2d = nn.Conv2d(in_channels, out_channels, kernel, stride, padding)
         self.batch_norm: nn.BatchNorm2d = nn.BatchNorm2d(out_channels)
-        self.act: nn.Module = nn.ReLU(inplace=True)
+        self.act: nn.Module = nn.LeakyReLU(inplace=True)
+        self.max_pool: nn.MaxPool2d = nn.MaxPool2d(2,2)
         
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x = self.conv(x)
         x = self.batch_norm(x)
-        return self.act(x)
+        return self.max_pool(self.act(x))
+    
+    
+class DepthwiseSeparableBlock(nn.Module):
+    
+    def __init__(self, in_channels: int, out_channels: int) -> None:
+        super().__init__()
+        self.block: nn.Sequential = nn.Sequential(
+            # 1. DEPTHWISE STEP: Spatial filtering (3x3)
+            # groups=in_channels forces each channel to be filtered independently
+            nn.Conv2d(in_channels, in_channels, kernel_size=3, padding=1, groups=in_channels, bias=False),
+            nn.BatchNorm2d(in_channels),
+            nn.LeakyReLU(),
+            
+            # 2. POINTWISE STEP: Channel mixing (The 1x1 Point After)
+            # This blends the filtered channels together into the new channel size
+            nn.Conv2d(in_channels, out_channels, kernel_size=1, bias=False),
+            nn.BatchNorm2d(out_channels),
+            nn.LeakyReLU(),
+            nn.MaxPool2d(kernel_size=2)
+        )
+        
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.block(x)
 
 
 class DefaultCNN(nn.Module):
     
     def __init__(self, num_classes: int) -> None:
         super().__init__()
-        self.layer1: nn.Module = ConvBlockV1(1, 16, 3, 1, 1)
-        self.maxpool: nn.Module = nn.MaxPool2d(2, 2)
-        self.layer2: nn.Module = ConvBlockV1(16, 32, 3, 1,1 )
-        self.layer3: nn.Module = ConvBlockV1(32, 64, 3, 1,1 )
-        self.linear1: nn.LazyLinear = nn.LazyLinear(256)
-        self.linear2: nn.LazyLinear = nn.LazyLinear(64)
-        self.output: nn.LazyLinear = nn.LazyLinear(num_classes)
-        self.relu = nn.ReLU()
-        self.out_act: nn.Sigmoid = nn.Sigmoid()
+        self.convs: nn.Sequential = nn.Sequential(
+            DepthwiseSeparableBlock(3, 32),
+            DepthwiseSeparableBlock(32, 64),
+            DepthwiseSeparableBlock(64, 128),
+        )
         
+        self.classifier: nn.Sequential = nn.Sequential(
+            nn.Flatten(),
+            nn.LazyLinear(256),
+            nn.LeakyReLU(),
+            nn.Dropout(0.3),
+            nn.LazyLinear(64),
+            nn.LeakyReLU(),
+            nn.Dropout(0.2),
+            nn.LazyLinear(num_classes),
+            #nn.Sigmoid()
+        )
         
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.maxpool(self.layer1(x))
-        x = self.maxpool(self.layer2(x))
-        x = self.maxpool(self.layer3(x))
-        x = torch.flatten(x, 1)
-        x = self.relu(self.linear1(x))
-        x = self.relu(self.linear2(x))
-        return self.out_act(self.output(x))
+        x = self.convs(x)
+        x = self.classifier(x)
+        return x
     
     
 class BranchedCoughCNN(nn.Module):
@@ -78,7 +135,7 @@ class BranchedCoughCNN(nn.Module):
             nn.ReLU(),
             nn.Dropout(0.2),
             nn.Linear(64, num_classes),
-            nn.Sigmoid()
+            #nn.Sigmoid()
         )
         
     def forward(self, mel: torch.Tensor, mfcc: torch.Tensor) -> torch.Tensor:

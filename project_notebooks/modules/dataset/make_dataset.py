@@ -95,6 +95,9 @@ class AugmentedSubset(Subset):
             return self.augmentor(waveform, label), label
 
         return waveform, label
+    
+    def __getitems__(self, indices: Sequence[int]) -> list[tuple[torch.Tensor, torch.NumberType]]:
+        return [self.__getitem__(idx) for idx in indices]
 
 
 class NpzDataPipeline(Dataset):

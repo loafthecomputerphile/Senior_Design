@@ -1,1 +1,1 @@
-from .base_nn import BranchedCoughCNN, DefaultCNN
+from .base_nn import BranchedCoughCNN, DefaultCNN, FocalLoss

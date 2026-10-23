@@ -14,7 +14,7 @@ from torchaudio.transforms import (
     TimeStretch,
     MFCC,
     AmplitudeToDB,
-    GriffinLim, SpeedPerturbation
+    GriffinLim, SpeedPerturbation, ComputeDeltas
 )
 
 if TYPE_CHECKING:
@@ -315,24 +315,48 @@ class BaseSpecAug(torch.nn.Module):
 
     
 class SpecAugmentations(BaseSpecAug):
-    
+
     def __init__(self, stretch_factor: float = 0.8, req_mask: int = 5, time_mask: int = 5, transform: Callable[[torch.Tensor], torch.Tensor] | None = None) -> None:
         super().__init__()
-        
+
         self._n_freq_op: Callable[[int], int] = lambda x: x // 2 + 1
-            
+
         self.transform: Callable[[torch.Tensor], torch.Tensor] | None = transform
+        self.p: float = 0.5
+        # Same per-class augment probabilities as WaveformAugmentor (healthy, COVID-19, symptomatic)
+        self.augment_probs: dict[int, float] = {0: 0.40, 1: 0.90, 2: 0.70}
+
         self.pipeline: Callable[..., nn.Sequential] = lambda x: nn.Sequential(
             TimeStretch(stretch_factor, fixed_rate=True, n_freq=self.n_freq),
             ComplexToPower(),
-            FrequencyMasking(freq_mask_param=req_mask),
-            TimeMasking(time_mask_param=time_mask),
         )
-        
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+
+        self.freq_mask: FrequencyMasking = FrequencyMasking(freq_mask_param=req_mask)
+        self.time_mask: TimeMasking = TimeMasking(time_mask_param=time_mask)
+
+    def _should_apply(self, p: float | None = None) -> bool:
+        return bool(torch.rand(()) < (self.p if p is None else p))
+
+    def forward(self, x: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
         if self.transform:
             x = self.transform(x)
-        return self.pipeline(1)(x)
+        # TimeStretch + power conversion always run (the downstream mel step needs a power spectrogram)
+        x = self.pipeline(1)(x)
+        if not self.training:
+            return x
+        if label is None:
+            # No labels available: fall back to a single coin flip for the whole batch
+            if self._should_apply():
+                x = self.time_mask(self.freq_mask(x))
+            return x
+        # Per-sample gating by class, same probabilities as WaveformAugmentor
+        for i in range(x.shape[0]):
+            if torch.rand(()) >= self.augment_probs[int(label[i])]:
+                continue
+            if not self._should_apply():
+                continue
+            x[i] = self.time_mask(self.freq_mask(x[i : i + 1]))[0]
+        return x
         
         
         
@@ -349,7 +373,7 @@ class MelSpectrogramPipeline(torch.nn.Module, ReverseSpectrogram):
         if self.transforms:
             self.transforms.n_freq = n_fft
 
-        self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=2)
+        self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=None if self.transforms else 2)
         self.mel_spec: MelScale = MelScale(n_mels=n_mel, sample_rate=resample_freq, n_stft=n_fft // 2 + 1)
         
     def make_transform_waveform(self, waveform: torch.Tensor, n_iter: int | None = None) -> torch.Tensor:
@@ -362,10 +386,10 @@ class MelSpectrogramPipeline(torch.nn.Module, ReverseSpectrogram):
         x_max: torch.NumberType = x.max(dim=-1, keepdim=True)[0].max(dim=-2, keepdim=True)[0]
         return (x-x_min)/(x_max-x_min+1e-8)     
 
-    def forward(self, waveform: torch.Tensor, input_freq: int) -> torch.Tensor:
+    def forward(self, waveform: torch.Tensor, input_freq: int, label: torch.Tensor | None = None) -> torch.Tensor:
         spec: torch.Tensor = self.spec(waveform)
         if self.transforms:
-            spec = self.transforms(spec)
+            spec = self.transforms(spec, label)
         return self._normalize(self.mel_spec(spec))
     
     
@@ -380,7 +404,7 @@ class MFCCPipeline(torch.nn.Module, ReverseSpectrogram):
             
         self.amp_to_db: AmplitudeToDB = AmplitudeToDB()
                 
-        self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=2)
+        self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=None if self.transforms else 2)
         self.mel_scale: MelScale = MelScale(
             n_mels=n_mel, n_stft=n_fft // 2 + 1
         )
@@ -403,6 +427,31 @@ class MFCCPipeline(torch.nn.Module, ReverseSpectrogram):
         return self.post_aug_waveform(
             self.transforms(self.spec(waveform)), n_iter
         )
+        
+    def normalize_and_clamp_mfcc(self, waveform):
+        spec: torch.Tensor = self.spec(waveform)
+        if self.transforms:
+            spec = self.transforms(spec)
+        spec = self.mel_scale(spec)
+        spec = self.amp_to_db(spec)
+        
+        mfcc_tensor: torch.Tensor = torch.matmul(
+            spec.transpose(-1, -2), self.dct_mat
+        ).transpose(-1, -2)
+            
+        
+        # 1. Z-Score (CMVN) along the time axis (dim=-1)
+        mean = mfcc_tensor.mean(dim=-1, keepdim=True)
+        std = mfcc_tensor.std(dim=-1, keepdim=True)
+        mfcc_norm = (mfcc_tensor - mean) / (std + 1e-8)
+
+        # 2. Clamp extreme acoustic spikes at +/- 3 standard deviations
+        mfcc_clamped = torch.clamp(mfcc_norm, min=-3.0, max=3.0)
+        
+        # 3. Min-Max scale the clamped boundaries cleanly to 0.0 - 1.0
+        img_scaled = (mfcc_clamped - (-3.0)) / (3.0 - (-3.0))
+
+        return img_scaled
     
     def forward(self, waveform: torch.Tensor) -> torch.Tensor:
         spec: torch.Tensor = self.spec(waveform)
@@ -434,7 +483,7 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
         
         self.amp_to_db: AmplitudeToDB = AmplitudeToDB()
         
-        self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=2)
+        self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=None if self.transforms else 2)
         self.mel_scale: MelScale = MelScale(
             n_mels=n_mel, n_stft=n_fft // 2 + 1
         )
@@ -448,6 +497,7 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
             ),
         )
         
+        self.compute_deltas = ComputeDeltas()
         
     def _normalize(self, x: torch.Tensor) -> torch.Tensor:
         min_val: torch.NumberType = x.min(dim=-1, keepdim=True)[0].min(dim=-2, keepdim=True)[0]
@@ -459,11 +509,25 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
             self.transforms(self.spec(waveform)), n_iter
         )
         
-    def forward(self, waveform: torch.Tensor) -> torch.Tensor:
+    def normalize_and_clamp_mfcc(self, mfcc_tensor):
+        # 1. Z-Score (CMVN) along the time axis (dim=-1)
+        mean = mfcc_tensor.mean(dim=-1, keepdim=True)
+        std = mfcc_tensor.std(dim=-1, keepdim=True)
+        mfcc_norm = (mfcc_tensor - mean) / (std + 1e-8)
+
+        # 2. Clamp extreme acoustic spikes at +/- 3 standard deviations
+        mfcc_clamped = torch.clamp(mfcc_norm, min=-3.0, max=3.0)
         
+        # 3. Min-Max scale the clamped boundaries cleanly to 0.0 - 1.0
+        img_scaled = (mfcc_clamped - (-3.0)) / (3.0 - (-3.0))
+
+        return img_scaled
+        
+    def forward(self, waveform: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
+
         spec: torch.Tensor = self.spec(waveform)
         if self.transforms:
-            spec = self.transforms(spec)
+            spec = self.transforms(spec, label)
         mel = self.mel_scale(spec)
         spec = self.amp_to_db(mel)
         
@@ -472,13 +536,43 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
         ).transpose(-1, -2)
         
 
-        norm_mfcc: torch.Tensor = self._normalize(mfcc) 
+        norm_mfcc: torch.Tensor = self.normalize_and_clamp_mfcc(mfcc)
         norm_spec: torch.Tensor = self._normalize(mel)
         
+        three_chan_spec = self.to_three_channel_images(norm_spec, norm_spec)
+        three_chan_mfcc = self.to_three_channel_images(norm_mfcc, norm_mfcc)
+
         if self.combind:
-            return torch.cat([norm_spec, norm_mfcc], dim=-2)
+            # Sticking them vertically (height axis) as asked in your snippet
+            return torch.cat([three_chan_spec, three_chan_mfcc], dim=-2)
         
-        return norm_spec, norm_mfcc
+        return three_chan_spec, three_chan_mfcc
+    
+    def to_three_channel_images(self, norm_spec: torch.Tensor, norm_mfcc: torch.Tensor) -> torch.Tensor:
+        """
+        Combines 1-channel Mel Spectrogram and 1-channel MFCC into a 
+        standard 3-channel image format using the Mel's Delta stream.
+        """
+        # Ensure tensors have an explicit channel dimension: [..., 1, height, width]
+        if norm_spec.ndim == 2:  # [height, width] -> [1, height, width]
+            norm_spec = norm_spec.unsqueeze(0)
+            norm_mfcc = norm_mfcc.unsqueeze(0)
+        elif norm_spec.ndim == 3 and norm_spec.shape[0] != 1: # Batched [B, H, W] -> [B, 1, H, W]
+            norm_spec = norm_spec.unsqueeze(1)
+            norm_mfcc = norm_mfcc.unsqueeze(1)
+
+        # 1. Compute the Delta velocity mapping from the Mel matrix
+        delta_map = self.compute_deltas(norm_spec)
+        
+        # 2. Min-max scale the delta layer to normalize its distribution to 0.0 - 1.0
+        delta_min = delta_map.amin(dim=(-2, -1), keepdim=True)
+        delta_max = delta_map.amax(dim=(-2, -1), keepdim=True)
+        norm_delta = (delta_map - delta_min) / (delta_max - delta_min + 1e-8)
+
+        # 3. Concatenate along the channel axis (dim=-3)
+        # Channel 0: Mel Spectrogram | Channel 1: MFCC | Channel 2: Mel Delta
+        three_channel_img = torch.cat([norm_spec, norm_mfcc, norm_delta], dim=-3)
+        return three_channel_img
     
     
     

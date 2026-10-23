@@ -40,3 +40,13 @@ wave + spec EXPERIMENT
 [both (wave + spec)] Epoch [38/60] -> Train Loss: 0.5085 | Val Loss: 0.9148 | Val F1: 0.3904 | Val Acc: 66.66%
 [both (wave + spec)] Epoch [39/60] -> Train Loss: 0.5085 | Val Loss: 0.9144 | Val F1: 0.3796 | Val Acc: 68.21%
 [both (wave + spec)] Epoch [40/60] -> Train Loss: 0.5041 | Val Loss: 0.9147 | Val F1: 0.3859 | Val Acc: 66.14%
+[both (wave + spec)] Epoch [41/60] -> Train Loss: 0.4954 | Val Loss: 0.9159 | Val F1: 0.3889 | Val Acc: 65.64%
+[both (wave + spec)] Epoch [42/60] -> Train Loss: 0.4897 | Val Loss: 0.9095 | Val F1: 0.3933 | Val Acc: 66.30%
+[both (wave + spec)] Epoch [43/60] -> Train Loss: 0.4877 | Val Loss: 0.9139 | Val F1: 0.3907 | Val Acc: 66.81%
+[both (wave + spec)] Epoch [44/60] -> Train Loss: 0.4837 | Val Loss: 0.9163 | Val F1: 0.3983 | Val Acc: 67.52%
+[both (wave + spec)] Epoch [45/60] -> Train Loss: 0.4745 | Val Loss: 0.9099 | Val F1: 0.3972 | Val Acc: 66.66%
+[both (wave + spec)] Epoch [46/60] -> Train Loss: 0.4757 | Val Loss: 0.9071 | Val F1: 0.3879 | Val Acc: 68.08%
+[both (wave + spec)] Epoch [47/60] -> Train Loss: 0.4731 | Val Loss: 0.9110 | Val F1: 0.3924 | Val Acc: 67.45%
+[both (wave + spec)] Epoch [48/60] -> Train Loss: 0.4734 | Val Loss: 0.9122 | Val F1: 0.3868 | Val Acc: 68.29%
+[both (wave + spec)] Epoch [49/60] -> Train Loss: 0.4700 | Val Loss: 0.9154 | Val F1: 0.3934 | Val Acc: 67.52%
+[both (wave + spec)] Epoch [50/60] -> Train Loss: 0.4693 | Val Loss: 0.9158 | Val F1: 0.3949 | Val Acc: 66.76%

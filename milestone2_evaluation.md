@@ -63,7 +63,7 @@ Contribution...
 
 **Amanda Ogbonna**
 
-Contribution...
+For this milestone, I worked on expanding our research portion of 
 
 **Loleyi Oluwatomisin**
 

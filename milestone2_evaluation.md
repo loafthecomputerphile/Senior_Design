@@ -26,7 +26,7 @@
 
 ## 3. Client
 
-No official client; Dr. Zahra Nematzadeh (znematzadeh@fit.edu) — Faculty Advisor, Florida Tech
+Client is Faculty Advisor; Dr. Zahra Nematzadeh (znematzadeh@fit.edu) — Faculty Advisor, Florida Tech
 
 ## 4. Progress of current Milestone (progress matrix)
 
@@ -77,10 +77,10 @@ Contribution...
 
 | Task | Drew Quashie | Amanda Ogbonna | Loleyi Oluwatomisin | Richard Alonso Garcia |
 | --- | --- | --- | --- | --- |
-| Train & fine-tune advanced CNN models and transfer learning architectures (e.g., ResNet) | x | x |  |  |
-| Complete initial model evaluation and generate performance reports (F1 Score, ROC-AUC) | x |  | x |  |
-| Develop FastAPI backend endpoints for handling client audio uploads and running inference pipelines | x | x | x |  |
-| Build initial React web UI components for displaying prediction results and risk feedback |  |  |  | x |
+|  | x | x |  |  |
+|  | x |  | x |  |
+|  | x | x | x |  |
+|  |  |  |  | x |
 
 ## 8. Discussion (at least a paragraph) of each planned task for the next Milestone
 

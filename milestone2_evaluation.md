@@ -63,7 +63,7 @@ Contribution...
 
 **Amanda Ogbonna**
 
-For this milestone, I worked on expanding our research portion of 
+For this milestone, I worked on expanding the research portion of our project based on feedback from our faculty advisor. I went back through the papers we collected and added more detailed information about which algorithms performed the best, the limitations of each study, dataset sizes, whether the datasets 
 
 **Loleyi Oluwatomisin**
 

@@ -63,7 +63,7 @@ Contribution...
 
 **Amanda Ogbonna**
 
-For this milestone, I worked on expanding the research portion of our project based on feedback from our faculty advisor. I went back through the papers we collected and added more detailed information about which algorithms performed the best, the limitations of each study, dataset sizes, whether the datasets 
+For this milestone, I worked on expanding the research portion of our project based on feedback from our faculty advisor. I went back through the papers we collected and added more detailed information about which algorithms performed the best, the limitations of each study, dataset sizes, whether the datasets were balanced or imbalanced, and what techniques were used to handle class imbalance. I also added additional research related to deep learning and audio classification to help us better understand which architectures and techniques could be useful for our own model. In addition to the research, I was responsible for working on our ResNet50 transfer learning model using PyTorch. I implemented the model architecture using pretrained ResNet50 weights and added the option to freeze the backbone layers during training. This helped prepare the model for future training and comparison with our other CNN architectures. I also began working on our initial FastAPI backend so that it could eventually process inputs and return prediction results to users. One challenge for me was becoming more familiar with the model architecture and understanding how the components would work together. 
 
 **Loleyi Oluwatomisin**
 

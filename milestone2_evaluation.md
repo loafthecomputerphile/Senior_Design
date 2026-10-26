@@ -33,7 +33,7 @@ Client is Faculty Advisor; Dr. Zahra Nematzadeh (znematzadeh@fit.edu) — Facult
 | Task | Completion % | Drew Quashie | Amanda Ogbonna | Loleyi Oluwatomisin | Richard Alonso Garcia | To do |
 | --- | --- | --- | --- | --- | --- | --- |
 | Train & Fine-Tune CNN Models & Transfer Learning Architectures | 80% | x | x | x |  | Finish cascade stage-2 training; compare transfer learning variants |
-| Initial Model Evaluation & Performance Reports | 60% | x | x |  |  | Complete both cascade runs; generate full per-class reports |
+| Initial Model Evaluation & Performance Reports | 60% | x |  | x |  | Complete both cascade runs; generate full per-class reports |
 | Develop FastAPI Backend Endpoints | 90% | x | x |  |  | Wire real model artifacts into gate and inference stubs |
 | Build React Web UI Components for Prediction Results and Risk Feedback | 30% |  |  |  | x | Results screen, inconclusive variant, integration with /evaluate |
 
@@ -73,7 +73,9 @@ I revamped the training pipeline for the two-model cascade approach: model 1 on 
 
 **Amanda Ogbonna**
 
-For this milestone, I worked on expanding the research portion of our project based on feedback from our faculty advisor. I went back through the papers we collected and added more detailed information about which algorithms performed the best, the limitations of each study, dataset sizes, whether the datasets were balanced or imbalanced, and what techniques were used to handle class imbalance. I also added additional research related to deep learning and audio classification to help us better understand which architectures and techniques could be useful for our own model. In addition to the research, I was responsible for working on our ResNet50 transfer learning model using PyTorch. I implemented the model architecture using pretrained ResNet50 weights and added the option to freeze the backbone layers during training. This helped prepare the model for future training and comparison with our other CNN architectures. I also began working on our initial FastAPI backend so that it could eventually process inputs and return prediction results to users. One challenge for me was becoming more familiar with the model architecture and understanding how the components would work together. 
+For this milestone, I worked on expanding the research portion of our project based on feedback from our faculty advisor. I went back through the papers we collected and added more detailed information about which algorithms performed the best, the limitations of each study, dataset sizes, whether the datasets were balanced or imbalanced, and what techniques were used to handle class imbalance. I also added additional research related to deep learning and audio classification to help us better understand which architectures and techniques could be useful for our own model. In addition to the research, I was responsible for working on our ResNet50 transfer learning model using PyTorch. I implemented the model architecture using pretrained ResNet50 weights and added the option to freeze the backbone layers during training. This helped prepare the model for future training and comparison with our other CNN architectures. I also began working on our initial FastAPI backend so that it could eventually process inputs and return prediction results to users. One challenge for me was becoming more familiar with the model architecture and understanding how the components would work together.
+
+Working through the literature is what surfaced the problem with our original 3-class setup, so I recommended changing it to a two-class (binary) formulation and helped write the code that restructures the dataset into the two binary tasks: the stage-1 (COVID + symptomatic) vs healthy grouping and the stage-2 COVID vs symptomatic subset. I also added the SQLite database layer for the backend, including the users and evaluations tables the endpoints read and write.
 
 **Loleyi Oluwatomisin**
 

@@ -35,7 +35,7 @@ Client is Faculty Advisor; Dr. Zahra Nematzadeh (znematzadeh@fit.edu) — Facult
 | Train & Fine-Tune CNN Models & Transfer Learning Architectures | 85% | x | x | x |  | Retune cascade thresholds on the validation set; improve stage-1 sick recall |
 | Initial Model Evaluation & Performance Reports | 85% | x |  | x |  | Re-run cascade eval at retuned thresholds; feed operating points into confidence-gate calibration |
 | Develop FastAPI Backend Endpoints | 90% | x | x |  |  | Wire real model artifacts into gate and inference stubs |
-| Build React Web UI Components for Prediction Results and Risk Feedback | 30% |  |  |  | x | Results screen, inconclusive variant, integration with /evaluate |
+| Build React Web UI Components for Prediction Results and Risk Feedback | 70% |  |  |  | x | Results screen, inconclusive variant, integration with /evaluate |
 
 ## 5. Discussion (at least a paragraph) of each accomplished task (and obstacles) for the current Milestone
 
@@ -71,7 +71,9 @@ Two pieces are deliberately stubbed: the XGBoost gate scoring and the PyTorch in
 
 **Build React Web UI Components for Prediction Results and Risk Feedback**
 
-Paragraph....
+The dashboard was completed as a single React page composed of independent card components that read from one shared record schema. Each result record displays a risk level, a confidence score, the three per cough votes, per class signal strengths, and recording quality measurements. The page uses a twelve column bento grid containing a latest result hero card, a confidence trend chart with selectable time ranges, a vote breakdown, a recording quality summary, a filterable and sortable history list, an activity summary, and a data controls card for CSV and JSON export and deletion. Selecting a history row opens a detail dialog, and the risk badge, advice text, and status tags are driven by a single risk level lookup so the wording stays consistent across the page. The recorder page was restyled with the dashboard’s design new gradient frame. Its three cough indicator and live dB meter were placed on the same gradient hero card. The two pages are connected through hash routing. Each “Start cough test” entry point on the dashboard routes to the recorder, and the recorder routes back through the sidebar, a back button, and a “View dashboard” button shown after a completed capture.
+
+One obsticle that we had developing the dashboard was the recorder’s logic when it toggles its Stop and Try again buttons with the HTML hidden attribute. The new button styles set an explicit display value, which overrides that attribute, so hidden buttons would have rendered in every phase. This was solved with a style rule that forces [hidden] elements to remain hidden. Some lifecycle defects were also corrected during development such as the capture logic’s click handlers were never removed, which allowed duplicate microphone sessions under react’s development double mount, and the microphone stream could remain open if the user left the page during a test or while the permission prompt was pending. The capture pipeline now returns a cleanup function that removes its listeners and releases the audio stream. 
 
 ## 6. Discussion (at least a paragraph) of contribution of each team member to the current Milestone
 
@@ -91,7 +93,7 @@ My work this milestone centered on the dataset restructuring for the two-model c
 
 **Richard Alonso Garcia**
 
-Contribution...
+My main contributions for this milestone centered on the React UI components for prediction results and risk feedback. I completed the full dashboard, which was unfinished before this milestone. It includes a latest result card with a confidence score, a color coded risk badge (low, medium, high), and plain language advice for each risk level. It also has a vote breakdown for the three coughs, a detail view with signal strength and recording quality, and a confidence trend chart for tracking results over time. I connected the dashboard to the recorder so a full test session flows from starting a test to viewing the result. I also fixed bugs in the recorder code that kept it from running reliably, including duplicate microphone sessions and a microphone that could stay on after leaving the page. The /evaluate integration is the next step, and the dashboard is structured so live results can replace the current placeholder data.
 
 ## 7. Plan for the next Milestone (task matrix) — Milestone 3 (November 23rd)
 

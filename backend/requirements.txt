@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+python-multipart
+xgboost
+torch
+torchaudio
+librosa
+soundfile
+bcrypt
+pyjwt

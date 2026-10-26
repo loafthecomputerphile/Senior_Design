@@ -1,52 +1,197 @@
 STARTING AUGMENTATION EXPERIMENT
 wave + spec EXPERIMENT
-[both (wave + spec)] Epoch [1/60] -> Train Loss: 1.1968 | Val Loss: 1.1174 | Val F1: 0.1193 | Val Acc: 19.11%
-[both (wave + spec)] Epoch [2/60] -> Train Loss: 1.0925 | Val Loss: 1.0568 | Val F1: 0.3342 | Val Acc: 53.20%
-[both (wave + spec)] Epoch [3/60] -> Train Loss: 1.0876 | Val Loss: 1.0181 | Val F1: 0.3718 | Val Acc: 60.28%
-[both (wave + spec)] Epoch [4/60] -> Train Loss: 1.0700 | Val Loss: 1.0187 | Val F1: 0.2907 | Val Acc: 36.48%
-[both (wave + spec)] Epoch [5/60] -> Train Loss: 1.0601 | Val Loss: 0.9010 | Val F1: 0.3623 | Val Acc: 69.77%
-[both (wave + spec)] Epoch [6/60] -> Train Loss: 1.0446 | Val Loss: 0.9769 | Val F1: 0.3641 | Val Acc: 50.48%
-[both (wave + spec)] Epoch [7/60] -> Train Loss: 1.0276 | Val Loss: 0.8871 | Val F1: 0.3934 | Val Acc: 65.70%
-[both (wave + spec)] Epoch [8/60] -> Train Loss: 1.0096 | Val Loss: 1.0722 | Val F1: 0.3209 | Val Acc: 40.47%
-[both (wave + spec)] Epoch [9/60] -> Train Loss: 1.0045 | Val Loss: 0.9757 | Val F1: 0.3388 | Val Acc: 44.34%
-[both (wave + spec)] Epoch [10/60] -> Train Loss: 0.9733 | Val Loss: 0.9543 | Val F1: 0.3611 | Val Acc: 49.75%
-[both (wave + spec)] Epoch [11/60] -> Train Loss: 0.9490 | Val Loss: 1.1079 | Val F1: 0.2923 | Val Acc: 33.57%
-[both (wave + spec)] Epoch [12/60] -> Train Loss: 0.9247 | Val Loss: 0.9032 | Val F1: 0.3898 | Val Acc: 61.04%
-[both (wave + spec)] Epoch [13/60] -> Train Loss: 0.9009 | Val Loss: 1.0590 | Val F1: 0.3291 | Val Acc: 41.89%
-[both (wave + spec)] Epoch [14/60] -> Train Loss: 0.8759 | Val Loss: 0.9127 | Val F1: 0.3919 | Val Acc: 58.86%
-[both (wave + spec)] Epoch [15/60] -> Train Loss: 0.8585 | Val Loss: 0.9332 | Val F1: 0.3762 | Val Acc: 53.37%
-[both (wave + spec)] Epoch [16/60] -> Train Loss: 0.8247 | Val Loss: 0.9060 | Val F1: 0.3767 | Val Acc: 55.81%
-[both (wave + spec)] Epoch [17/60] -> Train Loss: 0.8067 | Val Loss: 0.9263 | Val F1: 0.3816 | Val Acc: 55.81%
-[both (wave + spec)] Epoch [18/60] -> Train Loss: 0.7855 | Val Loss: 0.8851 | Val F1: 0.3940 | Val Acc: 62.40%
-[both (wave + spec)] Epoch [19/60] -> Train Loss: 0.7660 | Val Loss: 0.8836 | Val F1: 0.3972 | Val Acc: 61.91%
-[both (wave + spec)] Epoch [20/60] -> Train Loss: 0.7455 | Val Loss: 0.9029 | Val F1: 0.3865 | Val Acc: 59.43%
-[both (wave + spec)] Epoch [21/60] -> Train Loss: 0.7262 | Val Loss: 0.9093 | Val F1: 0.3960 | Val Acc: 58.49%
-[both (wave + spec)] Epoch [22/60] -> Train Loss: 0.7090 | Val Loss: 0.9434 | Val F1: 0.3860 | Val Acc: 56.19%
-[both (wave + spec)] Epoch [23/60] -> Train Loss: 0.6943 | Val Loss: 0.9150 | Val F1: 0.3920 | Val Acc: 58.86%
-[both (wave + spec)] Epoch [24/60] -> Train Loss: 0.6658 | Val Loss: 0.8984 | Val F1: 0.3898 | Val Acc: 63.25%
-[both (wave + spec)] Epoch [25/60] -> Train Loss: 0.6506 | Val Loss: 0.9220 | Val F1: 0.3996 | Val Acc: 60.16%
-[both (wave + spec)] Epoch [26/60] -> Train Loss: 0.6312 | Val Loss: 0.8976 | Val F1: 0.3997 | Val Acc: 63.52%
-[both (wave + spec)] Epoch [27/60] -> Train Loss: 0.6221 | Val Loss: 0.9110 | Val F1: 0.3901 | Val Acc: 61.83%
-[both (wave + spec)] Epoch [28/60] -> Train Loss: 0.6122 | Val Loss: 0.9027 | Val F1: 0.3992 | Val Acc: 65.66%
-[both (wave + spec)] Epoch [29/60] -> Train Loss: 0.5968 | Val Loss: 0.9157 | Val F1: 0.4012 | Val Acc: 64.86%
-[both (wave + spec)] Epoch [30/60] -> Train Loss: 0.5765 | Val Loss: 0.9232 | Val F1: 0.3934 | Val Acc: 64.07%
-[both (wave + spec)] Epoch [31/60] -> Train Loss: 0.5701 | Val Loss: 0.9062 | Val F1: 0.3885 | Val Acc: 64.69%
-[both (wave + spec)] Epoch [32/60] -> Train Loss: 0.5592 | Val Loss: 0.9201 | Val F1: 0.3950 | Val Acc: 65.34%
-[both (wave + spec)] Epoch [33/60] -> Train Loss: 0.5470 | Val Loss: 0.9009 | Val F1: 0.3966 | Val Acc: 67.64%
-[both (wave + spec)] Epoch [34/60] -> Train Loss: 0.5401 | Val Loss: 0.9084 | Val F1: 0.3889 | Val Acc: 65.72%
-[both (wave + spec)] Epoch [35/60] -> Train Loss: 0.5297 | Val Loss: 0.9219 | Val F1: 0.3888 | Val Acc: 63.92%
-[both (wave + spec)] Epoch [36/60] -> Train Loss: 0.5258 | Val Loss: 0.9189 | Val F1: 0.3947 | Val Acc: 65.05%
-[both (wave + spec)] Epoch [37/60] -> Train Loss: 0.5197 | Val Loss: 0.9392 | Val F1: 0.3940 | Val Acc: 63.50%
-[both (wave + spec)] Epoch [38/60] -> Train Loss: 0.5085 | Val Loss: 0.9148 | Val F1: 0.3904 | Val Acc: 66.66%
-[both (wave + spec)] Epoch [39/60] -> Train Loss: 0.5085 | Val Loss: 0.9144 | Val F1: 0.3796 | Val Acc: 68.21%
-[both (wave + spec)] Epoch [40/60] -> Train Loss: 0.5041 | Val Loss: 0.9147 | Val F1: 0.3859 | Val Acc: 66.14%
-[both (wave + spec)] Epoch [41/60] -> Train Loss: 0.4954 | Val Loss: 0.9159 | Val F1: 0.3889 | Val Acc: 65.64%
-[both (wave + spec)] Epoch [42/60] -> Train Loss: 0.4897 | Val Loss: 0.9095 | Val F1: 0.3933 | Val Acc: 66.30%
-[both (wave + spec)] Epoch [43/60] -> Train Loss: 0.4877 | Val Loss: 0.9139 | Val F1: 0.3907 | Val Acc: 66.81%
-[both (wave + spec)] Epoch [44/60] -> Train Loss: 0.4837 | Val Loss: 0.9163 | Val F1: 0.3983 | Val Acc: 67.52%
-[both (wave + spec)] Epoch [45/60] -> Train Loss: 0.4745 | Val Loss: 0.9099 | Val F1: 0.3972 | Val Acc: 66.66%
-[both (wave + spec)] Epoch [46/60] -> Train Loss: 0.4757 | Val Loss: 0.9071 | Val F1: 0.3879 | Val Acc: 68.08%
-[both (wave + spec)] Epoch [47/60] -> Train Loss: 0.4731 | Val Loss: 0.9110 | Val F1: 0.3924 | Val Acc: 67.45%
-[both (wave + spec)] Epoch [48/60] -> Train Loss: 0.4734 | Val Loss: 0.9122 | Val F1: 0.3868 | Val Acc: 68.29%
-[both (wave + spec)] Epoch [49/60] -> Train Loss: 0.4700 | Val Loss: 0.9154 | Val F1: 0.3934 | Val Acc: 67.52%
-[both (wave + spec)] Epoch [50/60] -> Train Loss: 0.4693 | Val Loss: 0.9158 | Val F1: 0.3949 | Val Acc: 66.76%
+W1023 22:03:54.978000 19556 Lib\site-packages\torch\_inductor\utils.py:1806] [0/0] Not enough SMs to use max_autotune_gemm mode
+[both (wave + spec)] Epoch [1/60] -> Train Loss: 1.0327 | Val Loss: 0.9834 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [2/60] -> Train Loss: 0.9904 | Val Loss: 0.9837 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [3/60] -> Train Loss: 0.9893 | Val Loss: 0.9836 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [4/60] -> Train Loss: 0.9880 | Val Loss: 0.9798 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [5/60] -> Train Loss: 0.9864 | Val Loss: 0.9789 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [6/60] -> Train Loss: 0.9852 | Val Loss: 0.9820 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [7/60] -> Train Loss: 0.9835 | Val Loss: 0.9775 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [8/60] -> Train Loss: 0.9808 | Val Loss: 0.9766 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [9/60] -> Train Loss: 0.9790 | Val Loss: 0.9801 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [10/60] -> Train Loss: 0.9779 | Val Loss: 0.9769 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [11/60] -> Train Loss: 0.9751 | Val Loss: 0.9768 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [12/60] -> Train Loss: 0.9737 | Val Loss: 0.9788 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [13/60] -> Train Loss: 0.9723 | Val Loss: 0.9778 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [14/60] -> Train Loss: 0.9698 | Val Loss: 0.9800 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [15/60] -> Train Loss: 0.9700 | Val Loss: 0.9776 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [16/60] -> Train Loss: 0.9705 | Val Loss: 0.9799 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [17/60] -> Train Loss: 0.9698 | Val Loss: 0.9786 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [18/60] -> Train Loss: 0.9694 | Val Loss: 0.9812 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [19/60] -> Train Loss: 0.9632 | Val Loss: 0.9971 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [20/60] -> Train Loss: 0.9662 | Val Loss: 0.9955 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [21/60] -> Train Loss: 0.9674 | Val Loss: 0.9924 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [22/60] -> Train Loss: 0.9678 | Val Loss: 0.9803 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [23/60] -> Train Loss: 0.9642 | Val Loss: 0.9989 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [24/60] -> Train Loss: 0.9644 | Val Loss: 0.9894 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [25/60] -> Train Loss: 0.9652 | Val Loss: 0.9943 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [26/60] -> Train Loss: 0.9650 | Val Loss: 0.9928 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [27/60] -> Train Loss: 0.9648 | Val Loss: 0.9924 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [28/60] -> Train Loss: 0.9624 | Val Loss: 0.9887 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [29/60] -> Train Loss: 0.9579 | Val Loss: 0.9816 | Val F1: 0.2460 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [30/60] -> Train Loss: 0.9576 | Val Loss: 0.9845 | Val F1: 0.2460 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [31/60] -> Train Loss: 0.9604 | Val Loss: 0.9853 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [32/60] -> Train Loss: 0.9623 | Val Loss: 0.9917 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [33/60] -> Train Loss: 0.9594 | Val Loss: 0.9921 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [34/60] -> Train Loss: 0.9609 | Val Loss: 0.9832 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [35/60] -> Train Loss: 0.9611 | Val Loss: 0.9835 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [36/60] -> Train Loss: 0.9583 | Val Loss: 0.9822 | Val F1: 0.2478 | Val Acc: 58.50%
+[both (wave + spec)] Epoch [37/60] -> Train Loss: 0.9590 | Val Loss: 0.9844 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [38/60] -> Train Loss: 0.9569 | Val Loss: 0.9900 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [39/60] -> Train Loss: 0.9569 | Val Loss: 0.9842 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [40/60] -> Train Loss: 0.9586 | Val Loss: 0.9872 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [41/60] -> Train Loss: 0.9574 | Val Loss: 0.9856 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [42/60] -> Train Loss: 0.9598 | Val Loss: 0.9884 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [43/60] -> Train Loss: 0.9559 | Val Loss: 0.9839 | Val F1: 0.2460 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [44/60] -> Train Loss: 0.9599 | Val Loss: 0.9849 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [45/60] -> Train Loss: 0.9584 | Val Loss: 0.9874 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [46/60] -> Train Loss: 0.9577 | Val Loss: 0.9879 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [47/60] -> Train Loss: 0.9561 | Val Loss: 0.9870 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [48/60] -> Train Loss: 0.9565 | Val Loss: 0.9870 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [49/60] -> Train Loss: 0.9556 | Val Loss: 0.9842 | Val F1: 0.2458 | Val Acc: 58.36%
+[both (wave + spec)] Epoch [50/60] -> Train Loss: 0.9595 | Val Loss: 0.9883 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [51/60] -> Train Loss: 0.9590 | Val Loss: 0.9865 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [52/60] -> Train Loss: 0.9569 | Val Loss: 0.9893 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [53/60] -> Train Loss: 0.9568 | Val Loss: 0.9887 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [54/60] -> Train Loss: 0.9546 | Val Loss: 0.9890 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [55/60] -> Train Loss: 0.9568 | Val Loss: 0.9874 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [56/60] -> Train Loss: 0.9578 | Val Loss: 0.9879 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [57/60] -> Train Loss: 0.9552 | Val Loss: 0.9879 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [58/60] -> Train Loss: 0.9547 | Val Loss: 0.9883 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [59/60] -> Train Loss: 0.9561 | Val Loss: 0.9888 | Val F1: 0.2459 | Val Acc: 58.43%
+[both (wave + spec)] Epoch [60/60] -> Train Loss: 0.9574 | Val Loss: 0.9881 | Val F1: 0.2459 | Val Acc: 58.43%
+
+wave only EXPERIMENT
+[wave only] Epoch [1/60] -> Train Loss: 1.0077 | Val Loss: 0.9813 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [2/60] -> Train Loss: 0.9879 | Val Loss: 0.9826 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [3/60] -> Train Loss: 0.9867 | Val Loss: 0.9806 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [4/60] -> Train Loss: 0.9855 | Val Loss: 0.9802 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [5/60] -> Train Loss: 0.9845 | Val Loss: 0.9803 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [6/60] -> Train Loss: 0.9838 | Val Loss: 0.9790 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [7/60] -> Train Loss: 0.9834 | Val Loss: 0.9766 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [8/60] -> Train Loss: 0.9818 | Val Loss: 0.9782 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [9/60] -> Train Loss: 0.9797 | Val Loss: 0.9778 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [10/60] -> Train Loss: 0.9793 | Val Loss: 0.9785 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [11/60] -> Train Loss: 0.9759 | Val Loss: 0.9801 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [12/60] -> Train Loss: 0.9756 | Val Loss: 0.9809 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [13/60] -> Train Loss: 0.9750 | Val Loss: 0.9778 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [14/60] -> Train Loss: 0.9721 | Val Loss: 0.9783 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [15/60] -> Train Loss: 0.9723 | Val Loss: 0.9804 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [16/60] -> Train Loss: 0.9689 | Val Loss: 0.9829 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [17/60] -> Train Loss: 0.9689 | Val Loss: 0.9844 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [18/60] -> Train Loss: 0.9706 | Val Loss: 0.9867 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [19/60] -> Train Loss: 0.9686 | Val Loss: 0.9825 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [20/60] -> Train Loss: 0.9662 | Val Loss: 0.9831 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [21/60] -> Train Loss: 0.9670 | Val Loss: 0.9844 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [22/60] -> Train Loss: 0.9662 | Val Loss: 0.9835 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [23/60] -> Train Loss: 0.9640 | Val Loss: 0.9852 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [24/60] -> Train Loss: 0.9653 | Val Loss: 0.9843 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [25/60] -> Train Loss: 0.9638 | Val Loss: 0.9905 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [26/60] -> Train Loss: 0.9658 | Val Loss: 0.9884 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [27/60] -> Train Loss: 0.9656 | Val Loss: 0.9930 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [28/60] -> Train Loss: 0.9654 | Val Loss: 0.9834 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [29/60] -> Train Loss: 0.9675 | Val Loss: 0.9846 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [30/60] -> Train Loss: 0.9613 | Val Loss: 0.9910 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [31/60] -> Train Loss: 0.9625 | Val Loss: 0.9824 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [32/60] -> Train Loss: 0.9609 | Val Loss: 0.9854 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [33/60] -> Train Loss: 0.9621 | Val Loss: 0.9849 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [34/60] -> Train Loss: 0.9620 | Val Loss: 0.9909 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [35/60] -> Train Loss: 0.9594 | Val Loss: 0.9891 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [36/60] -> Train Loss: 0.9583 | Val Loss: 0.9849 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [37/60] -> Train Loss: 0.9604 | Val Loss: 0.9863 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [38/60] -> Train Loss: 0.9596 | Val Loss: 0.9854 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [39/60] -> Train Loss: 0.9598 | Val Loss: 0.9855 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [40/60] -> Train Loss: 0.9585 | Val Loss: 0.9852 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [41/60] -> Train Loss: 0.9551 | Val Loss: 0.9856 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [42/60] -> Train Loss: 0.9589 | Val Loss: 0.9894 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [43/60] -> Train Loss: 0.9590 | Val Loss: 0.9857 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [44/60] -> Train Loss: 0.9605 | Val Loss: 0.9859 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [45/60] -> Train Loss: 0.9567 | Val Loss: 0.9878 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [46/60] -> Train Loss: 0.9580 | Val Loss: 0.9903 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [47/60] -> Train Loss: 0.9574 | Val Loss: 0.9863 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [48/60] -> Train Loss: 0.9592 | Val Loss: 0.9875 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [49/60] -> Train Loss: 0.9581 | Val Loss: 0.9877 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [50/60] -> Train Loss: 0.9570 | Val Loss: 0.9863 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [51/60] -> Train Loss: 0.9587 | Val Loss: 0.9897 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [52/60] -> Train Loss: 0.9605 | Val Loss: 0.9887 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [53/60] -> Train Loss: 0.9578 | Val Loss: 0.9869 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [54/60] -> Train Loss: 0.9560 | Val Loss: 0.9876 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [55/60] -> Train Loss: 0.9563 | Val Loss: 0.9876 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [56/60] -> Train Loss: 0.9579 | Val Loss: 0.9881 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [57/60] -> Train Loss: 0.9571 | Val Loss: 0.9880 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [58/60] -> Train Loss: 0.9570 | Val Loss: 0.9881 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [59/60] -> Train Loss: 0.9547 | Val Loss: 0.9877 | Val F1: 0.2459 | Val Acc: 58.43%
+[wave only] Epoch [60/60] -> Train Loss: 0.9579 | Val Loss: 0.9878 | Val F1: 0.2459 | Val Acc: 58.43%
+
+spec only EXPERIMENT
+[spec only] Epoch [1/60] -> Train Loss: 1.0013 | Val Loss: 0.9826 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [2/60] -> Train Loss: 0.9896 | Val Loss: 0.9813 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [3/60] -> Train Loss: 0.9864 | Val Loss: 0.9807 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [4/60] -> Train Loss: 0.9863 | Val Loss: 0.9818 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [5/60] -> Train Loss: 0.9864 | Val Loss: 0.9794 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [6/60] -> Train Loss: 0.9845 | Val Loss: 0.9808 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [7/60] -> Train Loss: 0.9852 | Val Loss: 0.9789 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [8/60] -> Train Loss: 0.9851 | Val Loss: 0.9793 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [9/60] -> Train Loss: 0.9836 | Val Loss: 0.9780 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [10/60] -> Train Loss: 0.9843 | Val Loss: 0.9789 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [11/60] -> Train Loss: 0.9837 | Val Loss: 0.9791 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [12/60] -> Train Loss: 0.9832 | Val Loss: 0.9788 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [13/60] -> Train Loss: 0.9838 | Val Loss: 0.9787 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [14/60] -> Train Loss: 0.9816 | Val Loss: 0.9797 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [15/60] -> Train Loss: 0.9834 | Val Loss: 0.9792 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [16/60] -> Train Loss: 0.9823 | Val Loss: 0.9791 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [17/60] -> Train Loss: 0.9822 | Val Loss: 0.9796 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [18/60] -> Train Loss: 0.9817 | Val Loss: 0.9782 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [19/60] -> Train Loss: 0.9839 | Val Loss: 0.9796 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [20/60] -> Train Loss: 0.9818 | Val Loss: 0.9792 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [21/60] -> Train Loss: 0.9820 | Val Loss: 0.9801 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [22/60] -> Train Loss: 0.9823 | Val Loss: 0.9806 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [23/60] -> Train Loss: 0.9805 | Val Loss: 0.9796 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [24/60] -> Train Loss: 0.9814 | Val Loss: 0.9793 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [25/60] -> Train Loss: 0.9824 | Val Loss: 0.9781 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [26/60] -> Train Loss: 0.9810 | Val Loss: 0.9790 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [27/60] -> Train Loss: 0.9798 | Val Loss: 0.9791 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [28/60] -> Train Loss: 0.9804 | Val Loss: 0.9788 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [29/60] -> Train Loss: 0.9794 | Val Loss: 0.9780 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [30/60] -> Train Loss: 0.9788 | Val Loss: 0.9785 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [31/60] -> Train Loss: 0.9788 | Val Loss: 0.9791 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [32/60] -> Train Loss: 0.9789 | Val Loss: 0.9801 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [33/60] -> Train Loss: 0.9783 | Val Loss: 0.9770 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [34/60] -> Train Loss: 0.9782 | Val Loss: 0.9793 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [35/60] -> Train Loss: 0.9775 | Val Loss: 0.9787 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [36/60] -> Train Loss: 0.9777 | Val Loss: 0.9788 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [37/60] -> Train Loss: 0.9772 | Val Loss: 0.9791 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [38/60] -> Train Loss: 0.9773 | Val Loss: 0.9791 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [39/60] -> Train Loss: 0.9764 | Val Loss: 0.9787 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [40/60] -> Train Loss: 0.9762 | Val Loss: 0.9786 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [41/60] -> Train Loss: 0.9758 | Val Loss: 0.9787 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [42/60] -> Train Loss: 0.9760 | Val Loss: 0.9790 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [43/60] -> Train Loss: 0.9756 | Val Loss: 0.9793 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [44/60] -> Train Loss: 0.9741 | Val Loss: 0.9798 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [45/60] -> Train Loss: 0.9752 | Val Loss: 0.9792 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [46/60] -> Train Loss: 0.9756 | Val Loss: 0.9790 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [47/60] -> Train Loss: 0.9745 | Val Loss: 0.9796 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [48/60] -> Train Loss: 0.9738 | Val Loss: 0.9797 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [49/60] -> Train Loss: 0.9730 | Val Loss: 0.9795 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [50/60] -> Train Loss: 0.9728 | Val Loss: 0.9800 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [51/60] -> Train Loss: 0.9739 | Val Loss: 0.9789 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [52/60] -> Train Loss: 0.9730 | Val Loss: 0.9797 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [53/60] -> Train Loss: 0.9734 | Val Loss: 0.9796 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [54/60] -> Train Loss: 0.9727 | Val Loss: 0.9799 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [55/60] -> Train Loss: 0.9728 | Val Loss: 0.9798 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [56/60] -> Train Loss: 0.9730 | Val Loss: 0.9800 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [57/60] -> Train Loss: 0.9729 | Val Loss: 0.9794 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [58/60] -> Train Loss: 0.9731 | Val Loss: 0.9794 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [59/60] -> Train Loss: 0.9734 | Val Loss: 0.9799 | Val F1: 0.2459 | Val Acc: 58.43%
+[spec only] Epoch [60/60] -> Train Loss: 0.9729 | Val Loss: 0.9797 | Val F1: 0.2459 | Val Acc: 58.43%
+
+=== Experiment Comparison ===
+Experiment           Final Val Acc Final Val Loss  Final Val F1
+both                       58.43%        0.9881        0.2459
+wave_only                  58.43%        0.9878        0.2459
+spec_only                  58.43%        0.9797        0.2459
+healthy: 31522 (74.4%)
+COVID-19: 2118 (5.0%)
+symptomatic: 8724 (20.6%)
+total: 42364

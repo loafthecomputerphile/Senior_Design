@@ -87,10 +87,13 @@ class DefaultCNN(nn.Module):
         )
         
         self.classifier: nn.Sequential = nn.Sequential(
+            # ponytail: GAP instead of Flatten — kills the 4.85M-param lookup-table head
+            # (18944->256 Linear) that was memorizing 9k train segments; 128->256 is ~33k params.
+            nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
-            nn.LazyLinear(256),
+            nn.LazyLinear(128),
             nn.LeakyReLU(),
-            nn.Dropout(0.3),
+            nn.Dropout(0.4),
             nn.LazyLinear(64),
             nn.LeakyReLU(),
             nn.Dropout(0.2),
@@ -110,41 +113,43 @@ class BranchedCoughCNN(nn.Module):
         super().__init__()
         
         self.spec_branch: nn.Sequential = nn.Sequential(
-            ConvBlockV1(1, 16, 3, 1, 1),
-            nn.MaxPool2d(2, 2),
-            ConvBlockV1(16, 32, 3, 1, 1),
-            nn.MaxPool2d(2, 2),
-            ConvBlockV1(32, 64, 3, 1, 1),
-            nn.MaxPool2d(2, 2)
+            DepthwiseSeparableBlock(3, 32),
+            DepthwiseSeparableBlock(32, 64)
         )
         
         self.mfcc_branch: nn.Sequential = nn.Sequential(
-            ConvBlockV1(1, 16, 3, 1, 1),
-            nn.MaxPool2d(2, 2),
-            ConvBlockV1(16, 32, 3, 1, 1),
-            nn.MaxPool2d(2, 2),
-            ConvBlockV1(32, 64, 3, 1, 1),
-            nn.MaxPool2d(2, 2)
+            DepthwiseSeparableBlock(3, 32),
+            DepthwiseSeparableBlock(32, 64)
         )
         
+        self.pool = nn.AdaptiveAvgPool2d((1, 1))
+        
         self.classifier: nn.Sequential = nn.Sequential(
-            nn.LazyLinear(256),
-            nn.ReLU(),
+            nn.LazyLinear(128),
+            nn.LeakyReLU(),
             nn.Dropout(0.4),
-            nn.Linear(256, 64),
-            nn.ReLU(),
+            nn.Linear(128, 64),
+            nn.LeakyReLU(),
             nn.Dropout(0.2),
             nn.Linear(64, num_classes),
             #nn.Sigmoid()
         )
         
     def forward(self, mel: torch.Tensor, mfcc: torch.Tensor) -> torch.Tensor:
-        mel, mfcc = mel.unsqueeze(1), mfcc.unsqueeze(1)
         
-        mel_branch_out: torch.Tensor = self.spec_branch(mel)
-        mfcc_branch_out: torch.Tensor = self.mfcc_branch(mfcc)
+        mel_out = self.spec_branch(mel)       # Shape: [B, 64, H_spec, W_spec]
+        mfcc_out = self.mfcc_branch(mfcc)     # Shape: [B, 64, H_mfcc, W_mfcc]
         
-        combined: torch.Tensor = torch.cat([mel_branch_out, mfcc_branch_out], dim=1)
+        # Apply global pooling so size mismatches in H or W across batches don't break things
+        mel_out = self.pool(mel_out)         # Shape: [B, 64, 1, 1]
+        mfcc_out = self.pool(mfcc_out)       # Shape: [B, 64, 1, 1]
+        
+        # Concatenate along the channel dimension (dim=1)
+        combined = torch.cat([mel_out, mfcc_out], dim=1)  # Shape: [B, 128, 1, 1]
+        
+        # Flatten from 4D to 2D for the linear classifier: [B, 128]
+        combined = torch.flatten(combined, start_dim=1)
+        
         return self.classifier(combined)
 
  

@@ -472,7 +472,7 @@ def n_fft_n_freq_op(n: int) -> int:
 
 class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
     
-    def __init__(self, n_mfcc: int = 40, n_fft: int = 1024, n_mel: int = 256, combind: bool = False, transforms: BaseSpecAug | None = None) -> None:
+    def __init__(self, n_mfcc: int = 40, n_fft: int = 1024, n_mel: int = 64, combind: bool = False, transforms: BaseSpecAug | None = None) -> None:
         super().__init__()
         self.current_input_freq: int | None = None
         self.transforms: BaseSpecAug | None = transforms

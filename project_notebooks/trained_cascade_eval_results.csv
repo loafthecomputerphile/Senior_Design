@@ -1,0 +1,4 @@
+experiment,tau_sick,tau_covid,healthy_recall,covid_recall,symp_recall
+trained_default__covid_symp_vs_healthy__both,0.4568,0.5083,0.8707,0.0323,0.1038
+trained_branched__covid_symp_vs_healthy__both,0.5093,0.5323,0.8746,0.0699,0.0734
+trained_resnet__covid_symp_vs_healthy__both,0.1621,0.2971,0.8435,0.0269,0.0901

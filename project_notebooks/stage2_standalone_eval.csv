@@ -1,0 +1,4 @@
+experiment,test_roc_auc,test_pr_auc,covid_recall,symp_recall
+covid_vs_symp__both,0.6254,0.2493,0.6989,0.4539
+covid_vs_symp__wave_only,0.6195,0.2328,0.629,0.5776
+covid_vs_symp__spec_only,0.6182,0.2414,0.7419,0.4025

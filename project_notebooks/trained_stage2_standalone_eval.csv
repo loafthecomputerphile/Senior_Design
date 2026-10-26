@@ -1,0 +1,4 @@
+experiment,test_roc_auc,test_pr_auc,covid_recall,symp_recall
+trained_default__covid_vs_symp__both,0.5989,0.2245,0.4731,0.6771
+trained_branched__covid_vs_symp__both,0.6374,0.26,0.6129,0.586
+trained_resnet__covid_vs_symp__both,0.5839,0.2092,0.5,0.6436

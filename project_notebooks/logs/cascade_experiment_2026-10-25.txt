@@ -1,0 +1,528 @@
+STARTING CASCADE EXPERIMENTS
+=== Stage 1: covid_symp_vs_healthy (covid+symp merged vs healthy) ===
+
+--- covid_symp_vs_healthy__both ---
+=> [covid_symp_vs_healthy__both] already complete (60/60 epochs) — restored, no retrain
+
+--- covid_symp_vs_healthy__wave_only ---
+[covid_symp_vs_healthy__wave_only] Epoch [1/60] -> Train Loss: 0.1330 | Val Loss: 0.1313 | Val F1: 0.5032 | Val AUC: 0.4978 | Val PR-AUC: 0.2557 | Val Acc: 64.11%
+[covid_symp_vs_healthy__wave_only] Epoch [2/60] -> Train Loss: 0.1322 | Val Loss: 0.1312 | Val F1: 0.4997 | Val AUC: 0.5046 | Val PR-AUC: 0.2588 | Val Acc: 60.59%
+[covid_symp_vs_healthy__wave_only] Epoch [3/60] -> Train Loss: 0.1317 | Val Loss: 0.1317 | Val F1: 0.4783 | Val AUC: 0.5156 | Val PR-AUC: 0.2635 | Val Acc: 72.37%
+[covid_symp_vs_healthy__wave_only] Epoch [4/60] -> Train Loss: 0.1310 | Val Loss: 0.1314 | Val F1: 0.3570 | Val AUC: 0.5371 | Val PR-AUC: 0.2746 | Val Acc: 35.94%
+[covid_symp_vs_healthy__wave_only] Epoch [5/60] -> Train Loss: 0.1303 | Val Loss: 0.1329 | Val F1: 0.3199 | Val AUC: 0.5426 | Val PR-AUC: 0.2758 | Val Acc: 32.90%
+[covid_symp_vs_healthy__wave_only] Epoch [6/60] -> Train Loss: 0.1298 | Val Loss: 0.1308 | Val F1: 0.5180 | Val AUC: 0.5493 | Val PR-AUC: 0.2812 | Val Acc: 58.99%
+[covid_symp_vs_healthy__wave_only] Epoch [7/60] -> Train Loss: 0.1295 | Val Loss: 0.1313 | Val F1: 0.4487 | Val AUC: 0.5561 | Val PR-AUC: 0.2857 | Val Acc: 45.50%
+[covid_symp_vs_healthy__wave_only] Epoch [8/60] -> Train Loss: 0.1287 | Val Loss: 0.1309 | Val F1: 0.5219 | Val AUC: 0.5564 | Val PR-AUC: 0.2866 | Val Acc: 62.11%
+[covid_symp_vs_healthy__wave_only] Epoch [9/60] -> Train Loss: 0.1286 | Val Loss: 0.1340 | Val F1: 0.5228 | Val AUC: 0.5573 | Val PR-AUC: 0.2860 | Val Acc: 67.71%
+=> [covid_symp_vs_healthy__wave_only] checkpoint saved (epoch 10/60)
+[covid_symp_vs_healthy__wave_only] Epoch [10/60] -> Train Loss: 0.1285 | Val Loss: 0.1313 | Val F1: 0.5246 | Val AUC: 0.5576 | Val PR-AUC: 0.2881 | Val Acc: 64.56%
+[covid_symp_vs_healthy__wave_only] Epoch [11/60] -> Train Loss: 0.1280 | Val Loss: 0.1313 | Val F1: 0.5219 | Val AUC: 0.5601 | Val PR-AUC: 0.2890 | Val Acc: 63.04%
+[covid_symp_vs_healthy__wave_only] Epoch [12/60] -> Train Loss: 0.1277 | Val Loss: 0.1314 | Val F1: 0.4621 | Val AUC: 0.5664 | Val PR-AUC: 0.2932 | Val Acc: 47.05%
+[covid_symp_vs_healthy__wave_only] Epoch [13/60] -> Train Loss: 0.1274 | Val Loss: 0.1309 | Val F1: 0.5273 | Val AUC: 0.5612 | Val PR-AUC: 0.2914 | Val Acc: 61.01%
+[covid_symp_vs_healthy__wave_only] Epoch [14/60] -> Train Loss: 0.1270 | Val Loss: 0.1306 | Val F1: 0.4901 | Val AUC: 0.5652 | Val PR-AUC: 0.2939 | Val Acc: 51.31%
+[covid_symp_vs_healthy__wave_only] Epoch [15/60] -> Train Loss: 0.1270 | Val Loss: 0.1311 | Val F1: 0.5198 | Val AUC: 0.5632 | Val PR-AUC: 0.2943 | Val Acc: 57.93%
+[covid_symp_vs_healthy__wave_only] Epoch [16/60] -> Train Loss: 0.1271 | Val Loss: 0.1314 | Val F1: 0.5336 | Val AUC: 0.5651 | Val PR-AUC: 0.2946 | Val Acc: 61.86%
+[covid_symp_vs_healthy__wave_only] Epoch [17/60] -> Train Loss: 0.1262 | Val Loss: 0.1307 | Val F1: 0.5226 | Val AUC: 0.5684 | Val PR-AUC: 0.2976 | Val Acc: 57.76%
+[covid_symp_vs_healthy__wave_only] Epoch [18/60] -> Train Loss: 0.1262 | Val Loss: 0.1316 | Val F1: 0.5175 | Val AUC: 0.5670 | Val PR-AUC: 0.2968 | Val Acc: 56.24%
+[covid_symp_vs_healthy__wave_only] Epoch [19/60] -> Train Loss: 0.1258 | Val Loss: 0.1315 | Val F1: 0.5347 | Val AUC: 0.5679 | Val PR-AUC: 0.2969 | Val Acc: 61.58%
+=> [covid_symp_vs_healthy__wave_only] checkpoint saved (epoch 20/60)
+[covid_symp_vs_healthy__wave_only] Epoch [20/60] -> Train Loss: 0.1255 | Val Loss: 0.1328 | Val F1: 0.4811 | Val AUC: 0.5653 | Val PR-AUC: 0.2960 | Val Acc: 49.76%
+[covid_symp_vs_healthy__wave_only] Epoch [21/60] -> Train Loss: 0.1253 | Val Loss: 0.1315 | Val F1: 0.5306 | Val AUC: 0.5655 | Val PR-AUC: 0.2968 | Val Acc: 60.17%
+[covid_symp_vs_healthy__wave_only] Epoch [22/60] -> Train Loss: 0.1248 | Val Loss: 0.1318 | Val F1: 0.5049 | Val AUC: 0.5679 | Val PR-AUC: 0.2971 | Val Acc: 53.92%
+[covid_symp_vs_healthy__wave_only] Epoch [23/60] -> Train Loss: 0.1248 | Val Loss: 0.1350 | Val F1: 0.5408 | Val AUC: 0.5638 | Val PR-AUC: 0.2969 | Val Acc: 66.33%
+[covid_symp_vs_healthy__wave_only] Epoch [24/60] -> Train Loss: 0.1248 | Val Loss: 0.1319 | Val F1: 0.5062 | Val AUC: 0.5663 | Val PR-AUC: 0.2973 | Val Acc: 54.49%
+[covid_symp_vs_healthy__wave_only] Epoch [25/60] -> Train Loss: 0.1245 | Val Loss: 0.1326 | Val F1: 0.5309 | Val AUC: 0.5646 | Val PR-AUC: 0.2977 | Val Acc: 60.04%
+[covid_symp_vs_healthy__wave_only] Epoch [26/60] -> Train Loss: 0.1240 | Val Loss: 0.1347 | Val F1: 0.5355 | Val AUC: 0.5655 | Val PR-AUC: 0.2965 | Val Acc: 64.62%
+[covid_symp_vs_healthy__wave_only] Epoch [27/60] -> Train Loss: 0.1238 | Val Loss: 0.1334 | Val F1: 0.5343 | Val AUC: 0.5642 | Val PR-AUC: 0.2933 | Val Acc: 61.65%
+[covid_symp_vs_healthy__wave_only] Epoch [28/60] -> Train Loss: 0.1232 | Val Loss: 0.1416 | Val F1: 0.5297 | Val AUC: 0.5651 | Val PR-AUC: 0.2963 | Val Acc: 69.45%
+[covid_symp_vs_healthy__wave_only] Epoch [29/60] -> Train Loss: 0.1234 | Val Loss: 0.1333 | Val F1: 0.5297 | Val AUC: 0.5655 | Val PR-AUC: 0.2963 | Val Acc: 60.14%
+=> [covid_symp_vs_healthy__wave_only] checkpoint saved (epoch 30/60)
+[covid_symp_vs_healthy__wave_only] Epoch [30/60] -> Train Loss: 0.1228 | Val Loss: 0.1338 | Val F1: 0.5238 | Val AUC: 0.5651 | Val PR-AUC: 0.2958 | Val Acc: 58.31%
+[covid_symp_vs_healthy__wave_only] Epoch [31/60] -> Train Loss: 0.1230 | Val Loss: 0.1337 | Val F1: 0.5103 | Val AUC: 0.5644 | Val PR-AUC: 0.2948 | Val Acc: 55.09%
+[covid_symp_vs_healthy__wave_only] Epoch [32/60] -> Train Loss: 0.1228 | Val Loss: 0.1339 | Val F1: 0.5062 | Val AUC: 0.5641 | Val PR-AUC: 0.2955 | Val Acc: 54.28%
+[covid_symp_vs_healthy__wave_only] Epoch [33/60] -> Train Loss: 0.1226 | Val Loss: 0.1377 | Val F1: 0.5330 | Val AUC: 0.5642 | Val PR-AUC: 0.2957 | Val Acc: 62.31%
+[covid_symp_vs_healthy__wave_only] Epoch [34/60] -> Train Loss: 0.1226 | Val Loss: 0.1356 | Val F1: 0.5231 | Val AUC: 0.5640 | Val PR-AUC: 0.2943 | Val Acc: 58.16%
+[covid_symp_vs_healthy__wave_only] Epoch [35/60] -> Train Loss: 0.1226 | Val Loss: 0.1368 | Val F1: 0.5283 | Val AUC: 0.5658 | Val PR-AUC: 0.2957 | Val Acc: 59.23%
+[covid_symp_vs_healthy__wave_only] Epoch [36/60] -> Train Loss: 0.1225 | Val Loss: 0.1355 | Val F1: 0.5224 | Val AUC: 0.5639 | Val PR-AUC: 0.2946 | Val Acc: 58.01%
+[covid_symp_vs_healthy__wave_only] Epoch [37/60] -> Train Loss: 0.1216 | Val Loss: 0.1358 | Val F1: 0.5362 | Val AUC: 0.5655 | Val PR-AUC: 0.2959 | Val Acc: 62.19%
+[covid_symp_vs_healthy__wave_only] Epoch [38/60] -> Train Loss: 0.1219 | Val Loss: 0.1394 | Val F1: 0.5387 | Val AUC: 0.5653 | Val PR-AUC: 0.2960 | Val Acc: 64.31%
+[covid_symp_vs_healthy__wave_only] Epoch [39/60] -> Train Loss: 0.1220 | Val Loss: 0.1395 | Val F1: 0.5367 | Val AUC: 0.5633 | Val PR-AUC: 0.2944 | Val Acc: 64.83%
+=> [covid_symp_vs_healthy__wave_only] checkpoint saved (epoch 40/60)
+[covid_symp_vs_healthy__wave_only] Epoch [40/60] -> Train Loss: 0.1212 | Val Loss: 0.1370 | Val F1: 0.5301 | Val AUC: 0.5650 | Val PR-AUC: 0.2960 | Val Acc: 60.51%
+[covid_symp_vs_healthy__wave_only] Epoch [41/60] -> Train Loss: 0.1213 | Val Loss: 0.1385 | Val F1: 0.5325 | Val AUC: 0.5644 | Val PR-AUC: 0.2953 | Val Acc: 61.35%
+[covid_symp_vs_healthy__wave_only] Epoch [42/60] -> Train Loss: 0.1211 | Val Loss: 0.1365 | Val F1: 0.5255 | Val AUC: 0.5654 | Val PR-AUC: 0.2957 | Val Acc: 59.86%
+[covid_symp_vs_healthy__wave_only] Epoch [43/60] -> Train Loss: 0.1216 | Val Loss: 0.1352 | Val F1: 0.5185 | Val AUC: 0.5658 | Val PR-AUC: 0.2958 | Val Acc: 56.96%
+[covid_symp_vs_healthy__wave_only] Epoch [44/60] -> Train Loss: 0.1216 | Val Loss: 0.1351 | Val F1: 0.5157 | Val AUC: 0.5660 | Val PR-AUC: 0.2956 | Val Acc: 56.12%
+[covid_symp_vs_healthy__wave_only] Epoch [45/60] -> Train Loss: 0.1208 | Val Loss: 0.1368 | Val F1: 0.5222 | Val AUC: 0.5651 | Val PR-AUC: 0.2948 | Val Acc: 58.00%
+[covid_symp_vs_healthy__wave_only] Epoch [46/60] -> Train Loss: 0.1206 | Val Loss: 0.1370 | Val F1: 0.5172 | Val AUC: 0.5652 | Val PR-AUC: 0.2949 | Val Acc: 56.81%
+[covid_symp_vs_healthy__wave_only] Epoch [47/60] -> Train Loss: 0.1210 | Val Loss: 0.1361 | Val F1: 0.5164 | Val AUC: 0.5662 | Val PR-AUC: 0.2953 | Val Acc: 56.71%
+[covid_symp_vs_healthy__wave_only] Epoch [48/60] -> Train Loss: 0.1204 | Val Loss: 0.1377 | Val F1: 0.5256 | Val AUC: 0.5648 | Val PR-AUC: 0.2945 | Val Acc: 59.37%
+[covid_symp_vs_healthy__wave_only] Epoch [49/60] -> Train Loss: 0.1204 | Val Loss: 0.1387 | Val F1: 0.5263 | Val AUC: 0.5651 | Val PR-AUC: 0.2946 | Val Acc: 59.31%
+=> [covid_symp_vs_healthy__wave_only] checkpoint saved (epoch 50/60)
+[covid_symp_vs_healthy__wave_only] Epoch [50/60] -> Train Loss: 0.1201 | Val Loss: 0.1382 | Val F1: 0.5186 | Val AUC: 0.5648 | Val PR-AUC: 0.2940 | Val Acc: 57.29%
+[covid_symp_vs_healthy__wave_only] Epoch [51/60] -> Train Loss: 0.1202 | Val Loss: 0.1390 | Val F1: 0.5284 | Val AUC: 0.5649 | Val PR-AUC: 0.2945 | Val Acc: 60.31%
+[covid_symp_vs_healthy__wave_only] Epoch [52/60] -> Train Loss: 0.1199 | Val Loss: 0.1398 | Val F1: 0.5317 | Val AUC: 0.5650 | Val PR-AUC: 0.2945 | Val Acc: 61.23%
+[covid_symp_vs_healthy__wave_only] Epoch [53/60] -> Train Loss: 0.1204 | Val Loss: 0.1379 | Val F1: 0.5264 | Val AUC: 0.5650 | Val PR-AUC: 0.2944 | Val Acc: 59.67%
+[covid_symp_vs_healthy__wave_only] Epoch [54/60] -> Train Loss: 0.1203 | Val Loss: 0.1385 | Val F1: 0.5252 | Val AUC: 0.5651 | Val PR-AUC: 0.2944 | Val Acc: 59.02%
+[covid_symp_vs_healthy__wave_only] Epoch [55/60] -> Train Loss: 0.1205 | Val Loss: 0.1375 | Val F1: 0.5220 | Val AUC: 0.5650 | Val PR-AUC: 0.2943 | Val Acc: 57.97%
+[covid_symp_vs_healthy__wave_only] Epoch [56/60] -> Train Loss: 0.1196 | Val Loss: 0.1380 | Val F1: 0.5216 | Val AUC: 0.5649 | Val PR-AUC: 0.2943 | Val Acc: 57.91%
+[covid_symp_vs_healthy__wave_only] Epoch [57/60] -> Train Loss: 0.1202 | Val Loss: 0.1391 | Val F1: 0.5270 | Val AUC: 0.5647 | Val PR-AUC: 0.2942 | Val Acc: 59.55%
+[covid_symp_vs_healthy__wave_only] Epoch [58/60] -> Train Loss: 0.1203 | Val Loss: 0.1384 | Val F1: 0.5249 | Val AUC: 0.5648 | Val PR-AUC: 0.2944 | Val Acc: 58.84%
+[covid_symp_vs_healthy__wave_only] Epoch [59/60] -> Train Loss: 0.1199 | Val Loss: 0.1386 | Val F1: 0.5257 | Val AUC: 0.5648 | Val PR-AUC: 0.2943 | Val Acc: 59.10%
+=> [covid_symp_vs_healthy__wave_only] checkpoint saved (epoch 60/60)
+[covid_symp_vs_healthy__wave_only] Epoch [60/60] -> Train Loss: 0.1200 | Val Loss: 0.1386 | Val F1: 0.5260 | Val AUC: 0.5648 | Val PR-AUC: 0.2943 | Val Acc: 59.00%
+
+--- covid_symp_vs_healthy__spec_only ---
+[covid_symp_vs_healthy__spec_only] Epoch [1/60] -> Train Loss: 0.1332 | Val Loss: 0.1316 | Val F1: 0.1992 | Val AUC: 0.5073 | Val PR-AUC: 0.2586 | Val Acc: 24.87%
+[covid_symp_vs_healthy__spec_only] Epoch [2/60] -> Train Loss: 0.1329 | Val Loss: 0.1312 | Val F1: 0.2804 | Val AUC: 0.5194 | Val PR-AUC: 0.2634 | Val Acc: 29.85%
+[covid_symp_vs_healthy__spec_only] Epoch [3/60] -> Train Loss: 0.1328 | Val Loss: 0.1312 | Val F1: 0.3382 | Val AUC: 0.5187 | Val PR-AUC: 0.2645 | Val Acc: 34.24%
+[covid_symp_vs_healthy__spec_only] Epoch [4/60] -> Train Loss: 0.1326 | Val Loss: 0.1313 | Val F1: 0.2847 | Val AUC: 0.5274 | Val PR-AUC: 0.2668 | Val Acc: 30.25%
+[covid_symp_vs_healthy__spec_only] Epoch [5/60] -> Train Loss: 0.1324 | Val Loss: 0.1308 | Val F1: 0.5174 | Val AUC: 0.5370 | Val PR-AUC: 0.2727 | Val Acc: 63.18%
+[covid_symp_vs_healthy__spec_only] Epoch [6/60] -> Train Loss: 0.1317 | Val Loss: 0.1306 | Val F1: 0.5190 | Val AUC: 0.5479 | Val PR-AUC: 0.2784 | Val Acc: 62.73%
+[covid_symp_vs_healthy__spec_only] Epoch [7/60] -> Train Loss: 0.1313 | Val Loss: 0.1313 | Val F1: 0.3630 | Val AUC: 0.5497 | Val PR-AUC: 0.2813 | Val Acc: 36.53%
+[covid_symp_vs_healthy__spec_only] Epoch [8/60] -> Train Loss: 0.1306 | Val Loss: 0.1301 | Val F1: 0.5192 | Val AUC: 0.5611 | Val PR-AUC: 0.2853 | Val Acc: 57.16%
+[covid_symp_vs_healthy__spec_only] Epoch [9/60] -> Train Loss: 0.1300 | Val Loss: 0.1303 | Val F1: 0.4789 | Val AUC: 0.5641 | Val PR-AUC: 0.2904 | Val Acc: 49.16%
+=> [covid_symp_vs_healthy__spec_only] checkpoint saved (epoch 10/60)
+[covid_symp_vs_healthy__spec_only] Epoch [10/60] -> Train Loss: 0.1294 | Val Loss: 0.1306 | Val F1: 0.4631 | Val AUC: 0.5645 | Val PR-AUC: 0.2933 | Val Acc: 47.07%
+[covid_symp_vs_healthy__spec_only] Epoch [11/60] -> Train Loss: 0.1286 | Val Loss: 0.1309 | Val F1: 0.4703 | Val AUC: 0.5657 | Val PR-AUC: 0.2919 | Val Acc: 48.10%
+[covid_symp_vs_healthy__spec_only] Epoch [12/60] -> Train Loss: 0.1282 | Val Loss: 0.1321 | Val F1: 0.5260 | Val AUC: 0.5646 | Val PR-AUC: 0.2905 | Val Acc: 58.52%
+[covid_symp_vs_healthy__spec_only] Epoch [13/60] -> Train Loss: 0.1276 | Val Loss: 0.1328 | Val F1: 0.5353 | Val AUC: 0.5647 | Val PR-AUC: 0.2906 | Val Acc: 63.79%
+[covid_symp_vs_healthy__spec_only] Epoch [14/60] -> Train Loss: 0.1271 | Val Loss: 0.1321 | Val F1: 0.5259 | Val AUC: 0.5594 | Val PR-AUC: 0.2893 | Val Acc: 59.48%
+[covid_symp_vs_healthy__spec_only] Epoch [15/60] -> Train Loss: 0.1266 | Val Loss: 0.1321 | Val F1: 0.5212 | Val AUC: 0.5628 | Val PR-AUC: 0.2905 | Val Acc: 57.19%
+[covid_symp_vs_healthy__spec_only] Epoch [16/60] -> Train Loss: 0.1258 | Val Loss: 0.1327 | Val F1: 0.5132 | Val AUC: 0.5606 | Val PR-AUC: 0.2889 | Val Acc: 55.86%
+[covid_symp_vs_healthy__spec_only] Epoch [17/60] -> Train Loss: 0.1252 | Val Loss: 0.1324 | Val F1: 0.5300 | Val AUC: 0.5567 | Val PR-AUC: 0.2864 | Val Acc: 62.32%
+[covid_symp_vs_healthy__spec_only] Epoch [18/60] -> Train Loss: 0.1249 | Val Loss: 0.1337 | Val F1: 0.4800 | Val AUC: 0.5562 | Val PR-AUC: 0.2854 | Val Acc: 49.78%
+[covid_symp_vs_healthy__spec_only] Epoch [19/60] -> Train Loss: 0.1243 | Val Loss: 0.1345 | Val F1: 0.4888 | Val AUC: 0.5553 | Val PR-AUC: 0.2844 | Val Acc: 51.20%
+=> [covid_symp_vs_healthy__spec_only] checkpoint saved (epoch 20/60)
+[covid_symp_vs_healthy__spec_only] Epoch [20/60] -> Train Loss: 0.1240 | Val Loss: 0.1340 | Val F1: 0.5181 | Val AUC: 0.5570 | Val PR-AUC: 0.2863 | Val Acc: 57.07%
+[covid_symp_vs_healthy__spec_only] Epoch [21/60] -> Train Loss: 0.1227 | Val Loss: 0.1348 | Val F1: 0.5257 | Val AUC: 0.5567 | Val PR-AUC: 0.2850 | Val Acc: 59.46%
+[covid_symp_vs_healthy__spec_only] Epoch [22/60] -> Train Loss: 0.1223 | Val Loss: 0.1376 | Val F1: 0.5193 | Val AUC: 0.5589 | Val PR-AUC: 0.2869 | Val Acc: 57.23%
+[covid_symp_vs_healthy__spec_only] Epoch [23/60] -> Train Loss: 0.1228 | Val Loss: 0.1345 | Val F1: 0.4958 | Val AUC: 0.5575 | Val PR-AUC: 0.2857 | Val Acc: 52.43%
+[covid_symp_vs_healthy__spec_only] Epoch [24/60] -> Train Loss: 0.1219 | Val Loss: 0.1368 | Val F1: 0.5297 | Val AUC: 0.5560 | Val PR-AUC: 0.2844 | Val Acc: 60.59%
+[covid_symp_vs_healthy__spec_only] Epoch [25/60] -> Train Loss: 0.1213 | Val Loss: 0.1370 | Val F1: 0.5066 | Val AUC: 0.5580 | Val PR-AUC: 0.2862 | Val Acc: 54.41%
+[covid_symp_vs_healthy__spec_only] Epoch [26/60] -> Train Loss: 0.1204 | Val Loss: 0.1378 | Val F1: 0.5009 | Val AUC: 0.5549 | Val PR-AUC: 0.2829 | Val Acc: 53.47%
+[covid_symp_vs_healthy__spec_only] Epoch [27/60] -> Train Loss: 0.1204 | Val Loss: 0.1390 | Val F1: 0.5189 | Val AUC: 0.5525 | Val PR-AUC: 0.2815 | Val Acc: 58.32%
+[covid_symp_vs_healthy__spec_only] Epoch [28/60] -> Train Loss: 0.1197 | Val Loss: 0.1381 | Val F1: 0.4791 | Val AUC: 0.5549 | Val PR-AUC: 0.2840 | Val Acc: 49.63%
+[covid_symp_vs_healthy__spec_only] Epoch [29/60] -> Train Loss: 0.1195 | Val Loss: 0.1374 | Val F1: 0.5126 | Val AUC: 0.5551 | Val PR-AUC: 0.2842 | Val Acc: 56.22%
+=> [covid_symp_vs_healthy__spec_only] checkpoint saved (epoch 30/60)
+[covid_symp_vs_healthy__spec_only] Epoch [30/60] -> Train Loss: 0.1188 | Val Loss: 0.1418 | Val F1: 0.5172 | Val AUC: 0.5535 | Val PR-AUC: 0.2852 | Val Acc: 57.87%
+[covid_symp_vs_healthy__spec_only] Epoch [31/60] -> Train Loss: 0.1179 | Val Loss: 0.1420 | Val F1: 0.5099 | Val AUC: 0.5500 | Val PR-AUC: 0.2805 | Val Acc: 55.96%
+[covid_symp_vs_healthy__spec_only] Epoch [32/60] -> Train Loss: 0.1175 | Val Loss: 0.1415 | Val F1: 0.5068 | Val AUC: 0.5523 | Val PR-AUC: 0.2830 | Val Acc: 55.25%
+[covid_symp_vs_healthy__spec_only] Epoch [33/60] -> Train Loss: 0.1174 | Val Loss: 0.1442 | Val F1: 0.5309 | Val AUC: 0.5510 | Val PR-AUC: 0.2812 | Val Acc: 61.68%
+[covid_symp_vs_healthy__spec_only] Epoch [34/60] -> Train Loss: 0.1163 | Val Loss: 0.1456 | Val F1: 0.5237 | Val AUC: 0.5520 | Val PR-AUC: 0.2821 | Val Acc: 59.25%
+[covid_symp_vs_healthy__spec_only] Epoch [35/60] -> Train Loss: 0.1167 | Val Loss: 0.1425 | Val F1: 0.4466 | Val AUC: 0.5500 | Val PR-AUC: 0.2808 | Val Acc: 45.33%
+[covid_symp_vs_healthy__spec_only] Epoch [36/60] -> Train Loss: 0.1161 | Val Loss: 0.1433 | Val F1: 0.5016 | Val AUC: 0.5504 | Val PR-AUC: 0.2810 | Val Acc: 54.21%
+[covid_symp_vs_healthy__spec_only] Epoch [37/60] -> Train Loss: 0.1154 | Val Loss: 0.1474 | Val F1: 0.5181 | Val AUC: 0.5490 | Val PR-AUC: 0.2792 | Val Acc: 58.33%
+[covid_symp_vs_healthy__spec_only] Epoch [38/60] -> Train Loss: 0.1153 | Val Loss: 0.1485 | Val F1: 0.5240 | Val AUC: 0.5505 | Val PR-AUC: 0.2810 | Val Acc: 59.40%
+[covid_symp_vs_healthy__spec_only] Epoch [39/60] -> Train Loss: 0.1143 | Val Loss: 0.1503 | Val F1: 0.5212 | Val AUC: 0.5503 | Val PR-AUC: 0.2810 | Val Acc: 59.01%
+=> [covid_symp_vs_healthy__spec_only] checkpoint saved (epoch 40/60)
+[covid_symp_vs_healthy__spec_only] Epoch [40/60] -> Train Loss: 0.1145 | Val Loss: 0.1484 | Val F1: 0.5191 | Val AUC: 0.5497 | Val PR-AUC: 0.2805 | Val Acc: 58.07%
+[covid_symp_vs_healthy__spec_only] Epoch [41/60] -> Train Loss: 0.1139 | Val Loss: 0.1508 | Val F1: 0.5218 | Val AUC: 0.5488 | Val PR-AUC: 0.2798 | Val Acc: 59.49%
+[covid_symp_vs_healthy__spec_only] Epoch [42/60] -> Train Loss: 0.1136 | Val Loss: 0.1471 | Val F1: 0.5098 | Val AUC: 0.5489 | Val PR-AUC: 0.2804 | Val Acc: 55.85%
+[covid_symp_vs_healthy__spec_only] Epoch [43/60] -> Train Loss: 0.1131 | Val Loss: 0.1468 | Val F1: 0.4893 | Val AUC: 0.5471 | Val PR-AUC: 0.2794 | Val Acc: 51.46%
+[covid_symp_vs_healthy__spec_only] Epoch [44/60] -> Train Loss: 0.1128 | Val Loss: 0.1480 | Val F1: 0.4937 | Val AUC: 0.5473 | Val PR-AUC: 0.2794 | Val Acc: 52.46%
+[covid_symp_vs_healthy__spec_only] Epoch [45/60] -> Train Loss: 0.1124 | Val Loss: 0.1489 | Val F1: 0.4975 | Val AUC: 0.5480 | Val PR-AUC: 0.2801 | Val Acc: 53.23%
+[covid_symp_vs_healthy__spec_only] Epoch [46/60] -> Train Loss: 0.1128 | Val Loss: 0.1490 | Val F1: 0.4990 | Val AUC: 0.5475 | Val PR-AUC: 0.2796 | Val Acc: 53.46%
+[covid_symp_vs_healthy__spec_only] Epoch [47/60] -> Train Loss: 0.1126 | Val Loss: 0.1548 | Val F1: 0.5143 | Val AUC: 0.5476 | Val PR-AUC: 0.2795 | Val Acc: 56.93%
+[covid_symp_vs_healthy__spec_only] Epoch [48/60] -> Train Loss: 0.1123 | Val Loss: 0.1520 | Val F1: 0.5088 | Val AUC: 0.5470 | Val PR-AUC: 0.2794 | Val Acc: 55.83%
+[covid_symp_vs_healthy__spec_only] Epoch [49/60] -> Train Loss: 0.1121 | Val Loss: 0.1494 | Val F1: 0.4905 | Val AUC: 0.5475 | Val PR-AUC: 0.2797 | Val Acc: 51.85%
+=> [covid_symp_vs_healthy__spec_only] checkpoint saved (epoch 50/60)
+[covid_symp_vs_healthy__spec_only] Epoch [50/60] -> Train Loss: 0.1119 | Val Loss: 0.1544 | Val F1: 0.5103 | Val AUC: 0.5471 | Val PR-AUC: 0.2799 | Val Acc: 56.09%
+[covid_symp_vs_healthy__spec_only] Epoch [51/60] -> Train Loss: 0.1111 | Val Loss: 0.1530 | Val F1: 0.5090 | Val AUC: 0.5461 | Val PR-AUC: 0.2788 | Val Acc: 55.75%
+[covid_symp_vs_healthy__spec_only] Epoch [52/60] -> Train Loss: 0.1112 | Val Loss: 0.1560 | Val F1: 0.5127 | Val AUC: 0.5458 | Val PR-AUC: 0.2788 | Val Acc: 57.01%
+[covid_symp_vs_healthy__spec_only] Epoch [53/60] -> Train Loss: 0.1111 | Val Loss: 0.1554 | Val F1: 0.5066 | Val AUC: 0.5458 | Val PR-AUC: 0.2784 | Val Acc: 55.41%
+[covid_symp_vs_healthy__spec_only] Epoch [54/60] -> Train Loss: 0.1112 | Val Loss: 0.1550 | Val F1: 0.5093 | Val AUC: 0.5462 | Val PR-AUC: 0.2791 | Val Acc: 55.80%
+[covid_symp_vs_healthy__spec_only] Epoch [55/60] -> Train Loss: 0.1110 | Val Loss: 0.1557 | Val F1: 0.5106 | Val AUC: 0.5462 | Val PR-AUC: 0.2787 | Val Acc: 56.15%
+[covid_symp_vs_healthy__spec_only] Epoch [56/60] -> Train Loss: 0.1111 | Val Loss: 0.1539 | Val F1: 0.5060 | Val AUC: 0.5459 | Val PR-AUC: 0.2786 | Val Acc: 54.69%
+[covid_symp_vs_healthy__spec_only] Epoch [57/60] -> Train Loss: 0.1105 | Val Loss: 0.1560 | Val F1: 0.5089 | Val AUC: 0.5458 | Val PR-AUC: 0.2786 | Val Acc: 55.84%
+[covid_symp_vs_healthy__spec_only] Epoch [58/60] -> Train Loss: 0.1108 | Val Loss: 0.1552 | Val F1: 0.5074 | Val AUC: 0.5457 | Val PR-AUC: 0.2784 | Val Acc: 55.25%
+[covid_symp_vs_healthy__spec_only] Epoch [59/60] -> Train Loss: 0.1106 | Val Loss: 0.1546 | Val F1: 0.5050 | Val AUC: 0.5457 | Val PR-AUC: 0.2785 | Val Acc: 54.78%
+=> [covid_symp_vs_healthy__spec_only] checkpoint saved (epoch 60/60)
+[covid_symp_vs_healthy__spec_only] Epoch [60/60] -> Train Loss: 0.1111 | Val Loss: 0.1551 | Val F1: 0.5074 | Val AUC: 0.5458 | Val PR-AUC: 0.2787 | Val Acc: 55.31%
+=== Stage 2: covid_vs_symp (standalone model, covid+symp dataset only, no healthy) ===
+
+--- covid_vs_symp__both ---
+[covid_vs_symp__both] Epoch [1/60] -> Train Loss: 0.1108 | Val Loss: 0.1130 | Val F1: 0.5014 | Val AUC: 0.5063 | Val PR-AUC: 0.2267 | Val Acc: 62.77%
+[covid_vs_symp__both] Epoch [2/60] -> Train Loss: 0.1099 | Val Loss: 0.1133 | Val F1: 0.4991 | Val AUC: 0.5089 | Val PR-AUC: 0.2185 | Val Acc: 66.55%
+[covid_vs_symp__both] Epoch [3/60] -> Train Loss: 0.1101 | Val Loss: 0.1134 | Val F1: 0.4369 | Val AUC: 0.5184 | Val PR-AUC: 0.2241 | Val Acc: 46.01%
+[covid_vs_symp__both] Epoch [4/60] -> Train Loss: 0.1097 | Val Loss: 0.1132 | Val F1: 0.4441 | Val AUC: 0.5189 | Val PR-AUC: 0.2282 | Val Acc: 78.66%
+[covid_vs_symp__both] Epoch [5/60] -> Train Loss: 0.1095 | Val Loss: 0.1128 | Val F1: 0.5106 | Val AUC: 0.5249 | Val PR-AUC: 0.2246 | Val Acc: 72.06%
+[covid_vs_symp__both] Epoch [6/60] -> Train Loss: 0.1093 | Val Loss: 0.1124 | Val F1: 0.3083 | Val AUC: 0.5431 | Val PR-AUC: 0.2346 | Val Acc: 31.13%
+[covid_vs_symp__both] Epoch [7/60] -> Train Loss: 0.1092 | Val Loss: 0.1126 | Val F1: 0.5114 | Val AUC: 0.5548 | Val PR-AUC: 0.2421 | Val Acc: 59.37%
+[covid_vs_symp__both] Epoch [8/60] -> Train Loss: 0.1095 | Val Loss: 0.1124 | Val F1: 0.5421 | Val AUC: 0.5740 | Val PR-AUC: 0.2589 | Val Acc: 66.64%
+[covid_vs_symp__both] Epoch [9/60] -> Train Loss: 0.1088 | Val Loss: 0.1116 | Val F1: 0.5140 | Val AUC: 0.5870 | Val PR-AUC: 0.2706 | Val Acc: 56.97%
+=> [covid_vs_symp__both] checkpoint saved (epoch 10/60)
+[covid_vs_symp__both] Epoch [10/60] -> Train Loss: 0.1082 | Val Loss: 0.1106 | Val F1: 0.4918 | Val AUC: 0.5955 | Val PR-AUC: 0.2765 | Val Acc: 52.39%
+[covid_vs_symp__both] Epoch [11/60] -> Train Loss: 0.1074 | Val Loss: 0.1124 | Val F1: 0.5503 | Val AUC: 0.5948 | Val PR-AUC: 0.2736 | Val Acc: 70.88%
+[covid_vs_symp__both] Epoch [12/60] -> Train Loss: 0.1069 | Val Loss: 0.1112 | Val F1: 0.5251 | Val AUC: 0.5944 | Val PR-AUC: 0.2762 | Val Acc: 59.87%
+[covid_vs_symp__both] Epoch [13/60] -> Train Loss: 0.1063 | Val Loss: 0.1104 | Val F1: 0.5012 | Val AUC: 0.6017 | Val PR-AUC: 0.2785 | Val Acc: 53.74%
+[covid_vs_symp__both] Epoch [14/60] -> Train Loss: 0.1058 | Val Loss: 0.1121 | Val F1: 0.5615 | Val AUC: 0.6087 | Val PR-AUC: 0.2814 | Val Acc: 67.90%
+[covid_vs_symp__both] Epoch [15/60] -> Train Loss: 0.1051 | Val Loss: 0.1113 | Val F1: 0.5388 | Val AUC: 0.6073 | Val PR-AUC: 0.2825 | Val Acc: 61.97%
+[covid_vs_symp__both] Epoch [16/60] -> Train Loss: 0.1048 | Val Loss: 0.1117 | Val F1: 0.5499 | Val AUC: 0.6080 | Val PR-AUC: 0.2832 | Val Acc: 63.40%
+[covid_vs_symp__both] Epoch [17/60] -> Train Loss: 0.1043 | Val Loss: 0.1105 | Val F1: 0.5079 | Val AUC: 0.6048 | Val PR-AUC: 0.2793 | Val Acc: 54.87%
+[covid_vs_symp__both] Epoch [18/60] -> Train Loss: 0.1035 | Val Loss: 0.1120 | Val F1: 0.5453 | Val AUC: 0.6086 | Val PR-AUC: 0.2830 | Val Acc: 62.69%
+[covid_vs_symp__both] Epoch [19/60] -> Train Loss: 0.1039 | Val Loss: 0.1119 | Val F1: 0.5435 | Val AUC: 0.6124 | Val PR-AUC: 0.2848 | Val Acc: 61.64%
+=> [covid_vs_symp__both] checkpoint saved (epoch 20/60)
+[covid_vs_symp__both] Epoch [20/60] -> Train Loss: 0.1034 | Val Loss: 0.1106 | Val F1: 0.5244 | Val AUC: 0.6123 | Val PR-AUC: 0.2803 | Val Acc: 57.77%
+[covid_vs_symp__both] Epoch [21/60] -> Train Loss: 0.1031 | Val Loss: 0.1109 | Val F1: 0.5206 | Val AUC: 0.6122 | Val PR-AUC: 0.2829 | Val Acc: 57.02%
+[covid_vs_symp__both] Epoch [22/60] -> Train Loss: 0.1020 | Val Loss: 0.1116 | Val F1: 0.5315 | Val AUC: 0.6096 | Val PR-AUC: 0.2816 | Val Acc: 59.96%
+[covid_vs_symp__both] Epoch [23/60] -> Train Loss: 0.1025 | Val Loss: 0.1110 | Val F1: 0.4946 | Val AUC: 0.6143 | Val PR-AUC: 0.2852 | Val Acc: 52.23%
+[covid_vs_symp__both] Epoch [24/60] -> Train Loss: 0.1020 | Val Loss: 0.1108 | Val F1: 0.4752 | Val AUC: 0.6126 | Val PR-AUC: 0.2836 | Val Acc: 49.41%
+[covid_vs_symp__both] Epoch [25/60] -> Train Loss: 0.1024 | Val Loss: 0.1103 | Val F1: 0.5125 | Val AUC: 0.6130 | Val PR-AUC: 0.2831 | Val Acc: 55.34%
+[covid_vs_symp__both] Epoch [26/60] -> Train Loss: 0.1015 | Val Loss: 0.1111 | Val F1: 0.4693 | Val AUC: 0.6087 | Val PR-AUC: 0.2825 | Val Acc: 48.74%
+[covid_vs_symp__both] Epoch [27/60] -> Train Loss: 0.1010 | Val Loss: 0.1112 | Val F1: 0.5169 | Val AUC: 0.6098 | Val PR-AUC: 0.2817 | Val Acc: 56.39%
+[covid_vs_symp__both] Epoch [28/60] -> Train Loss: 0.1008 | Val Loss: 0.1134 | Val F1: 0.5542 | Val AUC: 0.6138 | Val PR-AUC: 0.2825 | Val Acc: 65.29%
+[covid_vs_symp__both] Epoch [29/60] -> Train Loss: 0.1010 | Val Loss: 0.1159 | Val F1: 0.5582 | Val AUC: 0.6117 | Val PR-AUC: 0.2825 | Val Acc: 66.51%
+=> [covid_vs_symp__both] checkpoint saved (epoch 30/60)
+[covid_vs_symp__both] Epoch [30/60] -> Train Loss: 0.1006 | Val Loss: 0.1143 | Val F1: 0.5434 | Val AUC: 0.6098 | Val PR-AUC: 0.2817 | Val Acc: 63.19%
+[covid_vs_symp__both] Epoch [31/60] -> Train Loss: 0.1001 | Val Loss: 0.1141 | Val F1: 0.5411 | Val AUC: 0.6101 | Val PR-AUC: 0.2817 | Val Acc: 62.44%
+[covid_vs_symp__both] Epoch [32/60] -> Train Loss: 0.0998 | Val Loss: 0.1138 | Val F1: 0.5383 | Val AUC: 0.6080 | Val PR-AUC: 0.2806 | Val Acc: 61.64%
+[covid_vs_symp__both] Epoch [33/60] -> Train Loss: 0.1012 | Val Loss: 0.1125 | Val F1: 0.5229 | Val AUC: 0.6081 | Val PR-AUC: 0.2811 | Val Acc: 57.73%
+[covid_vs_symp__both] Epoch [34/60] -> Train Loss: 0.1000 | Val Loss: 0.1124 | Val F1: 0.5000 | Val AUC: 0.6083 | Val PR-AUC: 0.2785 | Val Acc: 52.98%
+[covid_vs_symp__both] Epoch [35/60] -> Train Loss: 0.1000 | Val Loss: 0.1148 | Val F1: 0.5424 | Val AUC: 0.6095 | Val PR-AUC: 0.2804 | Val Acc: 62.14%
+[covid_vs_symp__both] Epoch [36/60] -> Train Loss: 0.0990 | Val Loss: 0.1114 | Val F1: 0.4907 | Val AUC: 0.6088 | Val PR-AUC: 0.2804 | Val Acc: 51.93%
+[covid_vs_symp__both] Epoch [37/60] -> Train Loss: 0.0995 | Val Loss: 0.1148 | Val F1: 0.5342 | Val AUC: 0.6119 | Val PR-AUC: 0.2825 | Val Acc: 60.13%
+[covid_vs_symp__both] Epoch [38/60] -> Train Loss: 0.0996 | Val Loss: 0.1137 | Val F1: 0.5209 | Val AUC: 0.6103 | Val PR-AUC: 0.2808 | Val Acc: 57.31%
+[covid_vs_symp__both] Epoch [39/60] -> Train Loss: 0.0989 | Val Loss: 0.1134 | Val F1: 0.5096 | Val AUC: 0.6092 | Val PR-AUC: 0.2810 | Val Acc: 55.13%
+=> [covid_vs_symp__both] checkpoint saved (epoch 40/60)
+[covid_vs_symp__both] Epoch [40/60] -> Train Loss: 0.0991 | Val Loss: 0.1164 | Val F1: 0.5421 | Val AUC: 0.6103 | Val PR-AUC: 0.2820 | Val Acc: 62.31%
+[covid_vs_symp__both] Epoch [41/60] -> Train Loss: 0.0991 | Val Loss: 0.1156 | Val F1: 0.5511 | Val AUC: 0.6137 | Val PR-AUC: 0.2827 | Val Acc: 65.13%
+[covid_vs_symp__both] Epoch [42/60] -> Train Loss: 0.0980 | Val Loss: 0.1147 | Val F1: 0.5321 | Val AUC: 0.6107 | Val PR-AUC: 0.2818 | Val Acc: 59.54%
+[covid_vs_symp__both] Epoch [43/60] -> Train Loss: 0.0980 | Val Loss: 0.1160 | Val F1: 0.5410 | Val AUC: 0.6087 | Val PR-AUC: 0.2798 | Val Acc: 62.06%
+[covid_vs_symp__both] Epoch [44/60] -> Train Loss: 0.0983 | Val Loss: 0.1164 | Val F1: 0.5417 | Val AUC: 0.6112 | Val PR-AUC: 0.2815 | Val Acc: 61.85%
+[covid_vs_symp__both] Epoch [45/60] -> Train Loss: 0.0994 | Val Loss: 0.1140 | Val F1: 0.5252 | Val AUC: 0.6107 | Val PR-AUC: 0.2813 | Val Acc: 58.32%
+[covid_vs_symp__both] Epoch [46/60] -> Train Loss: 0.0982 | Val Loss: 0.1146 | Val F1: 0.5251 | Val AUC: 0.6107 | Val PR-AUC: 0.2814 | Val Acc: 58.03%
+[covid_vs_symp__both] Epoch [47/60] -> Train Loss: 0.0977 | Val Loss: 0.1144 | Val F1: 0.5284 | Val AUC: 0.6105 | Val PR-AUC: 0.2814 | Val Acc: 58.74%
+[covid_vs_symp__both] Epoch [48/60] -> Train Loss: 0.0977 | Val Loss: 0.1168 | Val F1: 0.5383 | Val AUC: 0.6111 | Val PR-AUC: 0.2818 | Val Acc: 61.39%
+[covid_vs_symp__both] Epoch [49/60] -> Train Loss: 0.0977 | Val Loss: 0.1157 | Val F1: 0.5389 | Val AUC: 0.6108 | Val PR-AUC: 0.2815 | Val Acc: 61.22%
+=> [covid_vs_symp__both] checkpoint saved (epoch 50/60)
+[covid_vs_symp__both] Epoch [50/60] -> Train Loss: 0.0982 | Val Loss: 0.1151 | Val F1: 0.5351 | Val AUC: 0.6107 | Val PR-AUC: 0.2812 | Val Acc: 60.34%
+[covid_vs_symp__both] Epoch [51/60] -> Train Loss: 0.0975 | Val Loss: 0.1158 | Val F1: 0.5387 | Val AUC: 0.6116 | Val PR-AUC: 0.2816 | Val Acc: 61.09%
+[covid_vs_symp__both] Epoch [52/60] -> Train Loss: 0.0973 | Val Loss: 0.1144 | Val F1: 0.5344 | Val AUC: 0.6108 | Val PR-AUC: 0.2809 | Val Acc: 59.66%
+[covid_vs_symp__both] Epoch [53/60] -> Train Loss: 0.0974 | Val Loss: 0.1155 | Val F1: 0.5380 | Val AUC: 0.6116 | Val PR-AUC: 0.2816 | Val Acc: 61.34%
+[covid_vs_symp__both] Epoch [54/60] -> Train Loss: 0.0972 | Val Loss: 0.1158 | Val F1: 0.5361 | Val AUC: 0.6117 | Val PR-AUC: 0.2816 | Val Acc: 60.80%
+[covid_vs_symp__both] Epoch [55/60] -> Train Loss: 0.0973 | Val Loss: 0.1163 | Val F1: 0.5326 | Val AUC: 0.6113 | Val PR-AUC: 0.2814 | Val Acc: 59.87%
+[covid_vs_symp__both] Epoch [56/60] -> Train Loss: 0.0979 | Val Loss: 0.1152 | Val F1: 0.5323 | Val AUC: 0.6111 | Val PR-AUC: 0.2812 | Val Acc: 59.83%
+[covid_vs_symp__both] Epoch [57/60] -> Train Loss: 0.0971 | Val Loss: 0.1151 | Val F1: 0.5318 | Val AUC: 0.6109 | Val PR-AUC: 0.2810 | Val Acc: 59.54%
+[covid_vs_symp__both] Epoch [58/60] -> Train Loss: 0.0973 | Val Loss: 0.1157 | Val F1: 0.5326 | Val AUC: 0.6112 | Val PR-AUC: 0.2812 | Val Acc: 59.92%
+[covid_vs_symp__both] Epoch [59/60] -> Train Loss: 0.0973 | Val Loss: 0.1142 | Val F1: 0.5303 | Val AUC: 0.6107 | Val PR-AUC: 0.2809 | Val Acc: 59.16%
+=> [covid_vs_symp__both] checkpoint saved (epoch 60/60)
+[covid_vs_symp__both] Epoch [60/60] -> Train Loss: 0.0974 | Val Loss: 0.1159 | Val F1: 0.5340 | Val AUC: 0.6111 | Val PR-AUC: 0.2811 | Val Acc: 59.83%
+
+--- covid_vs_symp__wave_only ---
+[covid_vs_symp__wave_only] Epoch [1/60] -> Train Loss: 0.1106 | Val Loss: 0.1139 | Val F1: 0.4407 | Val AUC: 0.5326 | Val PR-AUC: 0.2432 | Val Acc: 78.78%
+[covid_vs_symp__wave_only] Epoch [2/60] -> Train Loss: 0.1103 | Val Loss: 0.1138 | Val F1: 0.4407 | Val AUC: 0.5282 | Val PR-AUC: 0.2308 | Val Acc: 78.78%
+[covid_vs_symp__wave_only] Epoch [3/60] -> Train Loss: 0.1099 | Val Loss: 0.1136 | Val F1: 0.4407 | Val AUC: 0.5349 | Val PR-AUC: 0.2401 | Val Acc: 78.78%
+[covid_vs_symp__wave_only] Epoch [4/60] -> Train Loss: 0.1101 | Val Loss: 0.1136 | Val F1: 0.4495 | Val AUC: 0.5190 | Val PR-AUC: 0.2308 | Val Acc: 78.57%
+[covid_vs_symp__wave_only] Epoch [5/60] -> Train Loss: 0.1098 | Val Loss: 0.1125 | Val F1: 0.4151 | Val AUC: 0.5341 | Val PR-AUC: 0.2340 | Val Acc: 42.39%
+[covid_vs_symp__wave_only] Epoch [6/60] -> Train Loss: 0.1099 | Val Loss: 0.1135 | Val F1: 0.4585 | Val AUC: 0.5596 | Val PR-AUC: 0.2419 | Val Acc: 78.11%
+[covid_vs_symp__wave_only] Epoch [7/60] -> Train Loss: 0.1095 | Val Loss: 0.1123 | Val F1: 0.5063 | Val AUC: 0.5648 | Val PR-AUC: 0.2465 | Val Acc: 56.64%
+[covid_vs_symp__wave_only] Epoch [8/60] -> Train Loss: 0.1091 | Val Loss: 0.1123 | Val F1: 0.5420 | Val AUC: 0.5893 | Val PR-AUC: 0.2613 | Val Acc: 72.10%
+[covid_vs_symp__wave_only] Epoch [9/60] -> Train Loss: 0.1085 | Val Loss: 0.1121 | Val F1: 0.5262 | Val AUC: 0.5994 | Val PR-AUC: 0.2670 | Val Acc: 73.32%
+=> [covid_vs_symp__wave_only] checkpoint saved (epoch 10/60)
+[covid_vs_symp__wave_only] Epoch [10/60] -> Train Loss: 0.1081 | Val Loss: 0.1116 | Val F1: 0.3226 | Val AUC: 0.6053 | Val PR-AUC: 0.2760 | Val Acc: 32.52%
+[covid_vs_symp__wave_only] Epoch [11/60] -> Train Loss: 0.1077 | Val Loss: 0.1114 | Val F1: 0.5502 | Val AUC: 0.6089 | Val PR-AUC: 0.2761 | Val Acc: 65.13%
+[covid_vs_symp__wave_only] Epoch [12/60] -> Train Loss: 0.1074 | Val Loss: 0.1107 | Val F1: 0.4440 | Val AUC: 0.6085 | Val PR-AUC: 0.2757 | Val Acc: 45.21%
+[covid_vs_symp__wave_only] Epoch [13/60] -> Train Loss: 0.1074 | Val Loss: 0.1101 | Val F1: 0.5038 | Val AUC: 0.6103 | Val PR-AUC: 0.2835 | Val Acc: 54.03%
+[covid_vs_symp__wave_only] Epoch [14/60] -> Train Loss: 0.1066 | Val Loss: 0.1115 | Val F1: 0.5576 | Val AUC: 0.6113 | Val PR-AUC: 0.2871 | Val Acc: 65.50%
+[covid_vs_symp__wave_only] Epoch [15/60] -> Train Loss: 0.1059 | Val Loss: 0.1109 | Val F1: 0.5453 | Val AUC: 0.6108 | Val PR-AUC: 0.2844 | Val Acc: 62.02%
+[covid_vs_symp__wave_only] Epoch [16/60] -> Train Loss: 0.1055 | Val Loss: 0.1104 | Val F1: 0.5290 | Val AUC: 0.6125 | Val PR-AUC: 0.2845 | Val Acc: 58.53%
+[covid_vs_symp__wave_only] Epoch [17/60] -> Train Loss: 0.1053 | Val Loss: 0.1115 | Val F1: 0.5383 | Val AUC: 0.6041 | Val PR-AUC: 0.2807 | Val Acc: 63.45%
+[covid_vs_symp__wave_only] Epoch [18/60] -> Train Loss: 0.1041 | Val Loss: 0.1131 | Val F1: 0.5393 | Val AUC: 0.6085 | Val PR-AUC: 0.2842 | Val Acc: 62.48%
+[covid_vs_symp__wave_only] Epoch [19/60] -> Train Loss: 0.1036 | Val Loss: 0.1115 | Val F1: 0.5370 | Val AUC: 0.6046 | Val PR-AUC: 0.2833 | Val Acc: 60.92%
+=> [covid_vs_symp__wave_only] checkpoint saved (epoch 20/60)
+[covid_vs_symp__wave_only] Epoch [20/60] -> Train Loss: 0.1034 | Val Loss: 0.1103 | Val F1: 0.4674 | Val AUC: 0.6046 | Val PR-AUC: 0.2819 | Val Acc: 48.19%
+[covid_vs_symp__wave_only] Epoch [21/60] -> Train Loss: 0.1034 | Val Loss: 0.1136 | Val F1: 0.5381 | Val AUC: 0.5977 | Val PR-AUC: 0.2680 | Val Acc: 63.91%
+[covid_vs_symp__wave_only] Epoch [22/60] -> Train Loss: 0.1031 | Val Loss: 0.1107 | Val F1: 0.4970 | Val AUC: 0.5975 | Val PR-AUC: 0.2725 | Val Acc: 52.69%
+[covid_vs_symp__wave_only] Epoch [23/60] -> Train Loss: 0.1031 | Val Loss: 0.1162 | Val F1: 0.5457 | Val AUC: 0.5992 | Val PR-AUC: 0.2718 | Val Acc: 65.08%
+[covid_vs_symp__wave_only] Epoch [24/60] -> Train Loss: 0.1025 | Val Loss: 0.1127 | Val F1: 0.5140 | Val AUC: 0.6015 | Val PR-AUC: 0.2768 | Val Acc: 56.01%
+[covid_vs_symp__wave_only] Epoch [25/60] -> Train Loss: 0.1022 | Val Loss: 0.1151 | Val F1: 0.5389 | Val AUC: 0.6044 | Val PR-AUC: 0.2784 | Val Acc: 64.41%
+[covid_vs_symp__wave_only] Epoch [26/60] -> Train Loss: 0.1019 | Val Loss: 0.1152 | Val F1: 0.5316 | Val AUC: 0.6014 | Val PR-AUC: 0.2765 | Val Acc: 59.92%
+[covid_vs_symp__wave_only] Epoch [27/60] -> Train Loss: 0.1022 | Val Loss: 0.1149 | Val F1: 0.5289 | Val AUC: 0.5985 | Val PR-AUC: 0.2739 | Val Acc: 59.71%
+[covid_vs_symp__wave_only] Epoch [28/60] -> Train Loss: 0.1013 | Val Loss: 0.1148 | Val F1: 0.5345 | Val AUC: 0.5995 | Val PR-AUC: 0.2772 | Val Acc: 61.13%
+[covid_vs_symp__wave_only] Epoch [29/60] -> Train Loss: 0.1010 | Val Loss: 0.1113 | Val F1: 0.4955 | Val AUC: 0.6019 | Val PR-AUC: 0.2753 | Val Acc: 52.77%
+=> [covid_vs_symp__wave_only] checkpoint saved (epoch 30/60)
+[covid_vs_symp__wave_only] Epoch [30/60] -> Train Loss: 0.1006 | Val Loss: 0.1191 | Val F1: 0.5440 | Val AUC: 0.5973 | Val PR-AUC: 0.2718 | Val Acc: 66.30%
+[covid_vs_symp__wave_only] Epoch [31/60] -> Train Loss: 0.1007 | Val Loss: 0.1159 | Val F1: 0.5301 | Val AUC: 0.6012 | Val PR-AUC: 0.2741 | Val Acc: 60.34%
+[covid_vs_symp__wave_only] Epoch [32/60] -> Train Loss: 0.1008 | Val Loss: 0.1124 | Val F1: 0.4854 | Val AUC: 0.5997 | Val PR-AUC: 0.2751 | Val Acc: 51.09%
+[covid_vs_symp__wave_only] Epoch [33/60] -> Train Loss: 0.1006 | Val Loss: 0.1164 | Val F1: 0.5373 | Val AUC: 0.5986 | Val PR-AUC: 0.2713 | Val Acc: 61.76%
+[covid_vs_symp__wave_only] Epoch [34/60] -> Train Loss: 0.0989 | Val Loss: 0.1165 | Val F1: 0.5302 | Val AUC: 0.6014 | Val PR-AUC: 0.2757 | Val Acc: 60.25%
+[covid_vs_symp__wave_only] Epoch [35/60] -> Train Loss: 0.0988 | Val Loss: 0.1206 | Val F1: 0.5473 | Val AUC: 0.5991 | Val PR-AUC: 0.2741 | Val Acc: 65.04%
+[covid_vs_symp__wave_only] Epoch [36/60] -> Train Loss: 0.0987 | Val Loss: 0.1199 | Val F1: 0.5397 | Val AUC: 0.5944 | Val PR-AUC: 0.2706 | Val Acc: 62.86%
+[covid_vs_symp__wave_only] Epoch [37/60] -> Train Loss: 0.0983 | Val Loss: 0.1173 | Val F1: 0.5302 | Val AUC: 0.5964 | Val PR-AUC: 0.2731 | Val Acc: 60.25%
+[covid_vs_symp__wave_only] Epoch [38/60] -> Train Loss: 0.0987 | Val Loss: 0.1171 | Val F1: 0.5286 | Val AUC: 0.5988 | Val PR-AUC: 0.2739 | Val Acc: 60.04%
+[covid_vs_symp__wave_only] Epoch [39/60] -> Train Loss: 0.0986 | Val Loss: 0.1150 | Val F1: 0.5157 | Val AUC: 0.6003 | Val PR-AUC: 0.2740 | Val Acc: 56.34%
+=> [covid_vs_symp__wave_only] checkpoint saved (epoch 40/60)
+[covid_vs_symp__wave_only] Epoch [40/60] -> Train Loss: 0.0981 | Val Loss: 0.1182 | Val F1: 0.5259 | Val AUC: 0.5983 | Val PR-AUC: 0.2736 | Val Acc: 59.08%
+[covid_vs_symp__wave_only] Epoch [41/60] -> Train Loss: 0.0981 | Val Loss: 0.1172 | Val F1: 0.5197 | Val AUC: 0.5954 | Val PR-AUC: 0.2724 | Val Acc: 57.86%
+[covid_vs_symp__wave_only] Epoch [42/60] -> Train Loss: 0.0979 | Val Loss: 0.1157 | Val F1: 0.5037 | Val AUC: 0.5960 | Val PR-AUC: 0.2720 | Val Acc: 54.54%
+[covid_vs_symp__wave_only] Epoch [43/60] -> Train Loss: 0.0977 | Val Loss: 0.1205 | Val F1: 0.5353 | Val AUC: 0.5952 | Val PR-AUC: 0.2711 | Val Acc: 61.55%
+[covid_vs_symp__wave_only] Epoch [44/60] -> Train Loss: 0.0978 | Val Loss: 0.1162 | Val F1: 0.5055 | Val AUC: 0.5977 | Val PR-AUC: 0.2751 | Val Acc: 54.92%
+[covid_vs_symp__wave_only] Epoch [45/60] -> Train Loss: 0.0972 | Val Loss: 0.1169 | Val F1: 0.5146 | Val AUC: 0.5971 | Val PR-AUC: 0.2742 | Val Acc: 57.06%
+[covid_vs_symp__wave_only] Epoch [46/60] -> Train Loss: 0.0977 | Val Loss: 0.1192 | Val F1: 0.5334 | Val AUC: 0.5972 | Val PR-AUC: 0.2744 | Val Acc: 61.13%
+[covid_vs_symp__wave_only] Epoch [47/60] -> Train Loss: 0.0974 | Val Loss: 0.1190 | Val F1: 0.5258 | Val AUC: 0.5973 | Val PR-AUC: 0.2747 | Val Acc: 58.70%
+[covid_vs_symp__wave_only] Epoch [48/60] -> Train Loss: 0.0972 | Val Loss: 0.1187 | Val F1: 0.5225 | Val AUC: 0.5975 | Val PR-AUC: 0.2743 | Val Acc: 58.49%
+[covid_vs_symp__wave_only] Epoch [49/60] -> Train Loss: 0.0968 | Val Loss: 0.1185 | Val F1: 0.5251 | Val AUC: 0.5973 | Val PR-AUC: 0.2740 | Val Acc: 58.70%
+=> [covid_vs_symp__wave_only] checkpoint saved (epoch 50/60)
+[covid_vs_symp__wave_only] Epoch [50/60] -> Train Loss: 0.0966 | Val Loss: 0.1179 | Val F1: 0.5229 | Val AUC: 0.5977 | Val PR-AUC: 0.2742 | Val Acc: 58.24%
+[covid_vs_symp__wave_only] Epoch [51/60] -> Train Loss: 0.0971 | Val Loss: 0.1182 | Val F1: 0.5201 | Val AUC: 0.5978 | Val PR-AUC: 0.2736 | Val Acc: 57.77%
+[covid_vs_symp__wave_only] Epoch [52/60] -> Train Loss: 0.0968 | Val Loss: 0.1176 | Val F1: 0.5220 | Val AUC: 0.5982 | Val PR-AUC: 0.2746 | Val Acc: 57.98%
+[covid_vs_symp__wave_only] Epoch [53/60] -> Train Loss: 0.0971 | Val Loss: 0.1174 | Val F1: 0.5155 | Val AUC: 0.5982 | Val PR-AUC: 0.2742 | Val Acc: 56.81%
+[covid_vs_symp__wave_only] Epoch [54/60] -> Train Loss: 0.0973 | Val Loss: 0.1172 | Val F1: 0.5151 | Val AUC: 0.5984 | Val PR-AUC: 0.2744 | Val Acc: 56.64%
+[covid_vs_symp__wave_only] Epoch [55/60] -> Train Loss: 0.0965 | Val Loss: 0.1188 | Val F1: 0.5248 | Val AUC: 0.5978 | Val PR-AUC: 0.2746 | Val Acc: 59.24%
+[covid_vs_symp__wave_only] Epoch [56/60] -> Train Loss: 0.0974 | Val Loss: 0.1186 | Val F1: 0.5255 | Val AUC: 0.5974 | Val PR-AUC: 0.2741 | Val Acc: 58.53%
+[covid_vs_symp__wave_only] Epoch [57/60] -> Train Loss: 0.0969 | Val Loss: 0.1188 | Val F1: 0.5270 | Val AUC: 0.5978 | Val PR-AUC: 0.2743 | Val Acc: 58.95%
+[covid_vs_symp__wave_only] Epoch [58/60] -> Train Loss: 0.0967 | Val Loss: 0.1185 | Val F1: 0.5258 | Val AUC: 0.5974 | Val PR-AUC: 0.2742 | Val Acc: 58.66%
+[covid_vs_symp__wave_only] Epoch [59/60] -> Train Loss: 0.0972 | Val Loss: 0.1183 | Val F1: 0.5248 | Val AUC: 0.5975 | Val PR-AUC: 0.2743 | Val Acc: 58.45%
+=> [covid_vs_symp__wave_only] checkpoint saved (epoch 60/60)
+[covid_vs_symp__wave_only] Epoch [60/60] -> Train Loss: 0.0964 | Val Loss: 0.1179 | Val F1: 0.5252 | Val AUC: 0.5978 | Val PR-AUC: 0.2745 | Val Acc: 58.49%
+
+--- covid_vs_symp__spec_only ---
+[covid_vs_symp__spec_only] Epoch [1/60] -> Train Loss: 0.1104 | Val Loss: 0.1129 | Val F1: 0.1750 | Val AUC: 0.5262 | Val PR-AUC: 0.2228 | Val Acc: 21.22%
+[covid_vs_symp__spec_only] Epoch [2/60] -> Train Loss: 0.1101 | Val Loss: 0.1125 | Val F1: 0.1946 | Val AUC: 0.5163 | Val PR-AUC: 0.2210 | Val Acc: 22.48%
+[covid_vs_symp__spec_only] Epoch [3/60] -> Train Loss: 0.1098 | Val Loss: 0.1125 | Val F1: 0.1750 | Val AUC: 0.5180 | Val PR-AUC: 0.2202 | Val Acc: 21.22%
+[covid_vs_symp__spec_only] Epoch [4/60] -> Train Loss: 0.1100 | Val Loss: 0.1132 | Val F1: 0.4407 | Val AUC: 0.5175 | Val PR-AUC: 0.2235 | Val Acc: 78.78%
+[covid_vs_symp__spec_only] Epoch [5/60] -> Train Loss: 0.1101 | Val Loss: 0.1127 | Val F1: 0.2252 | Val AUC: 0.5198 | Val PR-AUC: 0.2227 | Val Acc: 24.54%
+[covid_vs_symp__spec_only] Epoch [6/60] -> Train Loss: 0.1097 | Val Loss: 0.1129 | Val F1: 0.4555 | Val AUC: 0.5257 | Val PR-AUC: 0.2297 | Val Acc: 49.08%
+[covid_vs_symp__spec_only] Epoch [7/60] -> Train Loss: 0.1095 | Val Loss: 0.1128 | Val F1: 0.1750 | Val AUC: 0.5351 | Val PR-AUC: 0.2385 | Val Acc: 21.22%
+[covid_vs_symp__spec_only] Epoch [8/60] -> Train Loss: 0.1097 | Val Loss: 0.1129 | Val F1: 0.5310 | Val AUC: 0.5404 | Val PR-AUC: 0.2396 | Val Acc: 70.97%
+[covid_vs_symp__spec_only] Epoch [9/60] -> Train Loss: 0.1094 | Val Loss: 0.1126 | Val F1: 0.4538 | Val AUC: 0.5527 | Val PR-AUC: 0.2440 | Val Acc: 47.69%
+=> [covid_vs_symp__spec_only] checkpoint saved (epoch 10/60)
+[covid_vs_symp__spec_only] Epoch [10/60] -> Train Loss: 0.1089 | Val Loss: 0.1123 | Val F1: 0.3210 | Val AUC: 0.5597 | Val PR-AUC: 0.2477 | Val Acc: 32.23%
+[covid_vs_symp__spec_only] Epoch [11/60] -> Train Loss: 0.1083 | Val Loss: 0.1121 | Val F1: 0.5050 | Val AUC: 0.5691 | Val PR-AUC: 0.2588 | Val Acc: 57.14%
+[covid_vs_symp__spec_only] Epoch [12/60] -> Train Loss: 0.1073 | Val Loss: 0.1117 | Val F1: 0.4689 | Val AUC: 0.5754 | Val PR-AUC: 0.2655 | Val Acc: 49.58%
+[covid_vs_symp__spec_only] Epoch [13/60] -> Train Loss: 0.1066 | Val Loss: 0.1115 | Val F1: 0.4986 | Val AUC: 0.5832 | Val PR-AUC: 0.2673 | Val Acc: 54.71%
+[covid_vs_symp__spec_only] Epoch [14/60] -> Train Loss: 0.1061 | Val Loss: 0.1113 | Val F1: 0.4980 | Val AUC: 0.5857 | Val PR-AUC: 0.2725 | Val Acc: 54.12%
+[covid_vs_symp__spec_only] Epoch [15/60] -> Train Loss: 0.1051 | Val Loss: 0.1119 | Val F1: 0.5312 | Val AUC: 0.5875 | Val PR-AUC: 0.2744 | Val Acc: 59.92%
+[covid_vs_symp__spec_only] Epoch [16/60] -> Train Loss: 0.1048 | Val Loss: 0.1115 | Val F1: 0.5364 | Val AUC: 0.5940 | Val PR-AUC: 0.2801 | Val Acc: 61.60%
+[covid_vs_symp__spec_only] Epoch [17/60] -> Train Loss: 0.1046 | Val Loss: 0.1117 | Val F1: 0.5002 | Val AUC: 0.5962 | Val PR-AUC: 0.2764 | Val Acc: 53.87%
+[covid_vs_symp__spec_only] Epoch [18/60] -> Train Loss: 0.1040 | Val Loss: 0.1115 | Val F1: 0.5405 | Val AUC: 0.5965 | Val PR-AUC: 0.2759 | Val Acc: 62.69%
+[covid_vs_symp__spec_only] Epoch [19/60] -> Train Loss: 0.1033 | Val Loss: 0.1114 | Val F1: 0.4854 | Val AUC: 0.5958 | Val PR-AUC: 0.2794 | Val Acc: 51.68%
+=> [covid_vs_symp__spec_only] checkpoint saved (epoch 20/60)
+[covid_vs_symp__spec_only] Epoch [20/60] -> Train Loss: 0.1024 | Val Loss: 0.1124 | Val F1: 0.4738 | Val AUC: 0.5905 | Val PR-AUC: 0.2751 | Val Acc: 49.92%
+[covid_vs_symp__spec_only] Epoch [21/60] -> Train Loss: 0.1015 | Val Loss: 0.1121 | Val F1: 0.5252 | Val AUC: 0.5953 | Val PR-AUC: 0.2775 | Val Acc: 58.32%
+[covid_vs_symp__spec_only] Epoch [22/60] -> Train Loss: 0.1009 | Val Loss: 0.1166 | Val F1: 0.5541 | Val AUC: 0.5987 | Val PR-AUC: 0.2798 | Val Acc: 68.61%
+[covid_vs_symp__spec_only] Epoch [23/60] -> Train Loss: 0.1008 | Val Loss: 0.1125 | Val F1: 0.5004 | Val AUC: 0.5980 | Val PR-AUC: 0.2784 | Val Acc: 53.57%
+[covid_vs_symp__spec_only] Epoch [24/60] -> Train Loss: 0.0992 | Val Loss: 0.1140 | Val F1: 0.3959 | Val AUC: 0.5933 | Val PR-AUC: 0.2782 | Val Acc: 39.75%
+[covid_vs_symp__spec_only] Epoch [25/60] -> Train Loss: 0.0990 | Val Loss: 0.1141 | Val F1: 0.5169 | Val AUC: 0.5909 | Val PR-AUC: 0.2805 | Val Acc: 57.52%
+[covid_vs_symp__spec_only] Epoch [26/60] -> Train Loss: 0.0980 | Val Loss: 0.1167 | Val F1: 0.5387 | Val AUC: 0.5938 | Val PR-AUC: 0.2811 | Val Acc: 62.06%
+[covid_vs_symp__spec_only] Epoch [27/60] -> Train Loss: 0.0978 | Val Loss: 0.1190 | Val F1: 0.5436 | Val AUC: 0.5934 | Val PR-AUC: 0.2788 | Val Acc: 65.13%
+[covid_vs_symp__spec_only] Epoch [28/60] -> Train Loss: 0.0967 | Val Loss: 0.1167 | Val F1: 0.5061 | Val AUC: 0.5898 | Val PR-AUC: 0.2766 | Val Acc: 56.01%
+[covid_vs_symp__spec_only] Epoch [29/60] -> Train Loss: 0.0966 | Val Loss: 0.1226 | Val F1: 0.5480 | Val AUC: 0.5889 | Val PR-AUC: 0.2784 | Val Acc: 67.31%
+=> [covid_vs_symp__spec_only] checkpoint saved (epoch 30/60)
+[covid_vs_symp__spec_only] Epoch [30/60] -> Train Loss: 0.0959 | Val Loss: 0.1168 | Val F1: 0.5258 | Val AUC: 0.5921 | Val PR-AUC: 0.2773 | Val Acc: 60.17%
+[covid_vs_symp__spec_only] Epoch [31/60] -> Train Loss: 0.0944 | Val Loss: 0.1168 | Val F1: 0.5108 | Val AUC: 0.5913 | Val PR-AUC: 0.2788 | Val Acc: 55.92%
+[covid_vs_symp__spec_only] Epoch [32/60] -> Train Loss: 0.0941 | Val Loss: 0.1177 | Val F1: 0.5153 | Val AUC: 0.5904 | Val PR-AUC: 0.2763 | Val Acc: 57.35%
+[covid_vs_symp__spec_only] Epoch [33/60] -> Train Loss: 0.0937 | Val Loss: 0.1196 | Val F1: 0.5192 | Val AUC: 0.5877 | Val PR-AUC: 0.2747 | Val Acc: 59.12%
+[covid_vs_symp__spec_only] Epoch [34/60] -> Train Loss: 0.0920 | Val Loss: 0.1197 | Val F1: 0.5176 | Val AUC: 0.5900 | Val PR-AUC: 0.2771 | Val Acc: 58.19%
+[covid_vs_symp__spec_only] Epoch [35/60] -> Train Loss: 0.0925 | Val Loss: 0.1187 | Val F1: 0.5122 | Val AUC: 0.5868 | Val PR-AUC: 0.2735 | Val Acc: 56.26%
+[covid_vs_symp__spec_only] Epoch [36/60] -> Train Loss: 0.0918 | Val Loss: 0.1199 | Val F1: 0.5099 | Val AUC: 0.5872 | Val PR-AUC: 0.2748 | Val Acc: 56.81%
+[covid_vs_symp__spec_only] Epoch [37/60] -> Train Loss: 0.0907 | Val Loss: 0.1242 | Val F1: 0.5289 | Val AUC: 0.5844 | Val PR-AUC: 0.2708 | Val Acc: 61.51%
+[covid_vs_symp__spec_only] Epoch [38/60] -> Train Loss: 0.0907 | Val Loss: 0.1242 | Val F1: 0.5145 | Val AUC: 0.5844 | Val PR-AUC: 0.2705 | Val Acc: 57.69%
+[covid_vs_symp__spec_only] Epoch [39/60] -> Train Loss: 0.0892 | Val Loss: 0.1280 | Val F1: 0.5323 | Val AUC: 0.5850 | Val PR-AUC: 0.2705 | Val Acc: 64.03%
+=> [covid_vs_symp__spec_only] checkpoint saved (epoch 40/60)
+[covid_vs_symp__spec_only] Epoch [40/60] -> Train Loss: 0.0896 | Val Loss: 0.1257 | Val F1: 0.5226 | Val AUC: 0.5854 | Val PR-AUC: 0.2705 | Val Acc: 60.21%
+[covid_vs_symp__spec_only] Epoch [41/60] -> Train Loss: 0.0882 | Val Loss: 0.1267 | Val F1: 0.5234 | Val AUC: 0.5837 | Val PR-AUC: 0.2705 | Val Acc: 59.54%
+[covid_vs_symp__spec_only] Epoch [42/60] -> Train Loss: 0.0873 | Val Loss: 0.1273 | Val F1: 0.5245 | Val AUC: 0.5834 | Val PR-AUC: 0.2699 | Val Acc: 60.25%
+[covid_vs_symp__spec_only] Epoch [43/60] -> Train Loss: 0.0888 | Val Loss: 0.1280 | Val F1: 0.5237 | Val AUC: 0.5841 | Val PR-AUC: 0.2698 | Val Acc: 60.08%
+[covid_vs_symp__spec_only] Epoch [44/60] -> Train Loss: 0.0872 | Val Loss: 0.1299 | Val F1: 0.5230 | Val AUC: 0.5842 | Val PR-AUC: 0.2694 | Val Acc: 60.42%
+[covid_vs_symp__spec_only] Epoch [45/60] -> Train Loss: 0.0871 | Val Loss: 0.1331 | Val F1: 0.5284 | Val AUC: 0.5813 | Val PR-AUC: 0.2674 | Val Acc: 62.27%
+[covid_vs_symp__spec_only] Epoch [46/60] -> Train Loss: 0.0866 | Val Loss: 0.1315 | Val F1: 0.5308 | Val AUC: 0.5811 | Val PR-AUC: 0.2671 | Val Acc: 62.06%
+[covid_vs_symp__spec_only] Epoch [47/60] -> Train Loss: 0.0870 | Val Loss: 0.1305 | Val F1: 0.5227 | Val AUC: 0.5816 | Val PR-AUC: 0.2677 | Val Acc: 60.38%
+[covid_vs_symp__spec_only] Epoch [48/60] -> Train Loss: 0.0861 | Val Loss: 0.1289 | Val F1: 0.5143 | Val AUC: 0.5812 | Val PR-AUC: 0.2667 | Val Acc: 57.98%
+[covid_vs_symp__spec_only] Epoch [49/60] -> Train Loss: 0.0865 | Val Loss: 0.1298 | Val F1: 0.5292 | Val AUC: 0.5806 | Val PR-AUC: 0.2657 | Val Acc: 60.84%
+=> [covid_vs_symp__spec_only] checkpoint saved (epoch 50/60)
+[covid_vs_symp__spec_only] Epoch [50/60] -> Train Loss: 0.0855 | Val Loss: 0.1313 | Val F1: 0.5256 | Val AUC: 0.5797 | Val PR-AUC: 0.2655 | Val Acc: 60.67%
+[covid_vs_symp__spec_only] Epoch [51/60] -> Train Loss: 0.0864 | Val Loss: 0.1308 | Val F1: 0.5295 | Val AUC: 0.5795 | Val PR-AUC: 0.2644 | Val Acc: 60.71%
+[covid_vs_symp__spec_only] Epoch [52/60] -> Train Loss: 0.0863 | Val Loss: 0.1320 | Val F1: 0.5295 | Val AUC: 0.5797 | Val PR-AUC: 0.2646 | Val Acc: 61.47%
+[covid_vs_symp__spec_only] Epoch [53/60] -> Train Loss: 0.0862 | Val Loss: 0.1304 | Val F1: 0.5283 | Val AUC: 0.5788 | Val PR-AUC: 0.2643 | Val Acc: 60.71%
+[covid_vs_symp__spec_only] Epoch [54/60] -> Train Loss: 0.0855 | Val Loss: 0.1311 | Val F1: 0.5249 | Val AUC: 0.5795 | Val PR-AUC: 0.2648 | Val Acc: 60.00%
+[covid_vs_symp__spec_only] Epoch [55/60] -> Train Loss: 0.0857 | Val Loss: 0.1304 | Val F1: 0.5228 | Val AUC: 0.5801 | Val PR-AUC: 0.2650 | Val Acc: 59.66%
+[covid_vs_symp__spec_only] Epoch [56/60] -> Train Loss: 0.0849 | Val Loss: 0.1314 | Val F1: 0.5296 | Val AUC: 0.5797 | Val PR-AUC: 0.2642 | Val Acc: 60.84%
+[covid_vs_symp__spec_only] Epoch [57/60] -> Train Loss: 0.0849 | Val Loss: 0.1330 | Val F1: 0.5316 | Val AUC: 0.5798 | Val PR-AUC: 0.2648 | Val Acc: 61.22%
+[covid_vs_symp__spec_only] Epoch [58/60] -> Train Loss: 0.0849 | Val Loss: 0.1307 | Val F1: 0.5204 | Val AUC: 0.5793 | Val PR-AUC: 0.2641 | Val Acc: 59.29%
+[covid_vs_symp__spec_only] Epoch [59/60] -> Train Loss: 0.0852 | Val Loss: 0.1301 | Val F1: 0.5166 | Val AUC: 0.5797 | Val PR-AUC: 0.2646 | Val Acc: 58.57%
+=> [covid_vs_symp__spec_only] checkpoint saved (epoch 60/60)
+[covid_vs_symp__spec_only] Epoch [60/60] -> Train Loss: 0.0856 | Val Loss: 0.1312 | Val F1: 0.5222 | Val AUC: 0.5794 | Val PR-AUC: 0.2640 | Val Acc: 59.58%
+
+=== Cascade Comparison ===
+Experiment                           Final Val Acc  Final Val Loss  Final AUC
+covid_symp_vs_healthy__both                 61.10%         0.1363     0.5605
+covid_vs_symp__both                         59.83%         0.1159     0.6111
+covid_symp_vs_healthy__wave_only            59.00%         0.1386     0.5648
+covid_vs_symp__wave_only                    58.49%         0.1179     0.5978
+covid_symp_vs_healthy__spec_only            55.31%         0.1551     0.5458
+covid_vs_symp__spec_only                    59.58%         0.1312     0.5794
+W1025 20:09:08.036000 17140 Lib\site-packages\torch\_inductor\utils.py:1806] [0/7] Not enough SMs to use max_autotune_gemm mode
+All paper figures + CSVs written to figures/ and notebook root.
+W1025 20:18:48.461000 17140 Lib\site-packages\torch\_dynamo\convert_frame.py:2008] [0/8] torch._dynamo hit config.recompile_limit (8)
+W1025 20:18:48.461000 17140 Lib\site-packages\torch\_dynamo\convert_frame.py:2008] [0/8]    function: 'forward' (c:\Users\drewq\Documents\code\GitHub\senior_design\Senior_Design\project_notebooks\modules\nn\base_nn.py:104)
+W1025 20:18:48.461000 17140 Lib\site-packages\torch\_dynamo\convert_frame.py:2008] [0/8]    last reason: 0/7: tensor 'self._modules['classifier']._modules['2']._parameters['bias']' dispatch key set mismatch. expected DispatchKeySet(CUDA, BackendSelect, ADInplaceOrView), actual DispatchKeySet(CUDA, BackendSelect). Guard failed on a parameter, consider using torch._dynamo.config.force_parameter_static_shapes = False to allow dynamism on parameters.
+W1025 20:18:48.461000 17140 Lib\site-packages\torch\_dynamo\convert_frame.py:2008] [0/8] To log all recompilation reasons, use TORCH_LOGS="recompiles".
+W1025 20:18:48.461000 17140 Lib\site-packages\torch\_dynamo\convert_frame.py:2008] [0/8] To diagnose recompilation issues, see https://docs.pytorch.org/docs/main/user_guide/torch_compiler/compile/programming_model.recompilation.html
+
+=== CASCADE 3-class TEST [both] === tau_sick=0.473 tau_covid=0.449 (flagged 2177/4776)
+(rows=true ['healthy','COVID-19','symptomatic'], cols=pred)
+[[3150  242  244]
+ [ 173    4    9]
+ [ 825   63   66]]
+              precision    recall  f1-score   support
+
+     healthy       0.76      0.87      0.81      3636
+    COVID-19       0.01      0.02      0.02       186
+ symptomatic       0.21      0.07      0.10       954
+
+    accuracy                           0.67      4776
+   macro avg       0.33      0.32      0.31      4776
+weighted avg       0.62      0.67      0.64      4776
+
+Stage-2 standalone TEST [both]: ROC-AUC 0.6254  PR-AUC 0.2493
+              precision    recall  f1-score   support
+
+ symptomatic       0.89      0.45      0.60       954
+    COVID-19       0.20      0.70      0.31       186
+
+    accuracy                           0.49      1140
+   macro avg       0.54      0.58      0.46      1140
+weighted avg       0.77      0.49      0.55      1140
+
+
+=== CASCADE 3-class TEST [wave_only] === tau_sick=0.466 tau_covid=0.500 (flagged 2462/4776)
+(rows=true ['healthy','COVID-19','symptomatic'], cols=pred)
+[[3141  202  293]
+ [ 177    3    6]
+ [ 799   63   92]]
+              precision    recall  f1-score   support
+
+     healthy       0.76      0.86      0.81      3636
+    COVID-19       0.01      0.02      0.01       186
+ symptomatic       0.24      0.10      0.14       954
+
+    accuracy                           0.68      4776
+   macro avg       0.34      0.33      0.32      4776
+weighted avg       0.63      0.68      0.64      4776
+
+Stage-2 standalone TEST [wave_only]: ROC-AUC 0.6195  PR-AUC 0.2328
+              precision    recall  f1-score   support
+
+ symptomatic       0.89      0.58      0.70       954
+    COVID-19       0.23      0.63      0.33       186
+
+    accuracy                           0.59      1140
+   macro avg       0.56      0.60      0.52      1140
+weighted avg       0.78      0.59      0.64      1140
+
+
+=== CASCADE 3-class TEST [spec_only] === tau_sick=0.465 tau_covid=0.416 (flagged 2639/4776)
+(rows=true ['healthy','COVID-19','symptomatic'], cols=pred)
+[[3108  304  224]
+ [ 173    8    5]
+ [ 798   93   63]]
+              precision    recall  f1-score   support
+
+     healthy       0.76      0.85      0.81      3636
+    COVID-19       0.02      0.04      0.03       186
+ symptomatic       0.22      0.07      0.10       954
+
+    accuracy                           0.67      4776
+   macro avg       0.33      0.32      0.31      4776
+weighted avg       0.62      0.67      0.63      4776
+
+Stage-2 standalone TEST [spec_only]: ROC-AUC 0.6182  PR-AUC 0.2414
+              precision    recall  f1-score   support
+
+ symptomatic       0.89      0.40      0.55       954
+    COVID-19       0.19      0.74      0.31       186
+
+    accuracy                           0.46      1140
+   macro avg       0.54      0.57      0.43      1140
+weighted avg       0.78      0.46      0.51      1140
+
+=> cascade eval state saved to run_state/cascade_eval_state.pt
+=> wrote cascade_eval_results.csv + stage2_standalone_eval.csv
+Stage-1 sick-vs-healthy TEST [both] tau=0.500  (rows=true [healthy, covid+symp])
+[[2485 1151]
+ [ 659  481]]
+Stage-2 covid-vs-symp TEST [both] tau=0.500  (rows=true [symptomatic, COVID-19])
+[[584 370]
+ [ 75 111]]
+Stage-1 sick-vs-healthy TEST [wave_only] tau=0.500  (rows=true [healthy, covid+symp])
+[[2327 1309]
+ [ 628  512]]
+Stage-2 covid-vs-symp TEST [wave_only] tau=0.500  (rows=true [symptomatic, COVID-19])
+[[551 403]
+ [ 69 117]]
+Stage-1 sick-vs-healthy TEST [spec_only] tau=0.500  (rows=true [healthy, covid+symp])
+[[2041 1595]
+ [ 551  589]]
+Stage-2 covid-vs-symp TEST [spec_only] tau=0.500  (rows=true [symptomatic, COVID-19])
+[[619 335]
+ [ 91  95]]
+shape: (18, 7)
++-----------------------------------+------------+---------+---------+---------+---------+---------+
+| experiment                        | metric     | max     | min     | final   | avg     | std     |
+| ---                               | ---        | ---     | ---     | ---     | ---     | ---     |
+| str                               | str        | f64     | f64     | f64     | f64     | f64     |
++==================================================================================================+
+| covid_symp_vs_healthy__both       | train_loss | 0.1331  | 0.1216  | 0.1217  | 0.125   | 0.0028  |
+| covid_symp_vs_healthy__both       | val_loss   | 0.1377  | 0.1306  | 0.1363  | 0.134   | 0.0022  |
+| covid_symp_vs_healthy__both       | val_acc    | 70.8777 | 52.4974 | 61.0972 | 62.5838 | 3.7102  |
+| covid_vs_symp__both               | train_loss | 0.1108  | 0.0971  | 0.0974  | 0.1019  | 0.0043  |
+| covid_vs_symp__both               | val_loss   | 0.1168  | 0.1103  | 0.1159  | 0.1134  | 0.0019  |
+| covid_vs_symp__both               | val_acc    | 78.6555 | 31.1345 | 59.8319 | 59.5462 | 6.573   |
+| covid_symp_vs_healthy__wave_on... | train_loss | 0.133   | 0.1196  | 0.12    | 0.1241  | 0.0036  |
+| covid_symp_vs_healthy__wave_on... | val_loss   | 0.1416  | 0.1306  | 0.1386  | 0.1348  | 0.0031  |
+| covid_symp_vs_healthy__wave_on... | val_acc    | 72.372  | 32.9049 | 58.9969 | 58.5791 | 6.4038  |
+| covid_vs_symp__wave_only          | train_loss | 0.1106  | 0.0964  | 0.0964  | 0.1018  | 0.0047  |
+| covid_vs_symp__wave_only          | val_loss   | 0.1206  | 0.1101  | 0.1179  | 0.1152  | 0.003   |
+| covid_vs_symp__wave_only          | val_acc    | 78.7815 | 32.521  | 58.4874 | 60.2857 | 8.244   |
+| covid_symp_vs_healthy__spec_on... | train_loss | 0.1332  | 0.1105  | 0.1111  | 0.1198  | 0.0074  |
+| covid_symp_vs_healthy__spec_on... | val_loss   | 0.156   | 0.1301  | 0.1551  | 0.1419  | 0.0091  |
+| covid_symp_vs_healthy__spec_on... | val_acc    | 63.7931 | 24.8694 | 55.3083 | 53.7849 | 7.8781  |
+| covid_vs_symp__spec_only          | train_loss | 0.1104  | 0.0849  | 0.0856  | 0.0964  | 0.0091  |
+| covid_vs_symp__spec_only          | val_loss   | 0.1331  | 0.1113  | 0.1312  | 0.1205  | 0.008   |
+| covid_vs_symp__spec_only          | val_acc    | 78.7815 | 21.2185 | 59.5798 | 55.4454 | 11.9579 |
++-----------------------------------+------------+---------+---------+---------+---------+---------+
+
+=== Cascade 3-class eval ===
+shape: (3, 14)
++-------------------+----------+-----------+----------------+--------------+-------------+------------------+-----------------+----------------+------------+----------+---------+----------+----------+
+| experiment        | tau_sick | tau_covid | healthy_recall | covid_recall | symp_recall | healthy_precisio | covid_precision | symp_precision | healthy_f1 | covid_f1 | symp_f1 | macro_f1 | accuracy |
+| ---               | ---      | ---       | ---            | ---          | ---         | n                | ---             | ---            | ---        | ---      | ---     | ---      | ---      |
+| str               | f64      | f64       | f64            | f64          | f64         | ---              | f64             | f64            | f64        | f64      | f64     | f64      | f64      |
+|                   |          |           |                |              |             | f64              |                 |                |            |          |         |          |          |
++======================================================================================================================================================================================================+
+| cascade__both     | 0.4734   | 0.4492    | 0.8663         | 0.0215       | 0.0692      | 0.7594           | 0.0129          | 0.2069         | 0.8094     | 0.0162   | 0.1037  | 0.3097   | 0.6742   |
+| cascade__wave_onl | 0.4664   | 0.5001    | 0.8639         | 0.0161       | 0.0964      | 0.7629           | 0.0112          | 0.2353         | 0.8103     | 0.0132   | 0.1368  | 0.3201   | 0.6776   |
+| y                 |          |           |                |              |             |                  |                 |                |            |          |         |          |          |
+| cascade__spec_onl | 0.4647   | 0.4164    | 0.8548         | 0.043        | 0.066       | 0.762            | 0.0198          | 0.2158         | 0.8057     | 0.0271   | 0.1011  | 0.3113   | 0.6656   |
+| y                 |          |           |                |              |             |                  |                 |                |            |          |         |          |          |
++-------------------+----------+-----------+----------------+--------------+-------------+------------------+-----------------+----------------+------------+----------+---------+----------+----------+
+
+=== Stage-2 standalone eval ===
+shape: (3, 5)
++--------------------------+--------------+-------------+--------------+-------------+
+| experiment               | test_roc_auc | test_pr_auc | covid_recall | symp_recall |
+| ---                      | ---          | ---         | ---          | ---         |
+| str                      | f64          | f64         | f64          | f64         |
++====================================================================================+
+| covid_vs_symp__both      | 0.6254       | 0.2493      | 0.6989       | 0.4539      |
+| covid_vs_symp__wave_only | 0.6195       | 0.2328      | 0.629        | 0.5776      |
+| covid_vs_symp__spec_only | 0.6182       | 0.2414      | 0.7419       | 0.4025      |
++--------------------------+--------------+-------------+--------------+-------------+
+All figures + CSVs written to figures/ and notebook root.
+Runs scheduled: ['default/both', 'branched/both', 'resnet/both']
+STARTING MULTI-MODEL EXPERIMENTS
+
+--- default__covid_symp_vs_healthy__both --- (stage 1: covid_symp_vs_healthy)
+STARTING MULTI-MODEL EXPERIMENTS
+
+--- default__covid_symp_vs_healthy__both --- (stage 1: covid_symp_vs_healthy)
+STARTING MULTI-MODEL EXPERIMENTS
+
+--- default__covid_symp_vs_healthy__both --- (stage 1: covid_symp_vs_healthy)
+=> [default__covid_symp_vs_healthy__both] new best val_loss 0.1312 (epoch 1)
+[default__covid_symp_vs_healthy__both] Epoch [1/256] -> Train Loss: 0.1329 | Val Loss: 0.1312 | Val F1: 0.4807 | Val AUC: 0.5046 | Val PR-AUC: 0.2593 | Val Acc: 72.51%
+[default__covid_symp_vs_healthy__both] Epoch [2/256] -> Train Loss: 0.1322 | Val Loss: 0.1313 | Val F1: 0.4798 | Val AUC: 0.5046 | Val PR-AUC: 0.2600 | Val Acc: 72.24%
+[default__covid_symp_vs_healthy__both] Epoch [3/256] -> Train Loss: 0.1314 | Val Loss: 0.1314 | Val F1: 0.4843 | Val AUC: 0.5119 | Val PR-AUC: 0.2632 | Val Acc: 71.54%
+[default__covid_symp_vs_healthy__both] Epoch [4/256] -> Train Loss: 0.1310 | Val Loss: 0.1318 | Val F1: 0.4747 | Val AUC: 0.5209 | Val PR-AUC: 0.2674 | Val Acc: 73.24%

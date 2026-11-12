@@ -21,9 +21,10 @@ if TYPE_CHECKING:
     import numpy.typing as npt
 
 __all__ = [
-    "segment_cough", "compute_SNR", "MelSpectrogramPipeline", 
-    "segment_cough_robust", "SpecAugmentations", "MFCCPipeline", 
-    "SpectMFCCPipeline", "EnforceFixedLength", "segment_cough_fast"
+    "segment_cough", "compute_SNR", "MelSpectrogramPipeline",
+    "segment_cough_robust", "SpecAugmentations", "MFCCPipeline",
+    "SpectMFCCPipeline", "EnforceFixedLength", "segment_cough_fast",
+    "trim_tile"
 ]
 
 '''
@@ -246,8 +247,32 @@ def compute_SNR(x: npt.NDArray, fs: float) -> float | int:
     return SNR
 
 
+def trim_tile(x: torch.Tensor, n: int | None = None) -> torch.Tensor:
+    """Trim trailing zero-padding, then tile-repeat the signal to the full window.
+
+    Stored segments are zero-padded to a fixed length; ~75% of samples can be
+    trailing zeros, which dilutes pooled features 4:1 and hands the model empty
+    spectrogram columns. Tiling repeats the real cough instead of silence.
+    Works on (T,) or (B, T); output length = n or the input's own length.
+    """
+    if x.ndim == 1:
+        x = x.unsqueeze(0)
+        squeeze = True
+    else:
+        squeeze = False
+    n = n or x.shape[-1]
+    out = torch.empty(x.shape[0], n, dtype=x.dtype, device=x.device)
+    for i in range(x.shape[0]):
+        wi = x[i]
+        nz = torch.nonzero(wi != 0, as_tuple=False)
+        L = int(nz[-1]) + 1 if len(nz) else n   # all-zero row stays all-zero
+        src = wi[:L]
+        reps = (n + L - 1) // L
+        out[i] = src.repeat(reps)[:n]
+    return out.squeeze(0) if squeeze else out
+
+
 class ComplexToPower(torch.nn.Module):
-    
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return x.abs().pow(2)
     
@@ -316,7 +341,7 @@ class BaseSpecAug(torch.nn.Module):
     
 class SpecAugmentations(BaseSpecAug):
 
-    def __init__(self, stretch_factor: float = 0.8, req_mask: int = 5, time_mask: int = 5, transform: Callable[[torch.Tensor], torch.Tensor] | None = None) -> None:
+    def __init__(self, stretch_factor: float = 0.8, req_mask: int = 5, time_mask: int = 5, transform: Callable[[torch.Tensor], torch.Tensor] | None = None, augment_probs: dict[int, float] | None = None) -> None:
         super().__init__()
 
         self._n_freq_op: Callable[[int], int] = lambda x: x // 2 + 1
@@ -324,15 +349,34 @@ class SpecAugmentations(BaseSpecAug):
         self.transform: Callable[[torch.Tensor], torch.Tensor] | None = transform
         self.p: float = 0.5
         # Same per-class augment probabilities as WaveformAugmentor (healthy, COVID-19, symptomatic)
-        self.augment_probs: dict[int, float] = {0: 0.40, 1: 0.90, 2: 0.70}
+        self.augment_probs: dict[int, float] = augment_probs or {
+            0: 0.70,  # healthy
+            1: 0.90,  # COVID-19
+            2: 0.70,  # symptomatic
+        }
 
-        self.pipeline: Callable[..., nn.Sequential] = lambda x: nn.Sequential(
-            TimeStretch(stretch_factor, fixed_rate=True, n_freq=self.n_freq),
-            ComplexToPower(),
-        )
-
+        self._stretch_factor: float = stretch_factor
+        self._to_power: ComplexToPower = ComplexToPower()
+        self._stretch_cache: TimeStretch | None = None
+        self._stretch_cache_n_freq: int | None = None
         self.freq_mask: FrequencyMasking = FrequencyMasking(freq_mask_param=req_mask)
         self.time_mask: TimeMasking = TimeMasking(time_mask_param=time_mask)
+
+    @property
+    def _stretch(self) -> TimeStretch:
+        # built lazily and cached; rebuilt only if n_freq changes after the owning pipeline sets it
+        n_freq = self.n_freq
+        if self._stretch_cache is None or self._stretch_cache_n_freq != n_freq:
+            self._stretch_cache = TimeStretch(self._stretch_factor, fixed_rate=True, n_freq=n_freq)
+            self._stretch_cache_n_freq = n_freq
+        return self._stretch_cache
+
+    def _stretch_for(self, x: torch.Tensor) -> torch.Tensor:
+        # keep the cached stretch on the same device as the incoming batch, then apply it
+        s = self._stretch
+        if next(s.parameters(), None) is not None or any(True for _ in s.buffers()):
+            s = s.to(x.device)
+        return s(x)
 
     def _should_apply(self, p: float | None = None) -> bool:
         return bool(torch.rand(()) < (self.p if p is None else p))
@@ -340,23 +384,28 @@ class SpecAugmentations(BaseSpecAug):
     def forward(self, x: torch.Tensor, label: torch.Tensor | None = None) -> torch.Tensor:
         if self.transform:
             x = self.transform(x)
-        # TimeStretch + power conversion always run (the downstream mel step needs a power spectrogram)
-        x = self.pipeline(1)(x)
         if not self.training:
-            return x
+            # ponytail: no stretch at eval so train/val see consistent time scales
+            return self._to_power(x)
         if label is None:
-            # No labels available: fall back to a single coin flip for the whole batch
+            # No labels available: single coin flips for the whole batch
+            if self._should_apply():
+                x = self._stretch_for(x)
+            x = self._to_power(x)
             if self._should_apply():
                 x = self.time_mask(self.freq_mask(x))
             return x
-        # Per-sample gating by class, same probabilities as WaveformAugmentor
+        # Per-sample: stretch is a plain coin flip; masks gated by class (same probs as WaveformAugmentor)
+        out = []
         for i in range(x.shape[0]):
-            if torch.rand(()) >= self.augment_probs[int(label[i])]:
-                continue
-            if not self._should_apply():
-                continue
-            x[i] = self.time_mask(self.freq_mask(x[i : i + 1]))[0]
-        return x
+            xi = x[i : i + 1]
+            if self._should_apply():
+                xi = self._stretch_for(xi)
+            xi = self._to_power(xi)
+            if torch.rand(()) < self.augment_probs[int(label[i])] and self._should_apply():
+                xi = self.time_mask(self.freq_mask(xi))
+            out.append(xi)
+        return torch.cat(out, dim=0)
         
         
         
@@ -481,7 +530,7 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
         if self.transforms:
             self.transforms.n_freq = n_fft
         
-        self.amp_to_db: AmplitudeToDB = AmplitudeToDB()
+        self.amp_to_db: AmplitudeToDB = AmplitudeToDB(top_db=80)
         
         self.spec: Spectrogram = Spectrogram(n_fft=n_fft, power=None if self.transforms else 2)
         self.mel_scale: MelScale = MelScale(
@@ -528,16 +577,15 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
         spec: torch.Tensor = self.spec(waveform)
         if self.transforms:
             spec = self.transforms(spec, label)
-        mel = self.mel_scale(spec)
-        spec = self.amp_to_db(mel)
+        mel = self.amp_to_db(self.mel_scale(spec))
         
         mfcc: torch.Tensor = torch.matmul(
-            spec.transpose(-1, -2), self.dct_mat
+            mel.transpose(-1, -2), self.dct_mat
         ).transpose(-1, -2)
         
 
         norm_mfcc: torch.Tensor = self.normalize_and_clamp_mfcc(mfcc)
-        norm_spec: torch.Tensor = self._normalize(mel)
+        norm_spec: torch.Tensor = mel / 80.0 + 1.0
         
         three_chan_spec = self.to_three_channel_images(norm_spec, norm_spec)
         three_chan_mfcc = self.to_three_channel_images(norm_mfcc, norm_mfcc)
@@ -578,7 +626,7 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
     
 class WaveformAugmentor(nn.Module):
 
-    def __init__(self, sample_rate: int, p: float = 0.5) -> None:
+    def __init__(self, sample_rate: int, p: float = 0.5, augment_probs: dict[int, float] | None = None) -> None:
         super().__init__()
 
         self.sample_rate: int = sample_rate
@@ -586,13 +634,22 @@ class WaveformAugmentor(nn.Module):
 
         self.speed: SpeedPerturbation = SpeedPerturbation(
             orig_freq=sample_rate,
-            factors=[0.95, 1.0, 1.05],
+            factors=[0.9, 1.0, 1.1],
         )
-        
-        self.augment_probs: dict[int, float] = {
-            0: 0.40,  # healthy
+
+        # Per-class augment probabilities (healthy, COVID-19, symptomatic): the rare
+        # class (COVID-19) gets the most augmentation - it is the cheap oversampling lever
+        self.augment_probs: dict[int, float] = augment_probs or {
+            0: 0.70,  # healthy
             1: 0.90,  # COVID-19
             2: 0.70,  # symptomatic
+        }
+        # Explicit per-technique probabilities (previously hidden: each was
+        # label_prob * 0.5 via the double gate in forward).
+        self.tech_probs: dict[str, float] = {
+            "gain": 0.5,
+            "noise": 0.3,
+            "time_shift": 0.5,
         }
 
     def _should_apply(self, p: float | None = None) -> bool:
@@ -614,7 +671,7 @@ class WaveformAugmentor(nn.Module):
 
         noise_level: torch.Tensor = torch.empty(
             (), device=x.device, dtype=x.dtype,
-        ).uniform_(0.002, 0.01)
+        ).uniform_(0.05, 0.15)
 
         return x + torch.randn_like(x) * rms * noise_level
 
@@ -661,13 +718,13 @@ class WaveformAugmentor(nn.Module):
         if torch.rand(()) > self.augment_probs[int(label)]:
             return waveform
 
-        if self._should_apply():
+        if self._should_apply(self.tech_probs["gain"]):
             waveform = self._gain(waveform)
 
-        if self._should_apply(0.3):
+        if self._should_apply(self.tech_probs["noise"]):
             waveform = self._noise(waveform)
 
-        if self._should_apply():
+        if self._should_apply(self.tech_probs["time_shift"]):
             waveform = self._time_shift(waveform)
 
         return waveform

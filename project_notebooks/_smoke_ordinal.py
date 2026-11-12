@@ -62,15 +62,8 @@ assert len(oof2['p1']) == len(va_pos)
 print('OK: resume-complete path skips training, still collects OOF')
 
 # recording aggregation + metrics on the smoke OOF
-# aggregate_recordings lives in the eval cell (eval1oof), which the smoke run
-# does not execute — extract just the function source and exec it standalone.
-import re  # noqa: E402
-
-eval_src = ''.join(next(c['source'] for c in nb['cells'] if c['id'] == 'eval1oof'))
-fn_src = 'def aggregate_recordings' + eval_src.split('def aggregate_recordings', 1)[1].split('\nEVAL_COLS', 1)[0]
-ns = {'np': np}
-exec(compile(fn_src, 'eval1oof', 'exec'), ns)
-rec = ns['aggregate_recordings']({k: np.asarray(v) for k, v in oof.items()})
+# aggregate_recordings lives in the helpers cell (3a915f12), which the smoke run executes
+rec = g['aggregate_recordings']({k: np.asarray(v) for k, v in oof.items()})
 assert len(rec['true']) == len(set(oof['path']))
 m = g['ordinal_oof_metrics'](rec['true'], rec['pred'], rec['p1'], rec['p2'])
 assert 0.0 <= m['macro_f1'] <= 1.0 and m['rank_mae'] >= 0.0

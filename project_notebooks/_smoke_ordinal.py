@@ -23,8 +23,15 @@ def run(i: int) -> None:
         print(f'--- cell {i} ---\n{tail}'.encode('ascii', errors='replace').decode('ascii'))
 
 
-for i in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]:  # everything except the CV loop / eval / figures
-    run(i)
+# everything except the aug experiment / CV loop / eval / figures, addressed by ID
+SMOKE_CELLS = ['1ae35e7f', 'dd785601', 'dea62985', 'f94fb1b7', 'd6c374cf', 'dda0e9f7',
+               '5e02a5d2', '23e32579', '27d2f6c3', '3a915f12']
+id2idx = {c['id']: i for i, c in enumerate(nb['cells'])}
+missing = [cid for cid in SMOKE_CELLS if cid not in id2idx]
+assert not missing, f'smoke cell ids missing from notebook: {missing}'
+assert not {'aug1split', 'aug2train', 'aug3test', 'aug4figs'} & set(SMOKE_CELLS), 'aug cells must not be smoked'
+for cid in SMOKE_CELLS:
+    run(id2idx[cid])
 
 import numpy as np  # noqa: E402
 import torch  # noqa: E402

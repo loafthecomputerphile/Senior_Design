@@ -598,8 +598,8 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
     
     def to_three_channel_images(self, norm_spec: torch.Tensor, norm_mfcc: torch.Tensor) -> torch.Tensor:
         """
-        Combines 1-channel Mel Spectrogram and 1-channel MFCC into a 
-        standard 3-channel image format using the Mel's Delta stream.
+        Combines 1-channel Mel Spectrogram and 1-channel MFCC into a
+        standard 3-channel image format using a spectral-contrast stream.
         """
         # Ensure tensors have an explicit channel dimension: [..., 1, height, width]
         if norm_spec.ndim == 2:  # [height, width] -> [1, height, width]
@@ -609,18 +609,25 @@ class SpectMFCCPipeline(torch.nn.Module, ReverseSpectrogram):
             norm_spec = norm_spec.unsqueeze(1)
             norm_mfcc = norm_mfcc.unsqueeze(1)
 
-        # 1. Compute the Delta velocity mapping from the Mel matrix
-        delta_map = self.compute_deltas(norm_spec)
-        
-        # 2. Min-max scale the delta layer to normalize its distribution to 0.0 - 1.0
-        delta_min = delta_map.amin(dim=(-2, -1), keepdim=True)
-        delta_max = delta_map.amax(dim=(-2, -1), keepdim=True)
-        norm_delta = (delta_map - delta_min) / (delta_max - delta_min + 1e-8)
+        # 1. Local spectral contrast: per-bin peak-to-valley over a +-3-bin
+        #    frequency window (dB). Captures band texture (tonal vs noisy);
+        #    non-derivative, so tiling seams don't corrupt it.
+        contrast = self._spectral_contrast(norm_spec)
 
-        # 3. Concatenate along the channel axis (dim=-3)
-        # Channel 0: Mel Spectrogram | Channel 1: MFCC | Channel 2: Mel Delta
-        three_channel_img = torch.cat([norm_spec, norm_mfcc, norm_delta], dim=-3)
+        # 2. Concatenate along the channel axis (dim=-3)
+        # Channel 0: Mel Spectrogram | Channel 1: MFCC | Channel 2: Spectral Contrast
+        three_channel_img = torch.cat([norm_spec, norm_mfcc, contrast], dim=-3)
         return three_channel_img
+
+    def _spectral_contrast(self, x: torch.Tensor) -> torch.Tensor:
+        """x: (B,1,H,W) dB-scaled mel -> min-max-normalized contrast, same shape."""
+        b = x.squeeze(1).transpose(1, 2)  # (B, W, H): pool runs over frequency
+        peak = torch.nn.functional.max_pool1d(b, kernel_size=7, stride=1, padding=3)
+        valley = -torch.nn.functional.max_pool1d(-b, kernel_size=7, stride=1, padding=3)
+        c = (peak - valley).transpose(1, 2).unsqueeze(1)  # back to (B, 1, H, W)
+        c_min = c.amin(dim=(-2, -1), keepdim=True)
+        c_max = c.amax(dim=(-2, -1), keepdim=True)
+        return (c - c_min) / (c_max - c_min + 1e-8)
     
     
     

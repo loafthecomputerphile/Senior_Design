@@ -82,6 +82,44 @@ Every strong result is binary. Paper 5 is the only honest 3-class COUGHVID resul
 - 3D-PSR (paper 2) or EDNN-CHIO (paper 3): unreproducible pipelines whose numbers don't survive the split-quality question.
 - Fine-tuning a big pretrained model end-to-end: Campana's data says frozen beats it at this data scale (~6.6% PR-AUC drop).
 
+## Update 2026-11-13: full ten-paper audit — what each headline number actually measures
+
+*All ten papers were fetched and read in full (or via abstracts/metadata where paywalled). This section supersedes the snapshot above where they differ. The question it answers: why do published models get 90–98% while our from-scratch CNN on CoughVid gets AUC ≈ 0.52 at chance?*
+
+### The short answer
+
+Our pipeline is stricter than nearly every paper we compared against. Every number ≥ 0.90 in this literature fails at least one of the checks our pipeline enforces; every number measured under our regime sits at 0.56–0.79. The gap is in their evaluation hygiene, not our model.
+
+### How each paper's number is earned or inflated
+
+| Paper | Data | Their "positive" vs "negative" | Split integrity | Headline | Honest number |
+|---|---|---|---|---|---|
+| **Han / Buttow et al., npj Digital Medicine 2021–22** | Cambridge COVID-19 Sounds app, 2,478 participants / 514 positives | self-reported status | participant-disjoint ✓ (they ran both) | **0.90 leaky / 0.71 clean** | Cough alone: **0.66**. 0.71 is cough+breath+voice combined. Random split inflates AUC by ~0.2. |
+| **Coppock et al., Lancet Digital Health 2021** | — | — | — | comment piece | No data. Seven concerns: task is likely sick-vs-well, environment bias, label uncertainty, no participant-disjoint splits in several datasets. |
+| **Orlandic et al. 2023** | **COUGHVID expert subset — our exact data** | expert-annotated vs user self-report | recording-level GroupShuffleSplit ✓, but tested on the same expert's labels | SSL relabeled: 0.797 per-recording | **User labels: AUC 0.56 (chance). Expert labels: 0.59–0.74** — with an annotator-agreement leak working in their favor (test set labeled by the same expert as training). |
+| **Chang et al. (CovNet), Frontiers 2021** | COUGHVID 699 pos / 7,075 neg | self-reported, symptomatic excluded | recording-level stratified 80/20 ✓ | **~0.69 AUC** on COUGHVID | Closest apples-to-apples to our setup: from-scratch CNN, 10 s input, no augmentation. Needed FluSense pretraining to squeeze out +3.5%. |
+| **Kim et al., JMIR 2024** | Cambridge → Virufy/Coswara external | self-reported + curated controls | external test sets ✓ | 0.93 in-domain | **Collapses to 0.77 (Delta) and 0.55 (Omicron)** out of era. The signal itself decays over time. |
+| **Campana et al. 2023** | COUGHVID 547 pos / 5,625 neg | self-report | subject-disjoint nested CV ✓ | PR-AUC 0.94 | On a different, small, controlled dataset. All encoders pretrained (VGGish/YAMNet/OpenL3); no from-scratch baseline. OpenL3 best. |
+| **Pahar et al. 2022** | Coswara, **92 positives** | self-report | subject folds ✓ | AUC 0.98 | Rides on 92 positives + SMOTE-synthesized coughs. |
+| **Hamdi et al. 2022 (CNN-LSTM)** | COUGHVID | **"positive" = COVID merged with symptomatic**, vs healthy | 80/20, no split control stated | 91% | That's a symptomatic-vs-healthy detector (the easy task), not a COVID detector. |
+| **Cough2COVID, Sci Rep 2024** | 4 datasets; COUGHVID held out | mixed labels (SSL/self-report, not PCR) | "subject-wise claimed, not verified"; no held-out set for COUGHVID | 98% / AUC 0.981 | Inconsistent with Orlandic's 0.59–0.74 on the same labels — not reproducible under our harness. |
+| **PSR 3D CNN, Sci Rep 2025** | COUGHVID 3-class (our exact task!) | PCR "claimed, not verified" | 5-fold recording-level, **no subject control, no held-out set** | 98.5% | Not reproducible under our harness. |
+
+### Why our model can't match theirs — four reasons, in order of size
+
+1. **Our split is stricter than almost everyone's.** The npj study proved the split axis alone is worth ~0.2 AUC. The two 98% papers both lack verified subject-disjoint splits and held-out test sets. Our recording-disjoint CV is doing exactly what the npj paper demands.
+2. **Our labels are the hard ones.** On our exact data (CoughVid expert subset), Orlandic got 0.56 from user labels and 0.59–0.74 from expert labels *with* an annotator-agreement leak working in their favor. We are not underperforming Orlandic — we sit roughly at their honest floor.
+3. **Our input is 1 second.** Every honest ≥ 0.69 result used 7–10 s recordings (Chang: up to 10 s; Hamdi: 7.07 s). Our 32-frame spectrogram of one tiled cough is the outlier.
+4. **Several "wins" are relabelings of the task.** Hamdi merged symptomatic into positive (91%); Kim's controls were curated never-smoking asymptomatics; Pahar's positives were partly synthetic. The one genuinely rigorous generalization paper (Kim) says the signal itself decays — 0.55 by Omicron.
+
+### What this means for our 3-class project
+
+- **Our success bar is literature-defensible.** Binary sick-vs-well at recording-disjoint AUC ~0.65–0.7 (Chang) on CoughVid is the honest target. The old bar of "0.55–0.6 is the honest finding" undercuts itself — Chang hit 0.69 with 10 s input from scratch, so the gap from our 0.52 is *input length + task framing*, not magic.
+- **Cheapest big lever, no pretrained models needed:** switch segments to 7–10 s windows (pad-and-mask, no tiling). Chang's 0.69 came from a shallower CNN than ours with no augmentation — our architecture is not the bottleneck.
+- **Second lever, on our own data:** Orlandic's semi-supervised relabeling took CoughVid from 0.59–0.74 to ~0.80. We already use YAMNet as a *verifier* (not a feature source), so a confidence-based relabel pass fits within our constraint.
+- **Keep COVID-vs-symptomatic expectations near floor.** Nobody honestly separates COVID from symptomatic-non-COVID by cough alone; our ordinal MAE framing is the right way to report that.
+- **Ignore Cough2COVID and PSR as comparators** — document why in the report (unverified splits, no held-out set, label redefinition). The table above is the "something is not adding up" answer: the discrepancy is in their evaluation hygiene, not our model.
+
 ## Sources
 
 - [npj leakage study](https://www.nature.com/articles/s41746-021-00553-x)
@@ -94,3 +132,13 @@ Every strong result is binary. Paper 5 is the only honest 3-class COUGHVID resul
 - [Pahar transfer learning](https://www.sciencedirect.com/science/article/pii/S0010482521009471)
 - [Cough2COVID](https://www.nature.com/articles/s41598-024-76639-9)
 - [PSR 3D CNN](https://www.nature.com/articles/s41598-025-29633-8)
+
+
+
+
+
+
+
+
+
+

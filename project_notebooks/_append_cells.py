@@ -27,7 +27,6 @@ print("Runs scheduled:", [f"{mn}/{cfg}" for mn, cfg in TRAINED_RUNS])
 
 # separate spec/mfcc streams for the branched model (forward returns (spec, mfcc))
 mel_train_plain_sep: SpectMFCCPipeline = SpectMFCCPipeline(combind=False).to(device)
-mel_train_spec_sep: SpectMFCCPipeline = SpectMFCCPipeline(transforms=SpecAugmentations(), combind=False).to(device)
 mel_eval_sep: SpectMFCCPipeline = SpectMFCCPipeline(combind=False).to(device)
 mel_eval_sep = torch.compile(mel_eval_sep) if device.type == "cuda" else mel_eval_sep'''
 
@@ -144,6 +143,26 @@ def train_model(name: str, positive: int, use_wave: bool, use_spec: bool,
     w = w / w.sum() * 2.0  # normalize so mean weight is 1 (keeps loss scale comparable)
     w = w.to(device)
 
+    # Rarity-scaled augment probs over raw labels: binary positives count as one
+    # bucket (covid_symp_vs_healthy merges raw 1+2 into the positive bucket), so
+    # both sick classes get the same (higher) augmentation probability.
+    raw_labels = dataset.labels[torch.tensor(tr_base)] if task is not None else train_labels
+    def _bucket(k: int) -> int:
+        if task == "covid_symp_vs_healthy":
+            return 1 if k in (1, 2) else 0
+        if task == "covid_vs_symp":
+            return k  # raw 1 (covid) and raw 2 (symp) are the two classes
+        if positives is not None:
+            return 1 if k in positives else 0
+        return 1 if k == positive else 0
+    buckets: dict[int, float] = {}
+    for k in (0, 1, 2):
+        b = _bucket(k)
+        buckets[b] = buckets.get(b, 0.0) + float((raw_labels == k).sum())
+    _p = aug_probs_from_counts(buckets)
+    aug_probs: dict[int, float] = {k: _p[_bucket(k)] for k in (0, 1, 2)}  # keyed on RAW labels
+    print(f"[{name}] augment_probs: " + ", ".join(f"{k}:{v:.2f}" for k, v in sorted(aug_probs.items())))
+
     criterion: nn.Module = FocalLoss(alpha=w, gamma=2.0)
 
     m = _make_model(model_name)
@@ -162,7 +181,14 @@ def train_model(name: str, positive: int, use_wave: bool, use_spec: bool,
         name, model, optimizer, scheduler, scaler, num_epochs)
 
     use_sep: bool = (model_name == "branched")
-    mel_train = (mel_train_spec_sep if use_spec else mel_train_plain_sep) if use_sep else (mel_train_spec if use_spec else mel_train_plain)
+    if use_spec:
+        # per-run pipeline: SpecAugmentations holds this task's augment_probs
+        mel_train = SpectMFCCPipeline(
+            transforms=SpecAugmentations(augment_probs=aug_probs).to(device),
+            combind=not use_sep,
+        ).to(device)
+    else:
+        mel_train = mel_train_plain_sep if use_sep else mel_train_plain
 
     if task is not None:
         tr_src, va_src = task_ds, task_ds
@@ -171,7 +197,7 @@ def train_model(name: str, positive: int, use_wave: bool, use_spec: bool,
 
     train_ds: AugmentedSubset | Subset = AugmentedSubset(
         tr_src, tr_pos if task is not None else tr_idx,
-        WaveformAugmentor(16_000)
+        WaveformAugmentor(16_000, augment_probs=aug_probs)
     ) if use_wave else Subset(tr_src, tr_pos if task is not None else tr_idx)
 
     train_loader: torch.utils.data.DataLoader = torch.utils.data.DataLoader(

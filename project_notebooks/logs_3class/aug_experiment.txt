@@ -1,0 +1,79 @@
+oversample: 21769 -> 48282 train positions (natural {0: 16094, 1: 1023, 2: 4652} -> all 16094)
+[aug__wave_only__default] aug config: wave=on spec=OFF
+W1114 22:51:09.078000 32292 Lib\site-packages\torch\_inductor\utils.py:1806] [0/0] Not enough SMs to use max_autotune_gemm mode
+[aug__wave_only__default] Epoch [1/20] -> Train Loss: 0.6794 | Train Acc: 34.72% | Train F1: 0.3468 | Val Loss: 0.6597 | Val F1: 0.2641 | Val AUC r1: 0.4796 | Val AUC r2: 0.5304 | Val Acc: 35.52%
+[aug__wave_only__default] Epoch [2/20] -> Train Loss: 0.6556 | Train Acc: 36.13% | Train F1: 0.3359 | Val Loss: 0.6427 | Val F1: 0.2840 | Val AUC r1: 0.4882 | Val AUC r2: 0.5486 | Val Acc: 36.59%
+[aug__wave_only__default] Epoch [3/20] -> Train Loss: 0.6333 | Train Acc: 38.60% | Train F1: 0.3647 | Val Loss: 0.6007 | Val F1: 0.2983 | Val AUC r1: 0.4919 | Val AUC r2: 0.5207 | Val Acc: 40.55%
+[aug__wave_only__default] Epoch [4/20] -> Train Loss: 0.6114 | Train Acc: 41.03% | Train F1: 0.3975 | Val Loss: 0.5598 | Val F1: 0.3298 | Val AUC r1: 0.5079 | Val AUC r2: 0.4871 | Val Acc: 48.92%
+[aug__wave_only__default] Epoch [5/20] -> Train Loss: 0.5875 | Train Acc: 43.50% | Train F1: 0.4318 | Val Loss: 0.4446 | Val F1: 0.3358 | Val AUC r1: 0.5307 | Val AUC r2: 0.4835 | Val Acc: 69.43%
+[aug__wave_only__default] Epoch [6/20] -> Train Loss: 0.5640 | Train Acc: 45.78% | Train F1: 0.4608 | Val Loss: 0.5018 | Val F1: 0.3492 | Val AUC r1: 0.5313 | Val AUC r2: 0.4941 | Val Acc: 58.83%
+[aug__wave_only__default] Epoch [7/20] -> Train Loss: 0.5438 | Train Acc: 47.49% | Train F1: 0.4816 | Val Loss: 0.5248 | Val F1: 0.3631 | Val AUC r1: 0.5379 | Val AUC r2: 0.4960 | Val Acc: 56.29%
+[aug__wave_only__default] Epoch [8/20] -> Train Loss: 0.5243 | Train Acc: 49.56% | Train F1: 0.5047 | Val Loss: 0.5015 | Val F1: 0.3617 | Val AUC r1: 0.5445 | Val AUC r2: 0.5072 | Val Acc: 59.12%
+[aug__wave_only__default] Epoch [9/20] -> Train Loss: 0.5102 | Train Acc: 50.30% | Train F1: 0.5134 | Val Loss: 0.4397 | Val F1: 0.3379 | Val AUC r1: 0.5439 | Val AUC r2: 0.5126 | Val Acc: 66.90%
+[aug__wave_only__default] Epoch [10/20] -> Train Loss: 0.4963 | Train Acc: 51.57% | Train F1: 0.5273 | Val Loss: 0.4836 | Val F1: 0.3570 | Val AUC r1: 0.5427 | Val AUC r2: 0.5289 | Val Acc: 62.64%
+[aug__wave_only__default] Epoch [11/20] -> Train Loss: 0.4868 | Train Acc: 52.17% | Train F1: 0.5339 | Val Loss: 0.4688 | Val F1: 0.3554 | Val AUC r1: 0.5387 | Val AUC r2: 0.5268 | Val Acc: 63.38%
+[aug__wave_only__default] Epoch [12/20] -> Train Loss: 0.4751 | Train Acc: 53.40% | Train F1: 0.5465 | Val Loss: 0.4481 | Val F1: 0.3592 | Val AUC r1: 0.5430 | Val AUC r2: 0.5273 | Val Acc: 66.35%
+=> [aug__wave_only__default] early stop @ epoch 12: val_loss flat 3 epochs (best 0.4397)
+=> [aug__wave_only__default] OOF collected: 2725 segments / 1194 recordings
+=> aug__wave_only__default: 12 epochs, best val_loss 0.4397 (1034s)
+oversample: 21769 -> 48282 train positions (natural {0: 16094, 1: 1023, 2: 4652} -> all 16094)
+[aug__spec_only__default] aug config: wave=OFF spec=on
+[aug__spec_only__default] Epoch [1/20] -> Train Loss: 0.6740 | Train Acc: 37.40% | Train F1: 0.3676 | Val Loss: 0.5726 | Val F1: 0.3398 | Val AUC r1: 0.5102 | Val AUC r2: 0.5798 | Val Acc: 61.10%
+[aug__spec_only__default] Epoch [2/20] -> Train Loss: 0.6065 | Train Acc: 46.40% | Train F1: 0.4497 | Val Loss: 0.4872 | Val F1: 0.3137 | Val AUC r1: 0.5217 | Val AUC r2: 0.5504 | Val Acc: 68.81%
+[aug__spec_only__default] Epoch [3/20] -> Train Loss: 0.5189 | Train Acc: 53.91% | Train F1: 0.5113 | Val Loss: 0.4821 | Val F1: 0.3207 | Val AUC r1: 0.5214 | Val AUC r2: 0.5393 | Val Acc: 65.98%
+[aug__spec_only__default] Epoch [4/20] -> Train Loss: 0.4559 | Train Acc: 58.03% | Train F1: 0.5446 | Val Loss: 0.4221 | Val F1: 0.2851 | Val AUC r1: 0.5218 | Val AUC r2: 0.5245 | Val Acc: 71.52%
+[aug__spec_only__default] Epoch [5/20] -> Train Loss: 0.4136 | Train Acc: 60.32% | Train F1: 0.5662 | Val Loss: 0.4368 | Val F1: 0.2984 | Val AUC r1: 0.5263 | Val AUC r2: 0.5276 | Val Acc: 69.58%
+[aug__spec_only__default] Epoch [6/20] -> Train Loss: 0.3832 | Train Acc: 62.15% | Train F1: 0.5844 | Val Loss: 0.4297 | Val F1: 0.2917 | Val AUC r1: 0.5249 | Val AUC r2: 0.5237 | Val Acc: 69.58%
+[aug__spec_only__default] Epoch [7/20] -> Train Loss: 0.3610 | Train Acc: 63.09% | Train F1: 0.5927 | Val Loss: 0.4286 | Val F1: 0.2982 | Val AUC r1: 0.5142 | Val AUC r2: 0.5111 | Val Acc: 68.88%
+[aug__spec_only__default] Epoch [8/20] -> Train Loss: 0.3438 | Train Acc: 64.57% | Train F1: 0.6117 | Val Loss: 0.4110 | Val F1: 0.2871 | Val AUC r1: 0.5055 | Val AUC r2: 0.5043 | Val Acc: 70.86%
+[aug__spec_only__default] Epoch [9/20] -> Train Loss: 0.3320 | Train Acc: 64.79% | Train F1: 0.6164 | Val Loss: 0.4112 | Val F1: 0.2928 | Val AUC r1: 0.5227 | Val AUC r2: 0.5160 | Val Acc: 70.31%
+[aug__spec_only__default] Epoch [10/20] -> Train Loss: 0.3216 | Train Acc: 66.13% | Train F1: 0.6349 | Val Loss: 0.3971 | Val F1: 0.2884 | Val AUC r1: 0.5282 | Val AUC r2: 0.5264 | Val Acc: 71.38%
+[aug__spec_only__default] Epoch [11/20] -> Train Loss: 0.3115 | Train Acc: 66.89% | Train F1: 0.6469 | Val Loss: 0.4035 | Val F1: 0.2943 | Val AUC r1: 0.5206 | Val AUC r2: 0.5272 | Val Acc: 69.98%
+[aug__spec_only__default] Epoch [12/20] -> Train Loss: 0.3039 | Train Acc: 67.75% | Train F1: 0.6591 | Val Loss: 0.4071 | Val F1: 0.2964 | Val AUC r1: 0.5206 | Val AUC r2: 0.5158 | Val Acc: 68.84%
+[aug__spec_only__default] Epoch [13/20] -> Train Loss: 0.2980 | Train Acc: 68.34% | Train F1: 0.6675 | Val Loss: 0.4099 | Val F1: 0.3048 | Val AUC r1: 0.5232 | Val AUC r2: 0.5116 | Val Acc: 67.93%
+=> [aug__spec_only__default] early stop @ epoch 13: val_loss flat 3 epochs (best 0.3971)
+=> [aug__spec_only__default] OOF collected: 2725 segments / 1194 recordings
+=> aug__spec_only__default: 13 epochs, best val_loss 0.3971 (618s)
+oversample: 21769 -> 48282 train positions (natural {0: 16094, 1: 1023, 2: 4652} -> all 16094)
+[aug__both__default] aug config: wave=on spec=on
+[aug__both__default] Epoch [1/20] -> Train Loss: 0.6806 | Train Acc: 33.66% | Train F1: 0.3028 | Val Loss: 0.6831 | Val F1: 0.2641 | Val AUC r1: 0.4836 | Val AUC r2: 0.5357 | Val Acc: 32.62%
+[aug__both__default] Epoch [2/20] -> Train Loss: 0.6565 | Train Acc: 35.97% | Train F1: 0.3296 | Val Loss: 0.6631 | Val F1: 0.2560 | Val AUC r1: 0.5116 | Val AUC r2: 0.5388 | Val Acc: 31.85%
+[aug__both__default] Epoch [3/20] -> Train Loss: 0.6378 | Train Acc: 37.60% | Train F1: 0.3486 | Val Loss: 0.6428 | Val F1: 0.2736 | Val AUC r1: 0.5215 | Val AUC r2: 0.5369 | Val Acc: 34.20%
+[aug__both__default] Epoch [4/20] -> Train Loss: 0.6178 | Train Acc: 40.27% | Train F1: 0.3879 | Val Loss: 0.6807 | Val F1: 0.2400 | Val AUC r1: 0.5338 | Val AUC r2: 0.5128 | Val Acc: 29.69%
+[aug__both__default] Epoch [5/20] -> Train Loss: 0.5987 | Train Acc: 42.49% | Train F1: 0.4186 | Val Loss: 0.5926 | Val F1: 0.3216 | Val AUC r1: 0.5332 | Val AUC r2: 0.5289 | Val Acc: 44.29%
+[aug__both__default] Epoch [6/20] -> Train Loss: 0.5797 | Train Acc: 44.69% | Train F1: 0.4456 | Val Loss: 0.5606 | Val F1: 0.3323 | Val AUC r1: 0.5400 | Val AUC r2: 0.5305 | Val Acc: 48.84%
+[aug__both__default] Epoch [7/20] -> Train Loss: 0.5603 | Train Acc: 46.72% | Train F1: 0.4701 | Val Loss: 0.5593 | Val F1: 0.3368 | Val AUC r1: 0.5395 | Val AUC r2: 0.5174 | Val Acc: 51.08%
+[aug__both__default] Epoch [8/20] -> Train Loss: 0.5428 | Train Acc: 48.39% | Train F1: 0.4896 | Val Loss: 0.4706 | Val F1: 0.3498 | Val AUC r1: 0.5508 | Val AUC r2: 0.5567 | Val Acc: 62.02%
+[aug__both__default] Epoch [9/20] -> Train Loss: 0.5246 | Train Acc: 49.76% | Train F1: 0.5061 | Val Loss: 0.5344 | Val F1: 0.3308 | Val AUC r1: 0.5349 | Val AUC r2: 0.5391 | Val Acc: 52.22%
+[aug__both__default] Epoch [10/20] -> Train Loss: 0.5108 | Train Acc: 51.16% | Train F1: 0.5209 | Val Loss: 0.4947 | Val F1: 0.3444 | Val AUC r1: 0.5456 | Val AUC r2: 0.5270 | Val Acc: 58.90%
+[aug__both__default] Epoch [11/20] -> Train Loss: 0.5010 | Train Acc: 51.84% | Train F1: 0.5287 | Val Loss: 0.5300 | Val F1: 0.3372 | Val AUC r1: 0.5452 | Val AUC r2: 0.5316 | Val Acc: 55.38%
+=> [aug__both__default] early stop @ epoch 11: val_loss flat 3 epochs (best 0.4706)
+=> [aug__both__default] OOF collected: 2725 segments / 1194 recordings
+=> aug__both__default: 11 epochs, best val_loss 0.4706 (614s)
+oversample: 21769 -> 48282 train positions (natural {0: 16094, 1: 1023, 2: 4652} -> all 16094)
+=> [aug__wave_only__default] resumed at epoch 13/20 (best val_loss 0.4397)
+[aug__wave_only__default] aug config: wave=on spec=OFF
+oversample: 21769 -> 48282 train positions (natural {0: 16094, 1: 1023, 2: 4652} -> all 16094)
+=> [aug__wave_only__default] resumed at epoch 13/20 (best val_loss 0.4397)
+[aug__wave_only__default] aug config: wave=on spec=OFF
+
+=== aug test [wave_only] (1156 recordings) ===
+(rows=true ['low','med','high'], cols=pred)
+[[748 113   1]
+ [199  33   1]
+ [ 50  11   0]]
+{'macro_f1': 0.32465483234714004, 'recall_low': 0.8677494199535963, 'recall_med': 0.14163090128755365, 'recall_high': 0.0, 'auc_r1': 0.533970200609246, 'auc_r2': 0.5533947151732914, 'macro_auc': 0.5436824578912687, 'rank_mae': 0.3685121107266436}
+
+=== aug test [spec_only] (1156 recordings) ===
+(rows=true ['low','med','high'], cols=pred)
+[[850  12   0]
+ [227   6   0]
+ [ 61   0   0]]
+{'macro_f1': 0.299269588313413, 'recall_low': 0.9860788863109049, 'recall_med': 0.02575107296137339, 'recall_high': 0.0, 'auc_r1': 0.531444828511451, 'auc_r2': 0.4940788981211169, 'macro_auc': 0.5127618633162839, 'rank_mae': 0.31228373702422146}
+
+=== aug test [both] (1156 recordings) ===
+(rows=true ['low','med','high'], cols=pred)
+[[670 178  14]
+ [183  46   4]
+ [ 36  22   3]]
+{'macro_f1': 0.34350484071102283, 'recall_low': 0.777262180974478, 'recall_med': 0.19742489270386265, 'recall_high': 0.04918032786885246, 'auc_r1': 0.511581198604732, 'auc_r2': 0.5819148139830825, 'macro_auc': 0.5467480062939072, 'rank_mae': 0.421280276816609}

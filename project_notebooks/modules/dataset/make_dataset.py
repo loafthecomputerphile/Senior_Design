@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import polars as pl
 import soundfile as sf
@@ -6,7 +7,16 @@ from concurrent.futures import ThreadPoolExecutor
 from tqdm.auto import tqdm
 from torch.utils.data import Dataset, random_split, Subset
 from typing import Sequence
+from sklearn.model_selection import StratifiedGroupKFold
 from modules.preprocessing.audio_process import EnforceFixedLength, WaveformAugmentor, segment_cough_fast
+from modules.preprocessing.cough_verify import segment_cough_scores
+
+# torchaudio 2.11 decodes via torchcodec, which needs FFmpeg shared DLLs on the
+# DLL search path. They're committed in <repo>/ffmpeg_dlls so a fresh device
+# needs no FFmpeg install. Harmless no-op if already loadable.
+_dll_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'ffmpeg_dlls')
+if os.path.isdir(_dll_dir):
+    os.add_dll_directory(os.path.abspath(_dll_dir))
 
 
 LABELS: list[str] = ["healthy", "COVID-19", "symptomatic"]
@@ -24,35 +34,52 @@ def _subsample(data: np.ndarray, labels: np.ndarray, paths: np.ndarray, cap: int
     return data[keep], labels[keep], paths[keep]
 
 
-def make_dataset(df: pl.DataFrame, sample_rate: int, out: str = 'final_processed_dataset.npz', max_workers: int = 8, max_per_clip: int | None = None, max_per_label: dict[str, int] | None = None) -> None:
+def make_dataset(df: pl.DataFrame, sample_rate: int, out: str = 'final_processed_dataset.npz', max_workers: int = 8, max_per_clip: int | None = None, max_per_label: dict[str, int] | None = None, yamnet_threshold: float | None = None) -> None:
     label: str
     file_path: str
+
+    # yamnet_threshold=None keeps the old behavior; a float keeps only segments
+    # whose YAMNet cough score clears it (see modules/preprocessing/cough_verify.py)
 
     master_collections: dict[str, list[np.ndarray]] = {k: [] for k in LABELS}
     master_paths: dict[str, list[str]] = {k: [] for k in LABELS}
     master_labels: dict[str, list[str]] = {k: [] for k in LABELS}
 
-    df = df.select(["audio_name", "status"])
+    path_col = 'wav_path' if 'wav_path' in df.columns else 'audio_name'
+    df = df.select([path_col, "status"])
+    kept_total = [0, 0]  # [segments from segmentation, kept after yamnet filter] — approximate under threads
+    failed_paths: list[str] = []
     length_fitter: EnforceFixedLength = EnforceFixedLength(sample_rate, to_numpy=True)
 
     def process_row(row: dict) -> tuple[str, np.ndarray, np.ndarray, np.ndarray]:
         label = row["status"]
-        file_path = row["audio_name"]
+        file_path = row[path_col]
 
-        # ponytail: torchaudio.load needs FFmpeg/torchcodec DLLs absent in this env;
-        # soundfile reads wav natively. Swap back if torchaudio decoding is fixed.
-        wave, rate = sf.read(file_path, dtype="float32")
+        try:
+            wave, rate = torchaudio.load(file_path)
+        except Exception as e:
+            failed_paths.append(f"{file_path}: {e}")
+            return label, np.empty((0,)), np.empty(0, dtype=object), np.empty(0, dtype=object)
+        wave = wave.numpy()
         if wave.ndim > 1:
-            wave = wave[:, 0]
+            wave = wave.mean(axis=0)
         if rate != sample_rate:
             wave = torchaudio.functional.resample(
-                torch.tensor(wave), rate, sample_rate
+                torch.from_numpy(np.ascontiguousarray(wave)), rate, sample_rate
             ).numpy()
 
         waves, _ = segment_cough_fast(
             wave, sample_rate,
             cough_padding=0.1, min_cough_len=0.1
         )
+
+        # segment-level cough verification: drop segments YAMNet doesn't believe
+        # (before EnforceFixedLength, so filtered segments cost no fitting work)
+        if yamnet_threshold is not None and waves:
+            seg_scores = segment_cough_scores(waves, sample_rate)
+            kept_total[0] += len(waves)
+            waves = [w for w, s in zip(waves, seg_scores) if s > yamnet_threshold]
+            kept_total[1] += len(waves)
 
         fitted = np.array([length_fitter(w) for w in waves])
         labels = np.full(shape=(len(waves),), fill_value=label, dtype=object)
@@ -74,6 +101,12 @@ def make_dataset(df: pl.DataFrame, sample_rate: int, out: str = 'final_processed
         ))
 
     final_npz_data: dict[str, np.ndarray] = {}
+    if yamnet_threshold is not None:
+        print(f"yamnet segment filter @ {yamnet_threshold}: kept {kept_total[1]}/{kept_total[0]} segments")
+    if failed_paths:
+        print(f"WARNING: {len(failed_paths)} file(s) failed to load, e.g.:")
+        for p in failed_paths[:5]:
+            print(f"  {p}")
     total_length: int = 0
     rng = np.random.default_rng(0)
     for label, data, labels, paths in results:
@@ -257,6 +290,68 @@ def dataset_split_by_recording(
     )
 
 
+def dataset_split_stratified_by_recording(
+    dataset: Dataset, paths: Sequence[str],
+    train: float = 0.7, val: float = 0.2, seed: int | None = None
+) -> tuple[Subset, Subset, Subset]:
+    """dataset_split_by_recording + per-class stratification: each class's
+    recordings are still allocated WHOLE (no sibling leakage), but independently
+    per class, so every split's class share tracks the population share instead
+    of drifting monotonically train -> val -> test. Allocation unit = recording,
+    target unit = segments."""
+    if train + val >= 1.0:
+        raise ValueError("train + val must be < 1.0 (rest goes to test)")
+
+    # group segment indices by source recording, preserving dataset order
+    groups: dict[str, list[int]] = {}
+    for idx, path in enumerate(paths):
+        groups.setdefault(path, []).append(idx)
+
+    # recordings by class (each recording is single-label: npz blocks are per class)
+    by_class: dict[int, list[str]] = {}
+    for rec, idxs in groups.items():
+        by_class.setdefault(int(dataset.labels[idxs[0]]), []).append(rec)
+
+    rng = np.random.default_rng(seed)
+    split_idx: dict[str, list[int]] = {"train": [], "val": [], "test": []}
+    fracs: dict[str, float] = {"train": train, "val": val, "test": 1.0 - train - val}
+    for cls in sorted(by_class):
+        recs = by_class[cls]
+        rng.shuffle(recs)
+        # per-split segment targets for this class; each recording goes to the
+        # split furthest below its target (ties favor train, then val, then test)
+        seg_total: int = sum(len(groups[r]) for r in recs)
+        target = {k: fracs[k] * seg_total for k in split_idx}
+        counts = {k: 0 for k in split_idx}
+        for rec in recs:
+            which = max(split_idx, key=lambda k: target[k] - counts[k])
+            split_idx[which].extend(groups[rec])
+            counts[which] += len(groups[rec])
+
+    return (
+        Subset(dataset, split_idx["train"]),
+        Subset(dataset, split_idx["val"]),
+        Subset(dataset, split_idx["test"]),
+    )
+
+
+def stratified_recording_folds(
+    paths: Sequence[str], labels: Sequence[int], n_splits: int = 5, seed: int = 42
+) -> list[tuple[list[int], list[int]]]:
+    """StratifiedGroupKFold over SOURCE RECORDING: y = segment label, groups =
+    recording, so a recording is validated exactly once across all folds while
+    every fold's val side stays class-balanced. Returns (train_positions,
+    val_positions) per fold, as positions into `paths`/`labels`."""
+    sgkf = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+    X = np.arange(len(paths))
+    y = np.asarray(labels)
+    g = np.asarray(paths)
+    folds: list[tuple[list[int], list[int]]] = []
+    for tr_pos, va_pos in sgkf.split(X, y, groups=g):
+        folds.append((tr_pos.tolist(), va_pos.tolist()))
+    return folds
+
+
 def persist_indicies(train_dataset: Subset, val_dataset: Subset, test_dataset: Subset, save_path: str = "data/splits/dataset_split.pt") -> None:
     torch.save(
         {
@@ -293,6 +388,15 @@ def indices_by_label(labels: torch.Tensor, keep: frozenset[int]) -> list[int]:
     """Dataset indices whose label is in `keep` — builds Stage-2's standalone dataset."""
     lab = labels if isinstance(labels, torch.Tensor) else torch.tensor(labels)
     return [int(i) for i in torch.nonzero(torch.isin(lab, torch.tensor(sorted(keep)))).flatten()]
+
+
+def aug_probs_from_counts(counts: dict[int, float], *, p_max: float = 0.95, p_min: float = 0.5) -> dict[int, float]:
+    """Per-class augment probability scaled by rarity: most-common class -> p_min, rarest -> p_max.
+    Tied-rarest classes all get p_max; if all classes tie, everything gets p_max."""
+    n_max, n_min = max(counts.values()), min(counts.values())
+    if n_max == n_min:
+        return {k: p_max for k in counts}
+    return {k: p_max - (p_max - p_min) * (v - n_min) / (n_max - n_min) for k, v in counts.items()}
 
 
 # binary task views over the 3-class labels: 0=healthy, 1=COVID-19, 2=symptomatic

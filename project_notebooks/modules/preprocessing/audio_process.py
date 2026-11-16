@@ -389,20 +389,28 @@ class SpecAugmentations(BaseSpecAug):
             return self._to_power(x)
         if label is None:
             # No labels available: single coin flips for the whole batch
-            if self._should_apply():
-                x = self._stretch_for(x)
+            # TimeStretch removed: it changes T per-sample (ragged batches crash the
+            # collate) and speed variation is natural in cough recordings anyway.
+            # if self._should_apply():
+            #     x = self._stretch_for(x)
             x = self._to_power(x)
+            # proportional time mask: floor 5 keeps old behavior at T=32, scales with longer inputs
+            self.time_mask.mask_param = max(5, x.shape[-1] // 20)
             if self._should_apply():
                 x = self.time_mask(self.freq_mask(x))
             return x
-        # Per-sample: stretch is a plain coin flip; masks gated by class (same probs as WaveformAugmentor)
+        # Per-sample: masks are a plain coin flip for every sample
+        # (per-class mask gate removed — classes are oversample-balanced now)
         out = []
         for i in range(x.shape[0]):
             xi = x[i : i + 1]
-            if self._should_apply():
-                xi = self._stretch_for(xi)
+            # TimeStretch removed: changes T per-sample (ragged batches crash the collate)
+            # if self._should_apply():
+            #     xi = self._stretch_for(xi)
             xi = self._to_power(xi)
-            if torch.rand(()) < self.augment_probs[int(label[i])] and self._should_apply():
+            # proportional time mask: floor 5 keeps old behavior at T=32, scales with longer inputs
+            self.time_mask.mask_param = max(5, xi.shape[-1] // 20)
+            if self._should_apply():
                 xi = self.time_mask(self.freq_mask(xi))
             out.append(xi)
         return torch.cat(out, dim=0)
@@ -721,9 +729,12 @@ class WaveformAugmentor(nn.Module):
 
         if not self.training:
             return waveform
-        
-        if torch.rand(()) > self.augment_probs[int(label)]:
-            return waveform
+
+        # per-class augment probabilities were the rarity-based oversampling lever;
+        # index oversampling now balances classes before the loader, so this gate
+        # would only under-augment healthy. All samples get equal aug chance.
+        # if torch.rand(()) > self.augment_probs[int(label)]:
+        #     return waveform
 
         if self._should_apply(self.tech_probs["gain"]):
             waveform = self._gain(waveform)

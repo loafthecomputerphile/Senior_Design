@@ -13,3 +13,4 @@ ipykernel
 librosa
 audioread
 tqdm 
+panns-inference

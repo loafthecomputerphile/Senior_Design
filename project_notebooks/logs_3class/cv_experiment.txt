@@ -1,0 +1,24 @@
+Runs scheduled: ['default/both', 'branched/both', 'resnet/both']
+
+=== fold 1/5  default/both ===
+W1103 09:15:16.841000 47488 Lib\site-packages\torch\_inductor\utils.py:1806] [8/1] Not enough SMs to use max_autotune_gemm mode
+=> [cv__default__both__f0] new best val_loss 1.1104 (epoch 1)
+[cv__default__both__f0] Epoch [1/256] -> Train Loss: 1.1050 | Val Loss: 1.1104 | Val F1: 0.1165 | Val AUC: 0.5908 | Val Acc: 21.18%
+=> [cv__default__both__f0] new best val_loss 1.0949 (epoch 2)
+[cv__default__both__f0] Epoch [2/256] -> Train Loss: 1.1031 | Val Loss: 1.0949 | Val F1: 0.2215 | Val AUC: 0.6116 | Val Acc: 49.75%
+[cv__default__both__f0] Epoch [3/256] -> Train Loss: 1.1009 | Val Loss: 1.0963 | Val F1: 0.3013 | Val AUC: 0.6400 | Val Acc: 40.39%
+=> [cv__default__both__f0] new best val_loss 1.0701 (epoch 4)
+[cv__default__both__f0] Epoch [4/256] -> Train Loss: 1.0966 | Val Loss: 1.0701 | Val F1: 0.2215 | Val AUC: 0.5940 | Val Acc: 49.75%
+[cv__default__both__f0] Epoch [5/256] -> Train Loss: 1.0966 | Val Loss: 1.0793 | Val F1: 0.2222 | Val AUC: 0.6517 | Val Acc: 49.75%
+=> [cv__default__both__f0] new best val_loss 1.0575 (epoch 6)
+[cv__default__both__f0] Epoch [6/256] -> Train Loss: 1.0922 | Val Loss: 1.0575 | Val F1: 0.2982 | Val AUC: 0.6371 | Val Acc: 53.20%
+=> [cv__default__both__f0] new best val_loss 1.0412 (epoch 7)
+[cv__default__both__f0] Epoch [7/256] -> Train Loss: 1.0820 | Val Loss: 1.0412 | Val F1: 0.2215 | Val AUC: 0.6239 | Val Acc: 49.75%
+[cv__default__both__f0] Epoch [8/256] -> Train Loss: 1.0913 | Val Loss: 1.0660 | Val F1: 0.3371 | Val AUC: 0.6091 | Val Acc: 50.74%
+[cv__default__both__f0] Epoch [9/256] -> Train Loss: 1.0808 | Val Loss: 1.0442 | Val F1: 0.2378 | Val AUC: 0.6243 | Val Acc: 50.25%
+=> [cv__default__both__f0] new best val_loss 1.0302 (epoch 10)
+[cv__default__both__f0] Epoch [10/256] -> Train Loss: 1.0615 | Val Loss: 1.0302 | Val F1: 0.2639 | Val AUC: 0.6257 | Val Acc: 50.74%
+=> [cv__default__both__f0] new best val_loss 1.0299 (epoch 11)
+[cv__default__both__f0] Epoch [11/256] -> Train Loss: 1.0543 | Val Loss: 1.0299 | Val F1: 0.3767 | Val AUC: 0.6087 | Val Acc: 53.20%
+[cv__default__both__f0] Epoch [12/256] -> Train Loss: 1.0552 | Val Loss: 1.1225 | Val F1: 0.2872 | Val AUC: 0.6200 | Val Acc: 31.03%
+[cv__default__both__f0] Epoch [13/256] -> Train Loss: 1.0366 | Val Loss: 1.0835 | Val F1: 0.4059 | Val AUC: 0.6134 | Val Acc: 41.87%

@@ -60,19 +60,18 @@ Fusing both feature streams helps models generalize better and maintain classifi
 """
 
 ___
+create new experiment of:
+
+audio -> mel -> output (train)
+audio -> mel -> aug on mel -> out
+audio-aug ->mel -> out
 
 
 
 
-
-
-
-
-
-
-
-
-
+improve dataset quality:
+preprocessing
+develop new model
 
 
 

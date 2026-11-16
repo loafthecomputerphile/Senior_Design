@@ -1,0 +1,141 @@
+STARTING 3-CLASS EXPERIMENTS
+
+--- three_class__both ---
+c:\Users\drewq\Documents\code\GitHub\senior_design\Senior_Design\project_notebooks\.venv\Lib\site-packages\torch\_inductor\lowering.py:2774: UserWarning: Torchinductor does not support code generation for complex operators. Performance may be worse than eager.
+  warnings.warn(
+[three_class__both] Epoch [1/60] -> Train Loss: 0.4204 | Train Acc: 44.30% | Train F1: 0.3271 | Val Loss: 0.4613 | Val F1: 0.1542 | Val AUC: 0.5140 | Val PR-AUC: 0.3716 | Val Acc: 29.82%
+[three_class__both] Epoch [2/60] -> Train Loss: 0.4180 | Train Acc: 32.34% | Train F1: 0.3134 | Val Loss: 0.4646 | Val F1: 0.1654 | Val AUC: 0.4984 | Val PR-AUC: 0.3694 | Val Acc: 27.19%
+[three_class__both] Epoch [3/60] -> Train Loss: 0.4177 | Train Acc: 38.54% | Train F1: 0.3489 | Val Loss: 0.4752 | Val F1: 0.1409 | Val AUC: 0.4806 | Val PR-AUC: 0.3622 | Val Acc: 24.56%
+[three_class__both] Epoch [4/60] -> Train Loss: 0.4182 | Train Acc: 35.77% | Train F1: 0.3286 | Val Loss: 0.4631 | Val F1: 0.2422 | Val AUC: 0.4928 | Val PR-AUC: 0.3611 | Val Acc: 32.46%
+[three_class__both] Epoch [5/60] -> Train Loss: 0.4159 | Train Acc: 37.65% | Train F1: 0.3452 | Val Loss: 0.4692 | Val F1: 0.2657 | Val AUC: 0.4861 | Val PR-AUC: 0.3437 | Val Acc: 35.09%
+[three_class__both] Epoch [6/60] -> Train Loss: 0.4180 | Train Acc: 35.99% | Train F1: 0.3222 | Val Loss: 0.4632 | Val F1: 0.2290 | Val AUC: 0.4965 | Val PR-AUC: 0.3536 | Val Acc: 29.82%
+[three_class__both] Epoch [7/60] -> Train Loss: 0.4140 | Train Acc: 36.54% | Train F1: 0.3526 | Val Loss: 0.4925 | Val F1: 0.2399 | Val AUC: 0.4932 | Val PR-AUC: 0.3508 | Val Acc: 45.61%
+[three_class__both] Epoch [8/60] -> Train Loss: 0.4137 | Train Acc: 40.75% | Train F1: 0.3679 | Val Loss: 0.4481 | Val F1: 0.1507 | Val AUC: 0.5542 | Val PR-AUC: 0.3854 | Val Acc: 28.95%
+[three_class__both] Epoch [9/60] -> Train Loss: 0.4077 | Train Acc: 41.64% | Train F1: 0.3274 | Val Loss: 0.4471 | Val F1: 0.1674 | Val AUC: 0.5397 | Val PR-AUC: 0.3722 | Val Acc: 30.70%
+=> [three_class__both] checkpoint saved (epoch 10/60)
+[three_class__both] Epoch [10/60] -> Train Loss: 0.4031 | Train Acc: 43.30% | Train F1: 0.3361 | Val Loss: 0.4958 | Val F1: 0.3481 | Val AUC: 0.5406 | Val PR-AUC: 0.3821 | Val Acc: 40.35%
+[three_class__both] Epoch [11/60] -> Train Loss: 0.3982 | Train Acc: 44.96% | Train F1: 0.3943 | Val Loss: 0.4875 | Val F1: 0.2786 | Val AUC: 0.5013 | Val PR-AUC: 0.3779 | Val Acc: 40.35%
+[three_class__both] Epoch [12/60] -> Train Loss: 0.3792 | Train Acc: 47.51% | Train F1: 0.4119 | Val Loss: 0.4697 | Val F1: 0.3060 | Val AUC: 0.5231 | Val PR-AUC: 0.3991 | Val Acc: 40.35%
+[three_class__both] Epoch [13/60] -> Train Loss: 0.3846 | Train Acc: 48.06% | Train F1: 0.3914 | Val Loss: 0.4426 | Val F1: 0.2435 | Val AUC: 0.5429 | Val PR-AUC: 0.4047 | Val Acc: 31.58%
+[three_class__both] Epoch [14/60] -> Train Loss: 0.3805 | Train Acc: 47.51% | Train F1: 0.4297 | Val Loss: 0.5253 | Val F1: 0.2983 | Val AUC: 0.5261 | Val PR-AUC: 0.4038 | Val Acc: 37.72%
+[three_class__both] Epoch [15/60] -> Train Loss: 0.3698 | Train Acc: 51.16% | Train F1: 0.4313 | Val Loss: 0.5726 | Val F1: 0.3737 | Val AUC: 0.5394 | Val PR-AUC: 0.4004 | Val Acc: 42.11%
+[three_class__both] Epoch [16/60] -> Train Loss: 0.3540 | Train Acc: 50.39% | Train F1: 0.4521 | Val Loss: 0.4701 | Val F1: 0.1877 | Val AUC: 0.5403 | Val PR-AUC: 0.3968 | Val Acc: 27.19%
+[three_class__both] Epoch [17/60] -> Train Loss: 0.3524 | Train Acc: 48.17% | Train F1: 0.4488 | Val Loss: 0.8454 | Val F1: 0.3574 | Val AUC: 0.5405 | Val PR-AUC: 0.4135 | Val Acc: 46.49%
+[three_class__both] Epoch [18/60] -> Train Loss: 0.3533 | Train Acc: 51.16% | Train F1: 0.4660 | Val Loss: 0.6834 | Val F1: 0.3681 | Val AUC: 0.5314 | Val PR-AUC: 0.3829 | Val Acc: 44.74%
+[three_class__both] Epoch [19/60] -> Train Loss: 0.3276 | Train Acc: 52.93% | Train F1: 0.4849 | Val Loss: 0.9758 | Val F1: 0.3664 | Val AUC: 0.5359 | Val PR-AUC: 0.4059 | Val Acc: 48.25%
+=> [three_class__both] checkpoint saved (epoch 20/60)
+[three_class__both] Epoch [20/60] -> Train Loss: 0.3234 | Train Acc: 51.94% | Train F1: 0.4813 | Val Loss: 0.5368 | Val F1: 0.3750 | Val AUC: 0.5544 | Val PR-AUC: 0.4074 | Val Acc: 42.98%
+[three_class__both] Epoch [21/60] -> Train Loss: 0.3261 | Train Acc: 49.83% | Train F1: 0.4804 | Val Loss: 0.7037 | Val F1: 0.4166 | Val AUC: 0.5338 | Val PR-AUC: 0.3857 | Val Acc: 46.49%
+[three_class__both] Epoch [22/60] -> Train Loss: 0.3122 | Train Acc: 51.27% | Train F1: 0.4896 | Val Loss: 0.8662 | Val F1: 0.3715 | Val AUC: 0.5415 | Val PR-AUC: 0.3933 | Val Acc: 42.11%
+[three_class__both] Epoch [23/60] -> Train Loss: 0.2838 | Train Acc: 58.47% | Train F1: 0.5520 | Val Loss: 0.7101 | Val F1: 0.3587 | Val AUC: 0.5176 | Val PR-AUC: 0.3899 | Val Acc: 36.84%
+[three_class__both] Epoch [24/60] -> Train Loss: 0.2977 | Train Acc: 56.26% | Train F1: 0.5475 | Val Loss: 0.8217 | Val F1: 0.3864 | Val AUC: 0.5297 | Val PR-AUC: 0.3869 | Val Acc: 38.60%
+[three_class__both] Epoch [25/60] -> Train Loss: 0.2676 | Train Acc: 58.58% | Train F1: 0.5821 | Val Loss: 1.0174 | Val F1: 0.3569 | Val AUC: 0.5325 | Val PR-AUC: 0.3912 | Val Acc: 36.84%
+[three_class__both] Epoch [26/60] -> Train Loss: 0.3031 | Train Acc: 54.04% | Train F1: 0.5241 | Val Loss: 0.9574 | Val F1: 0.3680 | Val AUC: 0.5497 | Val PR-AUC: 0.4035 | Val Acc: 42.11%
+[three_class__both] Epoch [27/60] -> Train Loss: 0.2976 | Train Acc: 53.71% | Train F1: 0.5129 | Val Loss: 0.7457 | Val F1: 0.4046 | Val AUC: 0.5418 | Val PR-AUC: 0.4024 | Val Acc: 41.23%
+[three_class__both] Epoch [28/60] -> Train Loss: 0.2680 | Train Acc: 54.93% | Train F1: 0.5515 | Val Loss: 1.0699 | Val F1: 0.4018 | Val AUC: 0.5742 | Val PR-AUC: 0.4177 | Val Acc: 43.86%
+[three_class__both] Epoch [29/60] -> Train Loss: 0.2683 | Train Acc: 54.15% | Train F1: 0.5214 | Val Loss: 0.7084 | Val F1: 0.3396 | Val AUC: 0.5375 | Val PR-AUC: 0.3893 | Val Acc: 35.96%
+=> [three_class__both] checkpoint saved (epoch 30/60)
+[three_class__both] Epoch [30/60] -> Train Loss: 0.2719 | Train Acc: 55.92% | Train F1: 0.5569 | Val Loss: 0.9475 | Val F1: 0.3026 | Val AUC: 0.5293 | Val PR-AUC: 0.3805 | Val Acc: 31.58%
+[three_class__both] Epoch [31/60] -> Train Loss: 0.2585 | Train Acc: 56.70% | Train F1: 0.5763 | Val Loss: 0.8565 | Val F1: 0.4561 | Val AUC: 0.5725 | Val PR-AUC: 0.4146 | Val Acc: 46.49%
+[three_class__both] Epoch [32/60] -> Train Loss: 0.2671 | Train Acc: 55.37% | Train F1: 0.5447 | Val Loss: 0.9926 | Val F1: 0.4233 | Val AUC: 0.5581 | Val PR-AUC: 0.4046 | Val Acc: 42.98%
+[three_class__both] Epoch [33/60] -> Train Loss: 0.2380 | Train Acc: 57.59% | Train F1: 0.5809 | Val Loss: 0.7509 | Val F1: 0.2457 | Val AUC: 0.5442 | Val PR-AUC: 0.4067 | Val Acc: 28.07%
+[three_class__both] Epoch [34/60] -> Train Loss: 0.2674 | Train Acc: 57.14% | Train F1: 0.5694 | Val Loss: 0.7050 | Val F1: 0.2407 | Val AUC: 0.5500 | Val PR-AUC: 0.3906 | Val Acc: 28.95%
+[three_class__both] Epoch [35/60] -> Train Loss: 0.2387 | Train Acc: 58.14% | Train F1: 0.5814 | Val Loss: 1.1233 | Val F1: 0.3981 | Val AUC: 0.5859 | Val PR-AUC: 0.4273 | Val Acc: 41.23%
+[three_class__both] Epoch [36/60] -> Train Loss: 0.2215 | Train Acc: 60.47% | Train F1: 0.5903 | Val Loss: 0.9348 | Val F1: 0.2720 | Val AUC: 0.5544 | Val PR-AUC: 0.3986 | Val Acc: 29.82%
+[three_class__both] Epoch [37/60] -> Train Loss: 0.2517 | Train Acc: 57.14% | Train F1: 0.5728 | Val Loss: 0.9952 | Val F1: 0.3771 | Val AUC: 0.5676 | Val PR-AUC: 0.4038 | Val Acc: 37.72%
+[three_class__both] Epoch [38/60] -> Train Loss: 0.2652 | Train Acc: 57.48% | Train F1: 0.5631 | Val Loss: 1.0212 | Val F1: 0.4088 | Val AUC: 0.5919 | Val PR-AUC: 0.4176 | Val Acc: 41.23%
+[three_class__both] Epoch [39/60] -> Train Loss: 0.2526 | Train Acc: 59.36% | Train F1: 0.5876 | Val Loss: 0.9891 | Val F1: 0.4661 | Val AUC: 0.5921 | Val PR-AUC: 0.4267 | Val Acc: 46.49%
+=> [three_class__both] checkpoint saved (epoch 40/60)
+[three_class__both] Epoch [40/60] -> Train Loss: 0.2371 | Train Acc: 59.25% | Train F1: 0.5935 | Val Loss: 1.0689 | Val F1: 0.4518 | Val AUC: 0.5808 | Val PR-AUC: 0.4187 | Val Acc: 45.61%
+[three_class__both] Epoch [41/60] -> Train Loss: 0.2254 | Train Acc: 59.58% | Train F1: 0.5911 | Val Loss: 1.2868 | Val F1: 0.4007 | Val AUC: 0.5968 | Val PR-AUC: 0.4266 | Val Acc: 41.23%
+[three_class__both] Epoch [42/60] -> Train Loss: 0.2383 | Train Acc: 61.90% | Train F1: 0.6232 | Val Loss: 1.3457 | Val F1: 0.4352 | Val AUC: 0.5855 | Val PR-AUC: 0.4103 | Val Acc: 45.61%
+[three_class__both] Epoch [43/60] -> Train Loss: 0.2401 | Train Acc: 58.80% | Train F1: 0.5861 | Val Loss: 1.2388 | Val F1: 0.4073 | Val AUC: 0.5811 | Val PR-AUC: 0.4062 | Val Acc: 42.98%
+[three_class__both] Epoch [44/60] -> Train Loss: 0.2343 | Train Acc: 57.25% | Train F1: 0.5757 | Val Loss: 1.1733 | Val F1: 0.4491 | Val AUC: 0.5862 | Val PR-AUC: 0.4170 | Val Acc: 46.49%
+[three_class__both] Epoch [45/60] -> Train Loss: 0.2244 | Train Acc: 60.80% | Train F1: 0.6023 | Val Loss: 1.2117 | Val F1: 0.4316 | Val AUC: 0.5967 | Val PR-AUC: 0.4254 | Val Acc: 43.86%
+[three_class__both] Epoch [46/60] -> Train Loss: 0.2346 | Train Acc: 58.58% | Train F1: 0.5845 | Val Loss: 1.2136 | Val F1: 0.4269 | Val AUC: 0.5788 | Val PR-AUC: 0.4086 | Val Acc: 43.86%
+[three_class__both] Epoch [47/60] -> Train Loss: 0.2329 | Train Acc: 58.91% | Train F1: 0.5808 | Val Loss: 1.1685 | Val F1: 0.4120 | Val AUC: 0.5782 | Val PR-AUC: 0.4078 | Val Acc: 42.11%
+[three_class__both] Epoch [48/60] -> Train Loss: 0.2146 | Train Acc: 63.46% | Train F1: 0.6281 | Val Loss: 1.3444 | Val F1: 0.4312 | Val AUC: 0.5876 | Val PR-AUC: 0.4041 | Val Acc: 44.74%
+[three_class__both] Epoch [49/60] -> Train Loss: 0.2220 | Train Acc: 62.24% | Train F1: 0.6161 | Val Loss: 1.2845 | Val F1: 0.4248 | Val AUC: 0.5819 | Val PR-AUC: 0.4085 | Val Acc: 43.86%
+=> [three_class__both] checkpoint saved (epoch 50/60)
+[three_class__both] Epoch [50/60] -> Train Loss: 0.2179 | Train Acc: 62.02% | Train F1: 0.6187 | Val Loss: 1.2665 | Val F1: 0.4096 | Val AUC: 0.5854 | Val PR-AUC: 0.4167 | Val Acc: 41.23%
+[three_class__both] Epoch [51/60] -> Train Loss: 0.2257 | Train Acc: 60.58% | Train F1: 0.6064 | Val Loss: 1.2415 | Val F1: 0.3931 | Val AUC: 0.5835 | Val PR-AUC: 0.4099 | Val Acc: 39.47%
+[three_class__both] Epoch [52/60] -> Train Loss: 0.2185 | Train Acc: 59.58% | Train F1: 0.5990 | Val Loss: 1.3904 | Val F1: 0.4326 | Val AUC: 0.6026 | Val PR-AUC: 0.4161 | Val Acc: 44.74%
+[three_class__both] Epoch [53/60] -> Train Loss: 0.1975 | Train Acc: 62.46% | Train F1: 0.6225 | Val Loss: 1.3404 | Val F1: 0.4363 | Val AUC: 0.5860 | Val PR-AUC: 0.4092 | Val Acc: 44.74%
+[three_class__both] Epoch [54/60] -> Train Loss: 0.2341 | Train Acc: 62.57% | Train F1: 0.6254 | Val Loss: 1.3598 | Val F1: 0.4174 | Val AUC: 0.6021 | Val PR-AUC: 0.4150 | Val Acc: 42.98%
+[three_class__both] Epoch [55/60] -> Train Loss: 0.2233 | Train Acc: 58.69% | Train F1: 0.5907 | Val Loss: 1.2249 | Val F1: 0.4265 | Val AUC: 0.5857 | Val PR-AUC: 0.4131 | Val Acc: 42.98%
+[three_class__both] Epoch [56/60] -> Train Loss: 0.2137 | Train Acc: 62.46% | Train F1: 0.6267 | Val Loss: 1.2476 | Val F1: 0.4422 | Val AUC: 0.5815 | Val PR-AUC: 0.4091 | Val Acc: 44.74%
+[three_class__both] Epoch [57/60] -> Train Loss: 0.2031 | Train Acc: 61.35% | Train F1: 0.6161 | Val Loss: 1.4141 | Val F1: 0.4121 | Val AUC: 0.5983 | Val PR-AUC: 0.4110 | Val Acc: 42.98%
+[three_class__both] Epoch [58/60] -> Train Loss: 0.2066 | Train Acc: 63.01% | Train F1: 0.6341 | Val Loss: 1.3048 | Val F1: 0.3998 | Val AUC: 0.5834 | Val PR-AUC: 0.4069 | Val Acc: 41.23%
+[three_class__both] Epoch [59/60] -> Train Loss: 0.2095 | Train Acc: 62.13% | Train F1: 0.6268 | Val Loss: 1.2898 | Val F1: 0.4289 | Val AUC: 0.5860 | Val PR-AUC: 0.4068 | Val Acc: 43.86%
+=> [three_class__both] checkpoint saved (epoch 60/60)
+[three_class__both] Epoch [60/60] -> Train Loss: 0.2075 | Train Acc: 63.12% | Train F1: 0.6404 | Val Loss: 1.2512 | Val F1: 0.4270 | Val AUC: 0.5851 | Val PR-AUC: 0.4151 | Val Acc: 42.98%
+
+--- three_class__wave_only ---
+[three_class__wave_only] Epoch [1/60] -> Train Loss: 0.4192 | Train Acc: 27.91% | Train F1: 0.2790 | Val Loss: 0.4582 | Val F1: 0.1665 | Val AUC: 0.5057 | Val PR-AUC: 0.3826 | Val Acc: 30.70%
+[three_class__wave_only] Epoch [2/60] -> Train Loss: 0.4179 | Train Acc: 35.44% | Train F1: 0.3277 | Val Loss: 0.4612 | Val F1: 0.1920 | Val AUC: 0.4985 | Val PR-AUC: 0.3538 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [3/60] -> Train Loss: 0.4191 | Train Acc: 34.66% | Train F1: 0.3349 | Val Loss: 0.4612 | Val F1: 0.1879 | Val AUC: 0.4782 | Val PR-AUC: 0.3507 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [4/60] -> Train Loss: 0.4183 | Train Acc: 32.23% | Train F1: 0.3169 | Val Loss: 0.4589 | Val F1: 0.1879 | Val AUC: 0.5329 | Val PR-AUC: 0.3797 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [5/60] -> Train Loss: 0.4176 | Train Acc: 32.12% | Train F1: 0.3001 | Val Loss: 0.4667 | Val F1: 0.2493 | Val AUC: 0.5232 | Val PR-AUC: 0.3616 | Val Acc: 33.33%
+[three_class__wave_only] Epoch [6/60] -> Train Loss: 0.4143 | Train Acc: 34.44% | Train F1: 0.3371 | Val Loss: 0.4716 | Val F1: 0.3564 | Val AUC: 0.5345 | Val PR-AUC: 0.3731 | Val Acc: 42.11%
+[three_class__wave_only] Epoch [7/60] -> Train Loss: 0.4156 | Train Acc: 34.88% | Train F1: 0.3387 | Val Loss: 0.4846 | Val F1: 0.2998 | Val AUC: 0.5604 | Val PR-AUC: 0.3881 | Val Acc: 40.35%
+[three_class__wave_only] Epoch [8/60] -> Train Loss: 0.4096 | Train Acc: 45.29% | Train F1: 0.4109 | Val Loss: 0.4620 | Val F1: 0.2460 | Val AUC: 0.5284 | Val PR-AUC: 0.3695 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [9/60] -> Train Loss: 0.4106 | Train Acc: 36.77% | Train F1: 0.3469 | Val Loss: 0.4901 | Val F1: 0.2945 | Val AUC: 0.5140 | Val PR-AUC: 0.3650 | Val Acc: 37.72%
+=> [three_class__wave_only] checkpoint saved (epoch 10/60)
+[three_class__wave_only] Epoch [10/60] -> Train Loss: 0.3942 | Train Acc: 44.41% | Train F1: 0.4104 | Val Loss: 0.4791 | Val F1: 0.3062 | Val AUC: 0.5300 | Val PR-AUC: 0.3808 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [11/60] -> Train Loss: 0.3943 | Train Acc: 42.64% | Train F1: 0.3843 | Val Loss: 0.4656 | Val F1: 0.3464 | Val AUC: 0.5602 | Val PR-AUC: 0.4298 | Val Acc: 36.84%
+[three_class__wave_only] Epoch [12/60] -> Train Loss: 0.3749 | Train Acc: 44.30% | Train F1: 0.4274 | Val Loss: 0.4391 | Val F1: 0.3071 | Val AUC: 0.5500 | Val PR-AUC: 0.4220 | Val Acc: 35.96%
+[three_class__wave_only] Epoch [13/60] -> Train Loss: 0.3790 | Train Acc: 47.18% | Train F1: 0.4321 | Val Loss: 0.4455 | Val F1: 0.2906 | Val AUC: 0.5687 | Val PR-AUC: 0.4169 | Val Acc: 37.72%
+[three_class__wave_only] Epoch [14/60] -> Train Loss: 0.3548 | Train Acc: 51.27% | Train F1: 0.4789 | Val Loss: 0.4433 | Val F1: 0.3022 | Val AUC: 0.6031 | Val PR-AUC: 0.4395 | Val Acc: 34.21%
+[three_class__wave_only] Epoch [15/60] -> Train Loss: 0.3400 | Train Acc: 49.28% | Train F1: 0.4866 | Val Loss: 0.5205 | Val F1: 0.4007 | Val AUC: 0.5873 | Val PR-AUC: 0.4142 | Val Acc: 42.98%
+[three_class__wave_only] Epoch [16/60] -> Train Loss: 0.3251 | Train Acc: 49.28% | Train F1: 0.4993 | Val Loss: 0.5929 | Val F1: 0.3088 | Val AUC: 0.5595 | Val PR-AUC: 0.3945 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [17/60] -> Train Loss: 0.3176 | Train Acc: 56.15% | Train F1: 0.5460 | Val Loss: 0.7610 | Val F1: 0.3403 | Val AUC: 0.5677 | Val PR-AUC: 0.3919 | Val Acc: 40.35%
+[three_class__wave_only] Epoch [18/60] -> Train Loss: 0.2966 | Train Acc: 55.37% | Train F1: 0.5558 | Val Loss: 0.5695 | Val F1: 0.4072 | Val AUC: 0.5894 | Val PR-AUC: 0.4100 | Val Acc: 40.35%
+[three_class__wave_only] Epoch [19/60] -> Train Loss: 0.2749 | Train Acc: 53.60% | Train F1: 0.5505 | Val Loss: 1.0507 | Val F1: 0.2844 | Val AUC: 0.5218 | Val PR-AUC: 0.3531 | Val Acc: 35.09%
+=> [three_class__wave_only] checkpoint saved (epoch 20/60)
+[three_class__wave_only] Epoch [20/60] -> Train Loss: 0.3059 | Train Acc: 54.60% | Train F1: 0.5495 | Val Loss: 1.0479 | Val F1: 0.2682 | Val AUC: 0.5263 | Val PR-AUC: 0.3591 | Val Acc: 40.35%
+[three_class__wave_only] Epoch [21/60] -> Train Loss: 0.2902 | Train Acc: 53.38% | Train F1: 0.5422 | Val Loss: 0.8453 | Val F1: 0.3042 | Val AUC: 0.5747 | Val PR-AUC: 0.3993 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [22/60] -> Train Loss: 0.2566 | Train Acc: 56.26% | Train F1: 0.5782 | Val Loss: 0.7993 | Val F1: 0.2907 | Val AUC: 0.5550 | Val PR-AUC: 0.3754 | Val Acc: 28.95%
+[three_class__wave_only] Epoch [23/60] -> Train Loss: 0.2676 | Train Acc: 53.93% | Train F1: 0.5482 | Val Loss: 1.1749 | Val F1: 0.3055 | Val AUC: 0.5122 | Val PR-AUC: 0.3506 | Val Acc: 41.23%
+[three_class__wave_only] Epoch [24/60] -> Train Loss: 0.2669 | Train Acc: 53.93% | Train F1: 0.5490 | Val Loss: 0.6511 | Val F1: 0.3089 | Val AUC: 0.5665 | Val PR-AUC: 0.3990 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [25/60] -> Train Loss: 0.2486 | Train Acc: 54.37% | Train F1: 0.5540 | Val Loss: 0.7049 | Val F1: 0.3782 | Val AUC: 0.5803 | Val PR-AUC: 0.4010 | Val Acc: 38.60%
+[three_class__wave_only] Epoch [26/60] -> Train Loss: 0.2593 | Train Acc: 54.26% | Train F1: 0.5557 | Val Loss: 1.0828 | Val F1: 0.3069 | Val AUC: 0.5470 | Val PR-AUC: 0.3777 | Val Acc: 35.96%
+[three_class__wave_only] Epoch [27/60] -> Train Loss: 0.2487 | Train Acc: 59.69% | Train F1: 0.6023 | Val Loss: 1.3615 | Val F1: 0.2302 | Val AUC: 0.5325 | Val PR-AUC: 0.3645 | Val Acc: 27.19%
+[three_class__wave_only] Epoch [28/60] -> Train Loss: 0.2296 | Train Acc: 56.70% | Train F1: 0.5927 | Val Loss: 1.0214 | Val F1: 0.3077 | Val AUC: 0.5442 | Val PR-AUC: 0.3671 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [29/60] -> Train Loss: 0.2201 | Train Acc: 56.70% | Train F1: 0.5938 | Val Loss: 1.0775 | Val F1: 0.3182 | Val AUC: 0.5539 | Val PR-AUC: 0.3735 | Val Acc: 32.46%
+=> [three_class__wave_only] checkpoint saved (epoch 30/60)
+[three_class__wave_only] Epoch [30/60] -> Train Loss: 0.2568 | Train Acc: 52.38% | Train F1: 0.5480 | Val Loss: 0.8699 | Val F1: 0.3143 | Val AUC: 0.5602 | Val PR-AUC: 0.3898 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [31/60] -> Train Loss: 0.2374 | Train Acc: 54.60% | Train F1: 0.5716 | Val Loss: 0.9152 | Val F1: 0.3388 | Val AUC: 0.5780 | Val PR-AUC: 0.3991 | Val Acc: 34.21%
+[three_class__wave_only] Epoch [32/60] -> Train Loss: 0.2164 | Train Acc: 57.48% | Train F1: 0.6007 | Val Loss: 1.3718 | Val F1: 0.2467 | Val AUC: 0.5443 | Val PR-AUC: 0.3752 | Val Acc: 28.07%
+[three_class__wave_only] Epoch [33/60] -> Train Loss: 0.2385 | Train Acc: 55.04% | Train F1: 0.5713 | Val Loss: 0.8571 | Val F1: 0.3216 | Val AUC: 0.5809 | Val PR-AUC: 0.4000 | Val Acc: 33.33%
+[three_class__wave_only] Epoch [34/60] -> Train Loss: 0.2211 | Train Acc: 54.37% | Train F1: 0.5752 | Val Loss: 0.9222 | Val F1: 0.2930 | Val AUC: 0.5657 | Val PR-AUC: 0.3893 | Val Acc: 28.95%
+[three_class__wave_only] Epoch [35/60] -> Train Loss: 0.2228 | Train Acc: 54.37% | Train F1: 0.5633 | Val Loss: 1.3564 | Val F1: 0.2599 | Val AUC: 0.5618 | Val PR-AUC: 0.3828 | Val Acc: 28.95%
+[three_class__wave_only] Epoch [36/60] -> Train Loss: 0.2205 | Train Acc: 55.59% | Train F1: 0.5826 | Val Loss: 0.8849 | Val F1: 0.3552 | Val AUC: 0.5680 | Val PR-AUC: 0.3944 | Val Acc: 35.96%
+[three_class__wave_only] Epoch [37/60] -> Train Loss: 0.2032 | Train Acc: 57.70% | Train F1: 0.6026 | Val Loss: 1.6465 | Val F1: 0.2650 | Val AUC: 0.5241 | Val PR-AUC: 0.3632 | Val Acc: 34.21%
+[three_class__wave_only] Epoch [38/60] -> Train Loss: 0.2088 | Train Acc: 56.70% | Train F1: 0.5978 | Val Loss: 1.3657 | Val F1: 0.3167 | Val AUC: 0.5471 | Val PR-AUC: 0.3690 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [39/60] -> Train Loss: 0.2065 | Train Acc: 57.14% | Train F1: 0.6041 | Val Loss: 1.1250 | Val F1: 0.3282 | Val AUC: 0.5657 | Val PR-AUC: 0.3859 | Val Acc: 33.33%
+=> [three_class__wave_only] checkpoint saved (epoch 40/60)
+[three_class__wave_only] Epoch [40/60] -> Train Loss: 0.2069 | Train Acc: 59.47% | Train F1: 0.6199 | Val Loss: 1.0463 | Val F1: 0.3076 | Val AUC: 0.5632 | Val PR-AUC: 0.3850 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [41/60] -> Train Loss: 0.2049 | Train Acc: 56.26% | Train F1: 0.5962 | Val Loss: 1.1769 | Val F1: 0.2985 | Val AUC: 0.5501 | Val PR-AUC: 0.3679 | Val Acc: 29.82%
+[three_class__wave_only] Epoch [42/60] -> Train Loss: 0.2419 | Train Acc: 54.04% | Train F1: 0.5638 | Val Loss: 1.1439 | Val F1: 0.3215 | Val AUC: 0.5645 | Val PR-AUC: 0.3798 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [43/60] -> Train Loss: 0.1943 | Train Acc: 58.47% | Train F1: 0.6116 | Val Loss: 1.2005 | Val F1: 0.2892 | Val AUC: 0.5541 | Val PR-AUC: 0.3698 | Val Acc: 29.82%
+[three_class__wave_only] Epoch [44/60] -> Train Loss: 0.2120 | Train Acc: 59.36% | Train F1: 0.6142 | Val Loss: 1.0811 | Val F1: 0.3249 | Val AUC: 0.5580 | Val PR-AUC: 0.3727 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [45/60] -> Train Loss: 0.1987 | Train Acc: 58.58% | Train F1: 0.6112 | Val Loss: 1.0552 | Val F1: 0.3043 | Val AUC: 0.5644 | Val PR-AUC: 0.3823 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [46/60] -> Train Loss: 0.1963 | Train Acc: 56.59% | Train F1: 0.5990 | Val Loss: 1.1749 | Val F1: 0.3168 | Val AUC: 0.5586 | Val PR-AUC: 0.3772 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [47/60] -> Train Loss: 0.1833 | Train Acc: 57.81% | Train F1: 0.6139 | Val Loss: 1.2367 | Val F1: 0.3120 | Val AUC: 0.5621 | Val PR-AUC: 0.3785 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [48/60] -> Train Loss: 0.2182 | Train Acc: 55.15% | Train F1: 0.5835 | Val Loss: 1.3185 | Val F1: 0.2900 | Val AUC: 0.5523 | Val PR-AUC: 0.3679 | Val Acc: 29.82%
+[three_class__wave_only] Epoch [49/60] -> Train Loss: 0.2015 | Train Acc: 58.80% | Train F1: 0.6104 | Val Loss: 1.3347 | Val F1: 0.3263 | Val AUC: 0.5513 | Val PR-AUC: 0.3688 | Val Acc: 33.33%
+=> [three_class__wave_only] checkpoint saved (epoch 50/60)
+[three_class__wave_only] Epoch [50/60] -> Train Loss: 0.2019 | Train Acc: 59.03% | Train F1: 0.6148 | Val Loss: 1.2872 | Val F1: 0.3107 | Val AUC: 0.5594 | Val PR-AUC: 0.3731 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [51/60] -> Train Loss: 0.1939 | Train Acc: 58.25% | Train F1: 0.6076 | Val Loss: 1.2338 | Val F1: 0.3328 | Val AUC: 0.5611 | Val PR-AUC: 0.3755 | Val Acc: 33.33%
+[three_class__wave_only] Epoch [52/60] -> Train Loss: 0.1935 | Train Acc: 58.58% | Train F1: 0.6138 | Val Loss: 1.1060 | Val F1: 0.3441 | Val AUC: 0.5756 | Val PR-AUC: 0.3924 | Val Acc: 34.21%
+[three_class__wave_only] Epoch [53/60] -> Train Loss: 0.1870 | Train Acc: 59.14% | Train F1: 0.6244 | Val Loss: 1.2079 | Val F1: 0.3209 | Val AUC: 0.5593 | Val PR-AUC: 0.3745 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [54/60] -> Train Loss: 0.1932 | Train Acc: 59.69% | Train F1: 0.6209 | Val Loss: 1.3507 | Val F1: 0.3215 | Val AUC: 0.5536 | Val PR-AUC: 0.3689 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [55/60] -> Train Loss: 0.1819 | Train Acc: 59.91% | Train F1: 0.6277 | Val Loss: 1.2082 | Val F1: 0.3119 | Val AUC: 0.5596 | Val PR-AUC: 0.3776 | Val Acc: 31.58%
+[three_class__wave_only] Epoch [56/60] -> Train Loss: 0.1822 | Train Acc: 59.25% | Train F1: 0.6252 | Val Loss: 1.4000 | Val F1: 0.3222 | Val AUC: 0.5524 | Val PR-AUC: 0.3687 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [57/60] -> Train Loss: 0.1958 | Train Acc: 60.47% | Train F1: 0.6341 | Val Loss: 1.4290 | Val F1: 0.2895 | Val AUC: 0.5470 | Val PR-AUC: 0.3647 | Val Acc: 29.82%
+[three_class__wave_only] Epoch [58/60] -> Train Loss: 0.1908 | Train Acc: 59.14% | Train F1: 0.6106 | Val Loss: 1.2829 | Val F1: 0.3181 | Val AUC: 0.5567 | Val PR-AUC: 0.3752 | Val Acc: 32.46%
+[three_class__wave_only] Epoch [59/60] -> Train Loss: 0.1907 | Train Acc: 61.68% | Train F1: 0.6418 | Val Loss: 1.4765 | Val F1: 0.3256 | Val AUC: 0.5482 | Val PR-AUC: 0.3661 | Val Acc: 33.33%
+=> [three_class__wave_only] checkpoint saved (epoch 60/60)
+[three_class__wave_only] Epoch [60/60] -> Train Loss: 0.1734 | Train Acc: 65.23% | Train F1: 0.6779 | Val Loss: 1.3044 | Val F1: 0.3124 | Val AUC: 0.5523 | Val PR-AUC: 0.3712 | Val Acc: 31.58%
+
+--- three_class__spec_only ---

@@ -18,7 +18,11 @@ def evaluate(file: UploadFile = File(...), user=Depends(get_current_user)):
     if not is_success(xgb_result):
         raise HTTPException(422, "XGBoost gate rejected the sample")
 
-    result = run_torch_model(wav)
+    segments = segment_audio(wav)
+    if not len(segments):
+        raise HTTPException(422, "XGBoost gate rejected the sample")
+
+    result = run_torch_model(segments)
 
     metadata = json.dumps({"filename": file.filename, "xgb_score": xgb_result["score"]})
     conn = get_conn()

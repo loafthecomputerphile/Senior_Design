@@ -1,0 +1,4 @@
+config,n_recordings,macro_f1,recall_low,recall_med,recall_high,auc_r1,auc_r2,macro_auc,rank_mae
+wave_only,1156,0.3247,0.8677,0.1416,0.0,0.534,0.5534,0.5437,0.3685
+spec_only,1156,0.2993,0.9861,0.0258,0.0,0.5314,0.4941,0.5128,0.3123
+both,1156,0.3435,0.7773,0.1974,0.0492,0.5116,0.5819,0.5467,0.4213

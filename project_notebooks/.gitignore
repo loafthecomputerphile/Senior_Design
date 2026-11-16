@@ -154,4 +154,7 @@ notebook/templates/*.html
 # Temporary files used for testing
 tmp/
 saved_models/
+saved_models_3class/
 run_state/
+run_state_3class/
+ffmpeg_dlls/

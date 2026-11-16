@@ -51,58 +51,109 @@ class ConvBlockV1(nn.Module):
         x = self.conv(x)
         x = self.batch_norm(x)
         return self.max_pool(self.act(x))
+
+
+class SpatialAttention(nn.Module):
+
+  def __init__(self, kernel_size: int = 7) -> None:
+    super().__init__()
+    assert kernel_size in (3, 7), "Kernel size must be 3 or 7"
     
+    padding: int = 3 if kernel_size == 7 else 1
+    
+    self.conv: nn.Conv2d = nn.Conv2d(
+        2, 1, kernel_size=kernel_size, padding=padding, bias=False
+    )
+    
+    self.sigmoid: nn.Sigmoid = nn.Sigmoid()
+
+  def forward(self, x: torch.Tensor) -> torch.Tensor:
+    avg_out: torch.Tensor = torch.mean(x, dim=1, keepdim=True)
+    max_out, _ = torch.max(x, dim=1, keepdim=True)
+    pooled: torch.Tensor = torch.cat([avg_out, max_out], dim=1)
+    attention_map: torch.Tensor = self.sigmoid(self.conv(pooled))
+    return x * attention_map
+
     
 class DepthwiseSeparableBlock(nn.Module):
-    
-    def __init__(self, in_channels: int, out_channels: int) -> None:
+
+    def __init__(self, in_channels: int, out_channels: int, stride: int = 1, expansion: int = 4, att_kernel: int = 7) -> None:
         super().__init__()
+        # Inverted bottleneck (MobileNetV2 style): EXPAND channels with a 1x1,
+        # filter in the widened space, PROJECT back down with a linear 1x1.
+        exp_channels: int = in_channels * expansion
         self.block: nn.Sequential = nn.Sequential(
-            # 1. DEPTHWISE STEP: Spatial filtering (3x3)
-            # groups=in_channels forces each channel to be filtered independently
-            nn.Conv2d(in_channels, in_channels, kernel_size=3, padding=1, groups=in_channels, bias=False),
-            nn.BatchNorm2d(in_channels),
-            nn.LeakyReLU(),
-            
+            # 0. EXPANSION STEP: widen channels before the depthwise filter
+            nn.Conv2d(in_channels, exp_channels, kernel_size=1, bias=False),
+            nn.BatchNorm2d(exp_channels),
+            nn.ReLU6(inplace=True),
+
+            # 1. DEPTHWISE STEP: Spatial filtering (3x3) in the widened space
+            # groups=exp_channels forces each channel to be filtered independently
+            nn.Conv2d(exp_channels, exp_channels, kernel_size=3, padding=1, stride=stride, groups=exp_channels, bias=False),
+            nn.BatchNorm2d(exp_channels),
+            nn.ReLU6(inplace=True),
+
             # 2. POINTWISE STEP: Channel mixing (The 1x1 Point After)
-            # This blends the filtered channels together into the new channel size
-            nn.Conv2d(in_channels, out_channels, kernel_size=1, bias=False),
+            # Linear projection — no activation, so the compression is unclipped
+            nn.Conv2d(exp_channels, out_channels, kernel_size=1, bias=False),
             nn.BatchNorm2d(out_channels),
-            nn.LeakyReLU(),
-            nn.MaxPool2d(kernel_size=2)
+            SpatialAttention(att_kernel),
         )
-        
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.block(x)
 
 
+def _branch_and_skips(specs: list[tuple[int, int, int | None]]) -> tuple[nn.ModuleList, nn.ModuleList]:
+    """A stage list plus a 1x1-conv skip projection per stage.
+
+    The skip path lives at the CNN level, not inside the block: each stage's
+    input is projected (1x1 conv + BN, only to match stride/channel shape) and
+    added back after the stage, so the skip goes AROUND the depthwise path.
+    """
+    blocks = nn.ModuleList(
+        DepthwiseSeparableBlock(
+            i, o, stride=2 if not s else s, att_kernel=7 if o <= 64 else 3
+        ) for i, o, s in specs
+    )
+    skips = nn.ModuleList(
+        nn.Sequential(
+            nn.Conv2d(i, o, kernel_size=1, stride=s if s else 2, bias=False),
+            nn.BatchNorm2d(o)
+        )
+        for i, o, s in specs
+    )
+    return blocks, skips
+
+
+def _res_forward(blocks: nn.ModuleList, skips: nn.ModuleList, x: torch.Tensor,  drop: nn.Module | None = None) -> torch.Tensor:
+    for block, skip in zip(blocks, skips):
+        x = F.relu6(block(x) + skip(x))
+        if drop is not None:
+            x = drop(x)
+    return x
+
+
 class DefaultCNN(nn.Module):
-    
+
     def __init__(self, num_classes: int) -> None:
         super().__init__()
-        self.convs: nn.Sequential = nn.Sequential(
-            DepthwiseSeparableBlock(3, 32),
-            DepthwiseSeparableBlock(32, 64),
-            DepthwiseSeparableBlock(64, 128),
-        )
-        
+        self.convs, self.skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 2), (128, 256, 1)])
+        self.drop2d: nn.Dropout2d = nn.Dropout2d(0.1)
         self.classifier: nn.Sequential = nn.Sequential(
-            # ponytail: GAP instead of Flatten — kills the 4.85M-param lookup-table head
-            # (18944->256 Linear) that was memorizing 9k train segments; 128->256 is ~33k params.
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
-            nn.LazyLinear(128),
-            nn.LeakyReLU(),
-            nn.Dropout(0.4),
-            nn.LazyLinear(64),
-            nn.LeakyReLU(),
-            nn.Dropout(0.2),
-            nn.LazyLinear(num_classes),
-            #nn.Sigmoid()
+            nn.Dropout(0.3),
+            nn.Linear(256, 128),
+            nn.ReLU6(),
+            nn.Linear(128, 64),
+            nn.ReLU6(),
+            nn.Linear(64, num_classes)
         )
-        
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = self.convs(x)
+        x = _res_forward(self.convs, self.skips, x, self.drop2d)
         x = self.classifier(x)
         return x
     
@@ -112,33 +163,25 @@ class BranchedCoughCNN(nn.Module):
     def __init__(self, num_classes: int) -> None:
         super().__init__()
         
-        self.spec_branch: nn.Sequential = nn.Sequential(
-            DepthwiseSeparableBlock(3, 32),
-            DepthwiseSeparableBlock(32, 64)
-        )
-        
-        self.mfcc_branch: nn.Sequential = nn.Sequential(
-            DepthwiseSeparableBlock(3, 32),
-            DepthwiseSeparableBlock(32, 64)
-        )
-        
+        self.spec_branch, self.spec_skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 2)])
+        self.mfcc_branch, self.mfcc_skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 2)])
+
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
+        self.drop2d: nn.Dropout2d = nn.Dropout2d(0.1)
         self.classifier: nn.Sequential = nn.Sequential(
-            nn.LazyLinear(128),
-            nn.LeakyReLU(),
-            nn.Dropout(0.4),
+            nn.Dropout(0.3),
+            nn.Linear(256, 128),
+            nn.ReLU6(),
             nn.Linear(128, 64),
-            nn.LeakyReLU(),
-            nn.Dropout(0.2),
-            nn.Linear(64, num_classes),
-            #nn.Sigmoid()
+            nn.ReLU6(),
+            nn.Linear(64, num_classes)
         )
-        
+
     def forward(self, mel: torch.Tensor, mfcc: torch.Tensor) -> torch.Tensor:
-        
-        mel_out = self.spec_branch(mel)       # Shape: [B, 64, H_spec, W_spec]
-        mfcc_out = self.mfcc_branch(mfcc)     # Shape: [B, 64, H_mfcc, W_mfcc]
+
+        mel_out = _res_forward(self.spec_branch, self.spec_skips, mel, self.drop2d)   # Shape: [B, 128, H_spec, W_spec]
+        mfcc_out = _res_forward(self.mfcc_branch, self.mfcc_skips, mfcc, self.drop2d)  # Shape: [B, 128, H_mfcc, W_mfcc]
         
         # Apply global pooling so size mismatches in H or W across batches don't break things
         mel_out = self.pool(mel_out)         # Shape: [B, 64, 1, 1]

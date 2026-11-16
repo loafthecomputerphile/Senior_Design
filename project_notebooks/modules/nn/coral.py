@@ -22,23 +22,24 @@ class CoralOrdinal(nn.Module):
         self.num_ranks = num_ranks
         self.biases = nn.Parameter(torch.zeros(num_ranks))
 
-    def forward(self, x):
+    def forward(self, *x):
         score = self.backbone(*x) if isinstance(x, tuple) else self.backbone(x)
         score = score.reshape(-1)  # (B,)
         return score.unsqueeze(1) - self.biases.unsqueeze(0)  # (B, K-1)
 
 
-def coral_targets(rank: torch.Tensor, num_ranks: int = 3) -> torch.Tensor:
+def coral_targets(rank: torch.Tensor, num_ranks: int = 3, device: str = "cpu") -> torch.Tensor:
     """rank (B,) ints in {0..K-1} -> cumulative binary targets (B, K-1) float, target_k = rank > k."""
     rank = rank.reshape(-1).long()
-    return (rank.unsqueeze(1) > torch.arange(num_ranks - 1).unsqueeze(0)).float()
+    return (rank.unsqueeze(1) > torch.arange(num_ranks - 1, device=device).unsqueeze(0)).float()
 
 
 def coral_pos_weights(rec_counts: Sequence[int]) -> torch.Tensor:
     """Recording-level counts per rank (length K) -> pos_weight (K-1,) for BCEWithLogitsLoss.
 
     For cumulative task k (P(rank > k)): positives = ranks > k, negatives = ranks <= k.
-    pos_weight[k] = n(pos) / n(neg) — i.e. n(rank > k) / n(rank <= k). Counts clamped min=1.
+    pos_weight[k] = n(neg) / n(pos) — i.e. n(rank <= k) / n(rank > k) — so rare positives
+    get weight > 1 (BCEWithLogitsLoss convention). Counts clamped min=1.
     """
     counts = torch.tensor([float(c) for c in rec_counts]).clamp(min=1.0)
     k = len(rec_counts) - 1

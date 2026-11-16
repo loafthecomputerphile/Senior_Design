@@ -1,0 +1,290 @@
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    --ground:      #E8EBE6;   /* cool pale sage — the chassis */
+    --ink:         #16302B;   /* deep pine — text, buttons */
+    --ink-hover:   #1E3D36;
+    --well:        #16302B;   /* the instrument's dark window */
+    --signal:      #E9A62B;   /* amber — reserved for "signal present" */
+    --muted:       #6C7E77;
+    --on-well:     #DCE6E1;
+    --on-well-dim: rgba(220, 230, 225, 0.40);
+    --track:       rgba(220, 230, 225, 0.10);
+    --fill-rest:   rgba(220, 230, 225, 0.38);
+    --radius-well: 26px;
+    --radius-pill: 999px;
+  }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 400;
+    font-stretch: 100%;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .shell {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: clamp(40px, 10vh, 88px) 22px 56px;
+  }
+
+  /* ---- masthead ---------------------------------------------------- */
+
+  .wordmark {
+    margin: 0 0 34px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-stretch: 108%;
+    letter-spacing: -0.006em;
+    line-height: 1;
+  }
+
+  /* ---- the instrument ---------------------------------------------- */
+
+  .instrument {
+    background: var(--well);
+    border-radius: var(--radius-well);
+    padding: 26px 24px 18px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  }
+
+  .instrument-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .dots {
+    display: flex;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .dot {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--on-well-dim);
+    transition: border-color 240ms ease;
+  }
+
+  .dot-halo {
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 2px solid var(--signal);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .dot-fill {
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--signal);
+    transform: scale(0);
+    transition: transform 300ms cubic-bezier(0.22, 1.2, 0.36, 1);
+  }
+
+  .dot[data-state="active"] { border-color: var(--signal); }
+  .dot[data-state="active"] .dot-halo {
+    animation: halo 2600ms cubic-bezier(0.2, 0.7, 0.4, 1) infinite;
+  }
+  .dot[data-state="captured"] { border-color: var(--signal); }
+  .dot[data-state="captured"] .dot-fill { transform: scale(1); }
+
+  @keyframes halo {
+    0%        { transform: scale(1);    opacity: 0.55; }
+    70%, 100% { transform: scale(1.62); opacity: 0; }
+  }
+
+  .readout {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    color: var(--on-well-dim);
+    transition: color 140ms linear;
+  }
+  .readout.is-hot { color: var(--signal); }
+
+  .readout-value {
+    font-size: 1.375rem;
+    font-weight: 500;
+    font-stretch: 96%;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.012em;
+  }
+
+  .readout-unit {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* ---- level meter -------------------------------------------------- */
+
+  .meter { position: relative; }
+
+  .meter-track {
+    position: relative;
+    height: 8px;
+    border-radius: var(--radius-pill);
+    background: var(--track);
+  }
+
+  .meter-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    border-radius: var(--radius-pill);
+    background: var(--fill-rest);
+    transition: width 90ms linear, background-color 120ms linear;
+  }
+  .meter-fill.is-hot { background: var(--signal); }
+
+  /* The onset threshold. Unlabelled on purpose: the bar turns amber as it
+     crosses, which teaches the relationship in one cough. */
+  .meter-notch {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    width: 1px;
+    background: rgba(233, 166, 43, 0.55);
+    transform: translateX(-50%);
+  }
+
+  .meter-scale {
+    position: relative;
+    height: 15px;
+    margin-top: 9px;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--on-well-dim);
+  }
+  .meter-scale span {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  .meter-scale span:nth-child(1) { left: 0;        transform: none; }
+  .meter-scale span:nth-child(2) { left: 33.3333%; }
+  .meter-scale span:nth-child(3) { left: 66.6667%; }
+  .meter-scale span:nth-child(4) { left: 100%;     transform: translateX(-100%); }
+
+  /* ---- the script --------------------------------------------------- */
+
+  .script { margin-top: 30px; }
+
+  .script h2 {
+    margin: 0 0 10px;
+    font-size: clamp(1.5rem, 5.2vw, 1.75rem);
+    line-height: 1.15;
+    font-weight: 600;
+    font-stretch: 112%;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+
+  .script p {
+    margin: 0;
+    max-width: 44ch;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  /* ---- controls ----------------------------------------------------- */
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .btn-primary {
+    appearance: none;
+    border: 0;
+    width: 100%;
+    padding: 16px 22px;
+    border-radius: var(--radius-pill);
+    background: var(--ink);
+    color: #EFF3F0;
+    font: inherit;
+    font-weight: 600;
+    font-stretch: 104%;
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    transition: background-color 160ms ease, transform 120ms ease;
+  }
+  .btn-primary:hover:not([disabled]) { background: var(--ink-hover); }
+  .btn-primary:active:not([disabled]) { transform: scale(0.985); }
+  .btn-primary[disabled] { opacity: 0.42; cursor: default; }
+
+  .btn-quiet {
+    appearance: none;
+    align-self: center;
+    border: 0;
+    background: none;
+    padding: 8px 10px;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+  .btn-quiet:hover { color: var(--ink); }
+
+  /* ---- footnote ----------------------------------------------------- */
+
+  .footnote {
+    margin: 44px 0 0;
+    max-width: 46ch;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--muted);
+    opacity: 0.85;
+  }
+
+  /* ---- accessibility ------------------------------------------------ */
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+  .instrument :focus-visible { outline-color: var(--signal); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .instrument { padding: 22px 18px 16px; border-radius: 22px; }
+    .dots { gap: 13px; }
+    .dot { width: 38px; height: 38px; }
+    .instrument-head { margin-bottom: 26px; }
+  }

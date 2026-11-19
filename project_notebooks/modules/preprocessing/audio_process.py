@@ -24,7 +24,7 @@ __all__ = [
     "segment_cough", "compute_SNR", "MelSpectrogramPipeline",
     "segment_cough_robust", "SpecAugmentations", "MFCCPipeline",
     "SpectMFCCPipeline", "EnforceFixedLength", "segment_cough_fast",
-    "trim_tile"
+    "trim_tile", "mixup_waveforms"
 ]
 
 '''
@@ -746,3 +746,27 @@ class WaveformAugmentor(nn.Module):
             waveform = self._time_shift(waveform)
 
         return waveform
+
+
+def mixup_waveforms(
+    waveforms: torch.Tensor,
+    rank: torch.Tensor,
+    alpha: float,
+    lam: float | None = None,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Mixup for CORAL training: returns (mixed waveforms (B,T), soft cumulative targets (B,2)).
+
+    Draws lam ~ Beta(alpha, alpha) (or uses the caller-supplied `lam`), permutes the
+    batch, and mixes waveforms as lam*x + (1-lam)*x[perm]. Targets are the
+    lam-weighted soft cumulative CORAL targets
+    lam*stack((rank>0, rank>1), 1) + (1-lam)*same for rank[perm] — already floats, so
+    BCEWithLogitsLoss needs no change.
+    """
+    B = waveforms.shape[0]
+    if lam is None:
+        lam = float(torch.distributions.Beta(alpha, alpha).sample())
+    perm = torch.randperm(B, device=waveforms.device)
+    hard = torch.stack(((rank > 0).float(), (rank > 1).float()), dim=1)
+    targets = lam * hard + (1.0 - lam) * hard[perm]
+    mixed = lam * waveforms + (1.0 - lam) * waveforms[perm]
+    return mixed, targets

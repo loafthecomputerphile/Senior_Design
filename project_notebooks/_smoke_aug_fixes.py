@@ -149,4 +149,29 @@ assert 0.75 <= ratio <= 1.25, (
 print(f"5) peak-based noise: padded delta {d_pad:.4f}, full delta {d_full:.4f}, "
       f"ratio {ratio:.3f} in [0.75, 1.25] (old RMS code ~0.5)")
 
+# =========================================================================
+# Section 6: SpecAugment 2+2 policy, freq width 40 (fix 5)
+# =========================================================================
+from modules.preprocessing.audio_process import SpecAugmentations
+
+# 6a) freq width is real now: 40 of 513 bins (~8%), not 5 (~1% noop)
+spec = SpecAugmentations()
+assert spec.freq_mask.mask_param == 40, spec.freq_mask.mask_param
+print("6a) freq_mask.mask_param == 40")
+
+# 6b) 2+2 masks: with p=1.0 the masks virtually always bite (old single
+# freq-mask-at-5 on 104 bins was a near-noop)
+torch.manual_seed(3)
+spec.p = 1.0
+spec.train()
+x = torch.randn(1, 3, 104, 32, dtype=torch.complex64)
+ref = x.abs().pow(2)
+diff = 0
+for _ in range(50):
+    out = spec(x.clone())
+    assert out.shape == x.shape, f"output shape changed: {tuple(out.shape)} (T must stay 32)"
+    diff += int(not torch.equal(out, ref))
+assert diff >= 45, f"masks changed output in only {diff}/50 trials (near-noop?)"
+print(f"6) SpecAugment 2+2: T preserved (32), masks changed output in {diff}/50 trials (>=45 required)")
+
 print("smoke OK")

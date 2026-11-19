@@ -87,4 +87,28 @@ assert "balanced_sampler" in tr_src, "23e32579 missing balanced_sampler flag"
 assert "WeightedRandomSampler" in tr_src, "23e32579 missing WeightedRandomSampler"
 print("3c) integration pin: cell 23e32579 contains WeightedRandomSampler + balanced_sampler")
 
+# =========================================================================
+# Section 4: speed perturbation wired into forward (fix 3)
+# =========================================================================
+from modules.preprocessing.audio_process import WaveformAugmentor
+
+# 4a) default tech_probs include speed at 0.3 (previously missing -> dead code)
+default_aug = WaveformAugmentor(16_000)
+assert default_aug.tech_probs["speed"] == 0.3, default_aug.tech_probs
+
+# 4b) speed-only augmentor: shape always (1, 16000), and speed actually fires
+# (factors [0.9, 1.0, 1.1] -> ~2/3 of trials should change the waveform)
+torch.manual_seed(7)
+speed_aug = WaveformAugmentor(16_000)
+speed_aug.tech_probs = {"gain": 0.0, "noise": 0.0, "time_shift": 0.0, "speed": 1.0}
+speed_aug.train()
+xs = torch.randn(1, 16000)
+changed = 0
+for _ in range(50):
+    out = speed_aug(xs.clone(), 0)
+    assert out.shape == (1, 16000), f"shape changed: {tuple(out.shape)}"
+    changed += int(not torch.equal(out, xs))
+assert changed >= 20, f"only {changed}/50 outputs differ from input (speed not applied?)"
+print(f"4) speed perturbation: 50/50 outputs shape (1,16000), {changed}/50 differ from input (>=20 required)")
+
 print("smoke OK")

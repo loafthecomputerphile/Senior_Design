@@ -647,6 +647,7 @@ class WaveformAugmentor(nn.Module):
         self.sample_rate: int = sample_rate
         self.p: float = p
 
+        # factor 1.0 is a no-op draw, so effective strength is ~2/3 of nominal.
         self.speed: SpeedPerturbation = SpeedPerturbation(
             orig_freq=sample_rate,
             factors=[0.9, 1.0, 1.1],
@@ -665,6 +666,7 @@ class WaveformAugmentor(nn.Module):
             "gain": 0.5,
             "noise": 0.3,
             "time_shift": 0.5,
+            "speed": 0.3,
         }
 
     def _should_apply(self, p: float | None = None) -> bool:
@@ -744,6 +746,9 @@ class WaveformAugmentor(nn.Module):
 
         if self._should_apply(self.tech_probs["time_shift"]):
             waveform = self._time_shift(waveform)
+
+        if self._should_apply(self.tech_probs["speed"]):
+            waveform = self._speed_perturb(waveform)
 
         return waveform
 

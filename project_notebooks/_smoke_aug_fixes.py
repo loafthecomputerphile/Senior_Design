@@ -111,4 +111,42 @@ for _ in range(50):
 assert changed >= 20, f"only {changed}/50 outputs differ from input (speed not applied?)"
 print(f"4) speed perturbation: 50/50 outputs shape (1,16000), {changed}/50 differ from input (>=20 required)")
 
+# =========================================================================
+# Section 5: peak-based noise scaling (fix 4)
+# =========================================================================
+torch.manual_seed(11)
+noise_aug = WaveformAugmentor(16_000)
+noise_aug.tech_probs = {"gain": 0.0, "noise": 1.0, "time_shift": 0.0, "speed": 0.0}
+noise_aug.train()
+
+# Two signals with the SAME peak 1.0: one with 75% trailing zeros (like the
+# stored trim_tile segments), one with no padding. RMS-based noise scales with
+# sqrt(mean square), so the padded signal gets ~0.5x the noise of the full one
+# (ratio ~0.5); peak-based noise gives ratio ~1.0.
+two_pi = 2.0 * 3.141592653589793
+padded = torch.cat([
+    torch.sin(torch.arange(4000, dtype=torch.float32) * (two_pi / 1000)),
+    torch.zeros(12000),
+]).unsqueeze(0)
+full = torch.sin(torch.arange(16000, dtype=torch.float32) * (two_pi / 1000)).unsqueeze(0)
+assert abs(padded.abs().max().item() - 1.0) < 1e-3
+assert abs(full.abs().max().item() - 1.0) < 1e-3
+
+def _median_delta_max(x: torch.Tensor, trials: int = 20) -> float:
+    vals = sorted(
+        (noise_aug(x.clone(), 0) - x).abs().max().item() for _ in range(trials)
+    )
+    return vals[trials // 2]
+
+d_pad = _median_delta_max(padded)
+d_full = _median_delta_max(full)
+ratio = d_pad / d_full
+assert d_pad > 0.0, "padded signal received no noise at all"
+assert 0.75 <= ratio <= 1.25, (
+    f"padded/unpadded noise ratio {ratio:.3f} outside [0.75, 1.25] "
+    "(old RMS code gives ~0.5 with 75% zero padding)"
+)
+print(f"5) peak-based noise: padded delta {d_pad:.4f}, full delta {d_full:.4f}, "
+      f"ratio {ratio:.3f} in [0.75, 1.25] (old RMS code ~0.5)")
+
 print("smoke OK")

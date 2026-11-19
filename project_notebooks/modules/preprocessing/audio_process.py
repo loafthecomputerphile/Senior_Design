@@ -682,15 +682,17 @@ class WaveformAugmentor(nn.Module):
         return x * gain
 
     def _noise(self, x: torch.Tensor) -> torch.Tensor:
-        rms: torch.Tensor = torch.sqrt(
-            x.square().mean(dim=-1, keepdim=True) + 1e-8
-        )
+        # Scale off peak, not whole-signal RMS: stored segments are mostly
+        # trailing zero padding, which dilutes RMS ~2x and made noise land far
+        # too quiet relative to the actual cough. Knob (0.005-0.02 of peak)
+        # tuned by ear on 2-3 real segments.
+        peak: torch.Tensor = x.abs().amax(dim=-1, keepdim=True)
 
         noise_level: torch.Tensor = torch.empty(
             (), device=x.device, dtype=x.dtype,
-        ).uniform_(0.05, 0.15)
+        ).uniform_(0.005, 0.02)
 
-        return x + torch.randn_like(x) * rms * noise_level
+        return x + torch.randn_like(x) * peak * noise_level
 
     def _time_shift(self, x: torch.Tensor) -> torch.Tensor:
         max_shift: int = int(self.sample_rate * 0.05)

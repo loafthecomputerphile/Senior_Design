@@ -226,4 +226,22 @@ for _i, _c in enumerate(nb["cells"]):
         compile("".join(_c["source"]), _c.get("id", f"cell{_i}"), "exec")
 print(f"7d) all {sum(1 for c in nb['cells'] if c['cell_type'] == 'code')} notebook code cells compile")
 
+# 7e) run-name bump must reach the downstream cells: aug3test loads the a2__
+# checkpoints, aug4figs reads the a2__ CSVs and colors all 4 arms
+_test_src = _cell_src("aug3test")
+assert 'f"a2__{cfg}__default"' in _test_src, "aug3test still uses old aug__ checkpoint names"
+assert "aug__{cfg}__default" not in _test_src, "aug3test still references old aug__ names"
+_figs_src = _cell_src("aug4figs")
+assert "a2__{cfg}__default" in _figs_src, "aug4figs still reads old aug__ CSV names"
+assert "aug__{cfg}__default" not in _figs_src, "aug4figs still references old aug__ names"
+import re as _re
+_colors = _re.search(r"_AUG_COLORS(?::\s*dict\[str,\s*str\])?\s*=\s*\{([^}]*)\}", _figs_src)
+assert _colors, "_AUG_COLORS not found in aug4figs"
+_color_keys = _re.findall(r'"([a-z_]+)":', _colors.group(1))
+assert _color_keys == ["none", "wave_only", "spec_only", "both"], _color_keys
+assert _figs_src.count("plt.subplots(1, 4") == 2, (
+    "aug4figs CM/hist figures must have 4 axes (one per arm, incl. none)"
+)
+print("7e) downstream cells: aug3test + aug4figs on a2__ names, 4 colors, 4-axis figures")
+
 print("smoke OK")

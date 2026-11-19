@@ -20,10 +20,12 @@ class CoralOrdinal(nn.Module):
         super().__init__()
         self.backbone = backbone
         self.num_ranks = num_ranks
-        self.biases = nn.Parameter(torch.zeros(num_ranks))
+        self.biases = nn.Parameter(torch.zeros(num_ranks))  # num_cum_logits (K-1 of true ranks); default 2 -> (B, 2)
 
     def forward(self, *x):
-        score = self.backbone(*x) if isinstance(x, tuple) else self.backbone(x)
+        if len(x) == 1 and isinstance(x[0], (tuple, list)):
+            x = tuple(x[0])  # called as model((spec, mfcc)) — flatten to two args
+        score = self.backbone(*x)
         score = score.reshape(-1)  # (B,)
         return score.unsqueeze(1) - self.biases.unsqueeze(0)  # (B, K-1)
 

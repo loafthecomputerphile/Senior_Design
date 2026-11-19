@@ -149,6 +149,34 @@ assert 0.75 <= ratio <= 1.25, (
 print(f"5) peak-based noise: padded delta {d_pad:.4f}, full delta {d_full:.4f}, "
       f"ratio {ratio:.3f} in [0.75, 1.25] (old RMS code ~0.5)")
 
+# 5b) pad-masked noise (final-review fix 1): noise must stay inside the signal's
+# nonzero support. randn_like over the ~75% zero-pad makes trim_tile's wi != 0
+# probe run to the last sample (nz[-1] == 15999), silently disabling trim+tile
+# for augmented train samples while val/test (no augmentor) always tile.
+from modules.preprocessing.audio_process import trim_tile
+
+torch.manual_seed(13)
+tail_aug = WaveformAugmentor(16_000)
+tail_aug.tech_probs = {"gain": 0.0, "noise": 1.0, "time_shift": 0.0, "speed": 0.0}
+tail_aug.train()
+_pad_sig = torch.cat([torch.randn(4000), torch.zeros(12000)]).unsqueeze(0)
+_pad_sig *= 1.0 / _pad_sig.abs().max()  # peak 1.0, content in first quarter
+L = int(torch.nonzero(_pad_sig[0] != 0, as_tuple=False)[-1]) + 1
+assert L == 4000, L
+for _ in range(20):
+    _out = tail_aug(_pad_sig.clone(), 0)
+    assert _out.shape == _pad_sig.shape
+    assert (_out[..., L:] == 0).all(), (
+        "noise sprayed into the trailing zero-pad (trim_tile's wi != 0 would misfire)"
+    )
+_trimmed = trim_tile(_out.clone())
+assert torch.equal(_trimmed[0, :L], _out[0, :L]), "trim_tile changed the content"
+assert torch.equal(_trimmed[0, L:2 * L], _out[0, :L]), (
+    "trim_tile did not tile (tail not a repeat of content) - trim+tile still disabled?"
+)
+print(f"5b) pad-masked noise: tail beyond index {L} exactly zero over 20 trials; "
+      "trim_tile(out) trims to L and tiles the content")
+
 # =========================================================================
 # Section 6: SpecAugment 2+2 policy, freq width 40 (fix 5)
 # =========================================================================
@@ -206,8 +234,7 @@ print("7b) run cell: a2__ prefix + mixup_alpha=0.2 + balanced_sampler=True")
 # val macro-F1, early-stop plateau still keyed to val loss (loss branch keeps
 # ONLY best_val_loss/plateau bookkeeping - the save moved out)
 _tr_src = _cell_src("23e32579")
-assert 'best_val_f1 = max(history["val_F1"]) if history["val_F1"] else -1.0' in _tr_src, \
-    "best_val_f1 not derived after _resume_with_best"
+assert "best_val_f1 = " in _tr_src, "best_val_f1 not derived after _resume_with_best"
 assert "if val_macro_f1 > best_val_f1 + 1e-6:" in _tr_src, "F1 save branch missing"
 assert "_atomic_torch_save(state, _ckpt_best_path(name))" in _tr_src
 _loss_branch = (
@@ -243,5 +270,30 @@ assert _figs_src.count("plt.subplots(1, 4") == 2, (
     "aug4figs CM/hist figures must have 4 axes (one per arm, incl. none)"
 )
 print("7e) downstream cells: aug3test + aug4figs on a2__ names, 4 colors, 4-axis figures")
+
+# 7f) final-review fix 2: a2 artifact names everywhere downstream
+for _cid in ("aug3test", "aug4figs"):
+    _s = _cell_src(_cid)
+    assert "aug_test_state" not in _s, f"{_cid} still references aug_test_state.pt"
+    assert "aug_test_eval" not in _s, f"{_cid} still references aug_test_eval.csv"
+    assert "aug_default_" not in _s, f"{_cid} still references aug_default_* figures"
+    assert "a2_test_state" in _s, f"{_cid} missing a2_test_state.pt"
+print("7f) a2 artifact names: no aug_test_state / aug_test_eval / aug_default_ refs remain")
+
+# 7g) final-review fix 3: best_val_f1 must be derived from the _best checkpoint
+# ON DISK, not from the resumed (latest) history — _resume_with_best restores
+# _latest only, so after a crash between the _latest and _best saves the latest
+# history can run AHEAD of the stale _best file.
+assert ('torch.load(_ckpt_best_path(name), weights_only=True, map_location="cpu")["history"]' in _tr_src
+        or "torch.load(_ckpt_best_path(name), weights_only=True, map_location=\"cpu\")[\"history\"]" in _tr_src), (
+    "best_val_f1 not derived from the on-disk _best checkpoint's history"
+)
+assert 'max(history["val_F1"])' not in _tr_src, (
+    "best_val_f1 still derived from the latest-checkpoint history (crash-window bug back)"
+)
+_resume_idx = _tr_src.index("_resume_with_best(")
+_disk_idx = _tr_src.index('torch.load(_ckpt_best_path(name), weights_only=True, map_location="cpu")["history"]')
+assert _resume_idx < _disk_idx, "disk-based best_val_f1 derivation must follow _resume_with_best"
+print("7g) checkpoint invariant: best_val_f1 derived from on-disk _best history (after resume)")
 
 print("smoke OK")

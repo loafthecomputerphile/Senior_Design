@@ -174,4 +174,56 @@ for _ in range(50):
 assert diff >= 45, f"masks changed output in only {diff}/50 trials (near-noop?)"
 print(f"6) SpecAugment 2+2: T preserved (32), masks changed output in {diff}/50 trials (>=45 required)")
 
+# =========================================================================
+# Section 7: fix 6 - none control arm, F1 checkpoint selection, v2 run names
+# =========================================================================
+import ast as _ast
+
+def _cell_src(cell_id: str) -> str:
+    return "".join(next(c["source"] for c in nb["cells"] if c.get("id") == cell_id))
+
+# 7a) control arm FIRST in AUG_CONFIGS: exactly 4 keys, "none" -> (False, False)
+_split_src = _cell_src("aug1split")
+_cfg = None
+for _node in _ast.parse(_split_src).body:
+    if isinstance(_node, _ast.AnnAssign) and getattr(_node.target, "id", None) == "AUG_CONFIGS":
+        _cfg = _ast.literal_eval(_node.value)
+assert _cfg is not None, "AUG_CONFIGS not found in aug1split"
+assert list(_cfg) == ["none", "wave_only", "spec_only", "both"], list(_cfg)
+assert _cfg["none"] == (False, False), _cfg["none"]
+print("7a) control arm: AUG_CONFIGS has exactly 4 keys, 'none': (False, False) first")
+
+# 7b) v2 run names + flag opt-in in the run cell (new code must never resume
+# old-code checkpoints -> a2__ prefix, not aug__)
+_train_src = _cell_src("aug2train")
+assert "f\"a2__{cfg}__default\"" in _train_src, "aug2train missing a2__ run-name prefix"
+assert "aug__{cfg}__default" not in _train_src, "aug2train still uses old aug__ prefix"
+assert ("train_ordinal(name, min_epoch=8, wave_aug=w, spec_aug=s, "
+        "mixup_alpha=0.2, balanced_sampler=True)") in _train_src, "aug2train call not upgraded"
+print("7b) run cell: a2__ prefix + mixup_alpha=0.2 + balanced_sampler=True")
+
+# 7c) F1-based checkpoint selection in the trainer cell: save-best keyed to
+# val macro-F1, early-stop plateau still keyed to val loss (loss branch keeps
+# ONLY best_val_loss/plateau bookkeeping - the save moved out)
+_tr_src = _cell_src("23e32579")
+assert 'best_val_f1 = max(history["val_F1"]) if history["val_F1"] else -1.0' in _tr_src, \
+    "best_val_f1 not derived after _resume_with_best"
+assert "if val_macro_f1 > best_val_f1 + 1e-6:" in _tr_src, "F1 save branch missing"
+assert "_atomic_torch_save(state, _ckpt_best_path(name))" in _tr_src
+_loss_branch = (
+    "        if val_epoch_loss < best_val_loss - 1e-6:\n"
+    "            best_val_loss = val_epoch_loss\n"
+    "            plateau = 0\n"
+    "        else:\n"
+    "            plateau += 1\n"
+)
+assert _loss_branch in _tr_src, "val-loss branch no longer pure plateau bookkeeping"
+print("7c) checkpoint selection: best_val_f1 derived; save-best on F1, plateau on loss")
+
+# 7d) every notebook code cell compiles
+for _i, _c in enumerate(nb["cells"]):
+    if _c["cell_type"] == "code":
+        compile("".join(_c["source"]), _c.get("id", f"cell{_i}"), "exec")
+print(f"7d) all {sum(1 for c in nb['cells'] if c['cell_type'] == 'code')} notebook code cells compile")
+
 print("smoke OK")

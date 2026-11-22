@@ -79,8 +79,6 @@ class DepthwiseSeparableBlock(nn.Module):
 
     def __init__(self, in_channels: int, out_channels: int, stride: int = 1, expansion: int = 4, att_kernel: int = 7) -> None:
         super().__init__()
-        # Inverted bottleneck (MobileNetV2 style): EXPAND channels with a 1x1,
-        # filter in the widened space, PROJECT back down with a linear 1x1.
         exp_channels: int = in_channels * expansion
         self.block: nn.Sequential = nn.Sequential(
             # 0. EXPANSION STEP: widen channels before the depthwise filter
@@ -88,14 +86,10 @@ class DepthwiseSeparableBlock(nn.Module):
             nn.BatchNorm2d(exp_channels),
             nn.ReLU6(inplace=True),
 
-            # 1. DEPTHWISE STEP: Spatial filtering (3x3) in the widened space
-            # groups=exp_channels forces each channel to be filtered independently
             nn.Conv2d(exp_channels, exp_channels, kernel_size=3, padding=1, stride=stride, groups=exp_channels, bias=False),
             nn.BatchNorm2d(exp_channels),
             nn.ReLU6(inplace=True),
 
-            # 2. POINTWISE STEP: Channel mixing (The 1x1 Point After)
-            # Linear projection — no activation, so the compression is unclipped
             nn.Conv2d(exp_channels, out_channels, kernel_size=1, bias=False),
             nn.BatchNorm2d(out_channels),
             SpatialAttention(att_kernel),

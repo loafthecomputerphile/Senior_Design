@@ -1,0 +1,35 @@
+=> ensemble recordings already in memory - skipping model loading
+
+=== threshold sweep (val soft only, top 8) ===
+{'t1': 0.5000000000000001, 't2': 0.30000000000000004, 'macro_f1': 0.348, 'acc': 56.53}
+{'t1': 0.5000000000000001, 't2': 0.3500000000000001, 'macro_f1': 0.3432, 'acc': 57.08}
+{'t1': 0.6000000000000002, 't2': 0.25000000000000006, 'macro_f1': 0.3403, 'acc': 64.35}
+{'t1': 0.6500000000000001, 't2': 0.25000000000000006, 'macro_f1': 0.3399, 'acc': 64.97}
+{'t1': 0.5500000000000002, 't2': 0.3500000000000001, 'macro_f1': 0.3387, 'acc': 66.52}
+{'t1': 0.5500000000000002, 't2': 0.30000000000000004, 'macro_f1': 0.3382, 'acc': 65.91}
+{'t1': 0.5000000000000001, 't2': 0.25000000000000006, 'macro_f1': 0.3341, 'acc': 54.04}
+{'t1': 0.5500000000000002, 't2': 0.25000000000000006, 'macro_f1': 0.3314, 'acc': 61.52}
+
+val-best thresholds: t1=0.50 t2=0.30 macro_f1=0.348
+
+=== all ensemble rows (val/test x soft/hard x 0.5/tuned) ===
+{'model': 'val soft @0.5', 'n_recordings': 10682, 'macro_f1': 0.327, 'recall_low': 0.6701, 'recall_med': 0.3534, 'recall_high': 0.0019, 'auc_r1': 0.531, 'auc_r2': 0.5606, 'macro_auc': 0.5458, 'rank_mae': 0.4568, 'acc_total': 57.2, 'acc_low': 67.01, 'acc_med': 35.34, 'acc_high': 0.19, 'auc_macro_ovr': 0.5387, 'auc_low': 0.531, 'auc_med': 0.5246, 'auc_high': 0.5606}
+{'model': 'val soft @t=0.50/0.30', 'n_recordings': 10682, 'macro_f1': 0.348, 'recall_low': 0.6696, 'recall_med': 0.3028, 'recall_high': 0.0851, 'auc_r1': 0.531, 'auc_r2': 0.5606, 'macro_auc': 0.5458, 'rank_mae': 0.5045, 'acc_total': 56.53, 'acc_low': 66.96, 'acc_med': 30.28, 'acc_high': 8.51, 'auc_macro_ovr': 0.5387, 'auc_low': 0.531, 'auc_med': 0.5246, 'auc_high': 0.5606}
+{'model': 'val hard @0.5', 'n_recordings': 10682, 'macro_f1': 0.3311, 'recall_low': 0.709, 'recall_med': 0.3165, 'recall_high': 0.0019, 'auc_r1': 0.531, 'auc_r2': 0.5606, 'macro_auc': 0.5458, 'rank_mae': 0.4406, 'acc_total': 59.34, 'acc_low': 70.9, 'acc_med': 31.65, 'acc_high': 0.19, 'auc_macro_ovr': 0.5387, 'auc_low': 0.531, 'auc_med': 0.5246, 'auc_high': 0.5606}
+{'model': 'val hard @t=0.50/0.30', 'n_recordings': 10682, 'macro_f1': 0.3528, 'recall_low': 0.753, 'recall_med': 0.2412, 'recall_high': 0.0624, 'auc_r1': 0.531, 'auc_r2': 0.5606, 'macro_auc': 0.5458, 'rank_mae': 0.4483, 'acc_total': 61.37, 'acc_low': 75.3, 'acc_med': 24.12, 'acc_high': 6.24, 'auc_macro_ovr': 0.5387, 'auc_low': 0.531, 'auc_med': 0.5246, 'auc_high': 0.5606}
+{'model': 'test soft @0.5 (top-10 wrec)', 'n_recordings': 1156, 'macro_f1': 0.3289, 'recall_low': 0.5974, 'recall_med': 0.485, 'recall_high': 0.0, 'auc_r1': 0.5663, 'auc_r2': 0.601, 'macro_auc': 0.5836, 'rank_mae': 0.4784, 'acc_total': 54.33, 'acc_low': 59.74, 'acc_med': 48.5, 'acc_high': 0.0, 'auc_macro_ovr': 0.5727, 'auc_low': 0.5663, 'auc_med': 0.5509, 'auc_high': 0.601}
+{'model': 'test soft @t=0.50/0.30 (top-10 wrec)', 'n_recordings': 1156, 'macro_f1': 0.3669, 'recall_low': 0.5963, 'recall_med': 0.3176, 'recall_high': 0.3115, 'auc_r1': 0.5663, 'auc_r2': 0.601, 'macro_auc': 0.5836, 'rank_mae': 0.622, 'acc_total': 52.51, 'acc_low': 59.63, 'acc_med': 31.76, 'acc_high': 31.15, 'auc_macro_ovr': 0.5727, 'auc_low': 0.5663, 'auc_med': 0.5509, 'auc_high': 0.601}
+{'model': 'test hard @0.5 (top-10 wrec)', 'n_recordings': 1156, 'macro_f1': 0.3301, 'recall_low': 0.6613, 'recall_med': 0.3863, 'recall_high': 0.0, 'auc_r1': 0.5663, 'auc_r2': 0.601, 'macro_auc': 0.5836, 'rank_mae': 0.4593, 'acc_total': 57.09, 'acc_low': 66.13, 'acc_med': 38.63, 'acc_high': 0.0, 'auc_macro_ovr': 0.5727, 'auc_low': 0.5663, 'auc_med': 0.5509, 'auc_high': 0.601}
+{'model': 'test hard @t=0.50/0.30 (top-10 wrec)', 'n_recordings': 1156, 'macro_f1': 0.3426, 'recall_low': 0.645, 'recall_med': 0.2189, 'recall_high': 0.2295, 'auc_r1': 0.5663, 'auc_r2': 0.601, 'macro_auc': 0.5836, 'rank_mae': 0.6125, 'acc_total': 53.72, 'acc_low': 64.5, 'acc_med': 21.89, 'acc_high': 22.95, 'auc_macro_ovr': 0.5727, 'auc_low': 0.5663, 'auc_med': 0.5509, 'auc_high': 0.601}
+=> saved BEST test variant: test soft @t=0.50/0.30 (top-10 wrec) (macro_f1=0.3669, high recall=0.3115) using 10 checkpoints -> tables_3class/final_best_test_variant.csv
+     branched f0 cv__branched__f0_vloss2.pth.tar score=0.1143
+     branched f0 cv__branched__f0_vloss1.pth.tar score=0.1048
+     resnet f3 cv__resnet__f3_best.pth.tar score=0.0849
+     resnet f4 cv__resnet__f4_best.pth.tar score=0.0849
+     branched f0 cv__branched__f0_best.pth.tar score=0.0762
+     resnet f2 cv__resnet__f2_vloss0.pth.tar score=0.028
+     branched f1 cv__branched__f1_best.pth.tar score=0.019
+     resnet f1 cv__resnet__f1_best.pth.tar score=0.019
+     resnet f1 cv__resnet__f1_vloss0.pth.tar score=0.019
+     resnet f1 cv__resnet__f1_vloss1.pth.tar score=0.019
+=> ensemble_eval.csv, ensemble_selected_ckpts.csv, ensemble_state.pt written

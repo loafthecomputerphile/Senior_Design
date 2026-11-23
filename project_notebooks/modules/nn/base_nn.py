@@ -79,8 +79,6 @@ class DepthwiseSeparableBlock(nn.Module):
 
     def __init__(self, in_channels: int, out_channels: int, stride: int = 1, expansion: int = 4, att_kernel: int = 7) -> None:
         super().__init__()
-        # Inverted bottleneck (MobileNetV2 style): EXPAND channels with a 1x1,
-        # filter in the widened space, PROJECT back down with a linear 1x1.
         exp_channels: int = in_channels * expansion
         self.block: nn.Sequential = nn.Sequential(
             # 0. EXPANSION STEP: widen channels before the depthwise filter
@@ -88,14 +86,10 @@ class DepthwiseSeparableBlock(nn.Module):
             nn.BatchNorm2d(exp_channels),
             nn.ReLU6(inplace=True),
 
-            # 1. DEPTHWISE STEP: Spatial filtering (3x3) in the widened space
-            # groups=exp_channels forces each channel to be filtered independently
             nn.Conv2d(exp_channels, exp_channels, kernel_size=3, padding=1, stride=stride, groups=exp_channels, bias=False),
             nn.BatchNorm2d(exp_channels),
             nn.ReLU6(inplace=True),
 
-            # 2. POINTWISE STEP: Channel mixing (The 1x1 Point After)
-            # Linear projection — no activation, so the compression is unclipped
             nn.Conv2d(exp_channels, out_channels, kernel_size=1, bias=False),
             nn.BatchNorm2d(out_channels),
             SpatialAttention(att_kernel),
@@ -105,7 +99,7 @@ class DepthwiseSeparableBlock(nn.Module):
         return self.block(x)
 
 
-def _branch_and_skips(specs: list[tuple[int, int, int | None]]) -> tuple[nn.ModuleList, nn.ModuleList]:
+def _branch_and_skips(specs: list[tuple[int, int, int | None]], expansion: int = 4) -> tuple[nn.ModuleList, nn.ModuleList]:
     """A stage list plus a 1x1-conv skip projection per stage.
 
     The skip path lives at the CNN level, not inside the block: each stage's
@@ -114,7 +108,9 @@ def _branch_and_skips(specs: list[tuple[int, int, int | None]]) -> tuple[nn.Modu
     """
     blocks = nn.ModuleList(
         DepthwiseSeparableBlock(
-            i, o, stride=2 if not s else s, att_kernel=7 if o <= 64 else 3
+            i, o, stride=2 if not s else s, 
+            att_kernel=7 if o <= 64 else 3, 
+            expansion=expansion
         ) for i, o, s in specs
     )
     skips = nn.ModuleList(
@@ -139,17 +135,15 @@ class DefaultCNN(nn.Module):
 
     def __init__(self, num_classes: int) -> None:
         super().__init__()
-        self.convs, self.skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 2), (128, 256, 1)])
+        self.convs, self.skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 1)], 5)
         self.drop2d: nn.Dropout2d = nn.Dropout2d(0.1)
         self.classifier: nn.Sequential = nn.Sequential(
             nn.AdaptiveAvgPool2d((1, 1)),
             nn.Flatten(),
             nn.Dropout(0.3),
-            nn.Linear(256, 128),
+            nn.Linear(128, 256),
             nn.ReLU6(),
-            nn.Linear(128, 64),
-            nn.ReLU6(),
-            nn.Linear(64, num_classes)
+            nn.Linear(256, num_classes)
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -163,19 +157,17 @@ class BranchedCoughCNN(nn.Module):
     def __init__(self, num_classes: int) -> None:
         super().__init__()
         
-        self.spec_branch, self.spec_skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 2)])
-        self.mfcc_branch, self.mfcc_skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 2)])
+        self.spec_branch, self.spec_skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 1)], 5)
+        self.mfcc_branch, self.mfcc_skips = _branch_and_skips([(3, 32, 2), (32, 64, 2), (64, 128, 1)], 5)
 
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
         
         self.drop2d: nn.Dropout2d = nn.Dropout2d(0.1)
         self.classifier: nn.Sequential = nn.Sequential(
             nn.Dropout(0.3),
-            nn.Linear(256, 128),
+            nn.Linear(256, 512),
             nn.ReLU6(),
-            nn.Linear(128, 64),
-            nn.ReLU6(),
-            nn.Linear(64, num_classes)
+            nn.Linear(512, num_classes)
         )
 
     def forward(self, mel: torch.Tensor, mfcc: torch.Tensor) -> torch.Tensor:

@@ -24,7 +24,7 @@ __all__ = [
     "segment_cough", "compute_SNR", "MelSpectrogramPipeline",
     "segment_cough_robust", "SpecAugmentations", "MFCCPipeline",
     "SpectMFCCPipeline", "EnforceFixedLength", "segment_cough_fast",
-    "trim_tile"
+    "trim_tile", "mixup_waveforms"
 ]
 
 '''
@@ -341,7 +341,7 @@ class BaseSpecAug(torch.nn.Module):
     
 class SpecAugmentations(BaseSpecAug):
 
-    def __init__(self, stretch_factor: float = 0.8, req_mask: int = 5, time_mask: int = 5, transform: Callable[[torch.Tensor], torch.Tensor] | None = None, augment_probs: dict[int, float] | None = None) -> None:
+    def __init__(self, stretch_factor: float = 0.8, req_mask: int = 40, time_mask: int = 5, transform: Callable[[torch.Tensor], torch.Tensor] | None = None, augment_probs: dict[int, float] | None = None) -> None:
         super().__init__()
 
         self._n_freq_op: Callable[[int], int] = lambda x: x // 2 + 1
@@ -397,7 +397,12 @@ class SpecAugmentations(BaseSpecAug):
             # proportional time mask: floor 5 keeps old behavior at T=32, scales with longer inputs
             self.time_mask.mask_param = max(5, x.shape[-1] // 20)
             if self._should_apply():
-                x = self.time_mask(self.freq_mask(x))
+                # SpecAugment standard 2+2 policy: two freq masks then two time masks
+                # (masks mutate in place, so sequential calls compose)
+                x = self.freq_mask(x)
+                x = self.freq_mask(x)
+                x = self.time_mask(x)
+                x = self.time_mask(x)
             return x
         # Per-sample: masks are a plain coin flip for every sample
         # (per-class mask gate removed — classes are oversample-balanced now)
@@ -411,7 +416,12 @@ class SpecAugmentations(BaseSpecAug):
             # proportional time mask: floor 5 keeps old behavior at T=32, scales with longer inputs
             self.time_mask.mask_param = max(5, xi.shape[-1] // 20)
             if self._should_apply():
-                xi = self.time_mask(self.freq_mask(xi))
+                # SpecAugment standard 2+2 policy: two freq masks then two time masks
+                # (masks mutate in place, so sequential calls compose)
+                xi = self.freq_mask(xi)
+                xi = self.freq_mask(xi)
+                xi = self.time_mask(xi)
+                xi = self.time_mask(xi)
             out.append(xi)
         return torch.cat(out, dim=0)
         
@@ -647,6 +657,7 @@ class WaveformAugmentor(nn.Module):
         self.sample_rate: int = sample_rate
         self.p: float = p
 
+        # factor 1.0 is a no-op draw, so effective strength is ~2/3 of nominal.
         self.speed: SpeedPerturbation = SpeedPerturbation(
             orig_freq=sample_rate,
             factors=[0.9, 1.0, 1.1],
@@ -665,6 +676,7 @@ class WaveformAugmentor(nn.Module):
             "gain": 0.5,
             "noise": 0.3,
             "time_shift": 0.5,
+            "speed": 0.3,
         }
 
     def _should_apply(self, p: float | None = None) -> bool:
@@ -680,15 +692,20 @@ class WaveformAugmentor(nn.Module):
         return x * gain
 
     def _noise(self, x: torch.Tensor) -> torch.Tensor:
-        rms: torch.Tensor = torch.sqrt(
-            x.square().mean(dim=-1, keepdim=True) + 1e-8
-        )
+        # Scale off peak, not whole-signal RMS: stored segments are mostly
+        # trailing zero padding, which dilutes RMS ~2x and made noise land far
+        # too quiet relative to the actual cough. The pad-mask below keeps
+        # trailing zeros zero so trim_tile still trims (noise in the pad would
+        # push its wi != 0 probe to the last sample and silently disable
+        # trim+tile). Knob (0.005-0.02 of peak): tune by ear on 2-3 real
+        # segments before the run.
+        peak: torch.Tensor = x.abs().amax(dim=-1, keepdim=True)
 
         noise_level: torch.Tensor = torch.empty(
             (), device=x.device, dtype=x.dtype,
-        ).uniform_(0.05, 0.15)
+        ).uniform_(0.005, 0.02)
 
-        return x + torch.randn_like(x) * rms * noise_level
+        return x + torch.randn_like(x) * peak * noise_level * (x != 0)
 
     def _time_shift(self, x: torch.Tensor) -> torch.Tensor:
         max_shift: int = int(self.sample_rate * 0.05)
@@ -745,4 +762,31 @@ class WaveformAugmentor(nn.Module):
         if self._should_apply(self.tech_probs["time_shift"]):
             waveform = self._time_shift(waveform)
 
+        if self._should_apply(self.tech_probs["speed"]):
+            waveform = self._speed_perturb(waveform)
+
         return waveform
+
+
+def mixup_waveforms(
+    waveforms: torch.Tensor,
+    rank: torch.Tensor,
+    alpha: float,
+    lam: float | None = None,
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Mixup for CORAL training: returns (mixed waveforms (B,T), soft cumulative targets (B,2)).
+
+    Draws lam ~ Beta(alpha, alpha) (or uses the caller-supplied `lam`), permutes the
+    batch, and mixes waveforms as lam*x + (1-lam)*x[perm]. Targets are the
+    lam-weighted soft cumulative CORAL targets
+    lam*stack((rank>0, rank>1), 1) + (1-lam)*same for rank[perm] — already floats, so
+    BCEWithLogitsLoss needs no change.
+    """
+    B = waveforms.shape[0]
+    if lam is None:
+        lam = float(torch.distributions.Beta(alpha, alpha).sample())
+    perm = torch.randperm(B, device=waveforms.device)
+    hard = torch.stack(((rank > 0).float(), (rank > 1).float()), dim=1)
+    targets = lam * hard + (1.0 - lam) * hard[perm]
+    mixed = lam * waveforms + (1.0 - lam) * waveforms[perm]
+    return mixed, targets

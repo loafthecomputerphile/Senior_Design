@@ -11,11 +11,12 @@ from modules.preprocessing.audio_process import WaveformAugmentor, SpecAugmentat
 aug = WaveformAugmentor(16_000)
 aug.train()
 x = torch.arange(16_000, dtype=torch.float32).unsqueeze(0) / 16_000
-# no-op rate = P(all 3 technique coin flips miss) = 0.5*0.7*0.5 ≈ 0.175 — same for every label now
+# no-op rate = P(all 4 technique coin flips miss) — ~0.14-0.15 observed; same for
+# every label now, pass bound 0.30 unchanged
 for label in (0, 1, 2):
     noops = sum(torch.equal(aug(x.clone(), label), x) for _ in range(200))
     assert noops / 200 <= 0.30, f"label {label}: no-op rate {noops/200:.2f} — gate not removed?"
-    print(f"1) label {label}: no-op rate {noops/200:.2f} (expected ~0.175)")
+    print(f"1) label {label}: no-op rate {noops/200:.2f} (expected ~0.14-0.15)")
 
 # 2) SpecAugmentations: proportional time mask (floor 5), TimeStretch path gone
 spec = SpecAugmentations()

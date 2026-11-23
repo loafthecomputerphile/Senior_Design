@@ -50,7 +50,7 @@ The existing pipeline produced mel and MFCC channels. We added spectral contrast
 
 **Rebalance the training data and revisit the class-weighting strategy**
 
-We tried the standard rebalancing levers this milestone: mixup (Beta(0.25) in the 15 CV folds, 0.2 in the augmentation arms), `WeightedRandomSampler`, and `BCEWithLogitsLoss` on the ordinal targets. `coral_pos_weights` is implemented and unit-tested, but we left it out of the trainer because combining per-class loss weights with oversampling corrects the imbalance twice. The 5-fold runs used fixed oversampling duplication; the sampling and mixup flags were exercised in the four augmentation arms on a fixed split. That split is the obstacle to reading those arms as a clean win: the sampler and mixup combination did not beat the control, and the mixed arms fell to macro F1 0.1118 at worst. Rebalancing is implemented and available behind flags, but the recording-level CV results do not support turning it on for the headline run. We are keeping the levers in the code and using the same CV gauge to judge any later change.
+We tried the standard rebalancing levers this milestone: mixup (Beta(0.25) in the 15 CV folds, 0.2 in the augmentation arms), `WeightedRandomSampler`, and `BCEWithLogitsLoss` on the ordinal targets. `coral_pos_weights` is implemented and unit-tested, but we left it out of the trainer because combining per-class loss weights with oversampling corrects the imbalance twice. The 15 CV folds used `WeightedRandomSampler` (weights 1/class_counts, replacement=True) with mixup at 0.25; the four augmentation arms used the same sampler with mixup at 0.2 on a fixed split. That split is the obstacle to reading those arms as a clean win: the sampler and mixup combination did not beat the control, and the mixed arms fell to macro F1 0.1118 at worst. Rebalancing is implemented and available behind flags; the headline CV runs used the sampler and mixup, and we judge any later change on the same recording-level CV gauge.
 
 **Refine stage 1 of the cascade: thresholds, architecture, and sick-class recall**
 
@@ -58,7 +58,7 @@ The biggest change was dropping the two-stage cascade. Its first stage kept rout
 
 **Retrain and re-evaluate the full cascade at the improved operating point**
 
-We retrained all three architectures across 5 folds, giving 15 fold runs, then evaluated the best checkpoint per model on the 1,156-recording test set. Best-fold test macro F1 was 0.3132 for the default CNN, 0.2575 for the branched model, and 0.3214 for ResNet50. We then built a weighted ensemble of 10 checkpoints and tuned its thresholds on validation to 0.50 and 0.30. At the default 0.50/0.50 thresholds the ensemble scored test macro F1 0.3289 with zero high-risk recall; at the tuned thresholds it scored 0.3669 with high-risk recall 0.3115 and macro AUC 0.5836. Thresholds chosen on our own validation OOF for each model separately reached 0.3436 (default), 0.3464 (branched), 0.3482 (ResNet50), and 0.3460 (ensemble), so threshold selection is doing real work here. The obstacle is the cost of that recall: test accuracy drops from 54.33% to 52.51% and rank MAE rises from 0.4784 to 0.622. 
+We retrained all three architectures across 5 folds, giving 15 fold runs, then evaluated the best checkpoint per model on the 1,156-recording test set. Best-val-F1-fold test macro F1 was 0.3166 for the default CNN, 0.3169 for the branched model, and 0.3214 for ResNet50 (`tables_3class/best_f1_fold_test_eval.csv`). We then built a weighted ensemble of 10 checkpoints and tuned its thresholds on validation to 0.50 and 0.30. At the default 0.50/0.50 thresholds the ensemble scored test macro F1 0.3289 with zero high-risk recall; at the tuned thresholds it scored 0.3669 with high-risk recall 0.3115 and macro AUC 0.5836. Thresholds chosen on our own validation OOF for each model separately reached 0.3436 (default), 0.3464 (branched), 0.3482 (ResNet50), and 0.3460 (ensemble), so threshold selection is doing real work here. The obstacle is the cost of that recall: test accuracy drops from 54.33% to 52.51% and rank MAE rises from 0.4784 to 0.622. 
 
 ## 6. Discussion (at least a paragraph) of contribution of each team member to the current Milestone
 
@@ -78,7 +78,7 @@ We retrained all three architectures across 5 folds, giving 15 fold runs, then e
 
 <!-- TODO: add Richard Alonso Garcia's milestone 3 contribution paragraph -->
 
-## 7. Plan for the next Milestone (task matrix) — Milestone 3 (November 23rd)
+## 7. Plan for the next Milestone (task matrix) — Milestone 4
 
 | Task | Drew Quashie | Amanda Ogbonna | Loleyi Oluwatomisin | Richard Alonso Garcia |
 | --- | --- | --- | --- | --- |
